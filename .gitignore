@@ -1,0 +1,8 @@
+.qmake.stash
+src/gui/build/
+src/*.o
+src/*.h
+src/*.cpp
+icp-fsm-app
+gui.pro.user.*
+src/Makefile
