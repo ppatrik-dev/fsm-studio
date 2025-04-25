@@ -45,8 +45,9 @@
 ## Codeguide
 
 - Code names and comments in English
-- Git commit messages in English prefixed with id of related issue (e.g. #420 - chaning LGBTQ color)
-- 
+- Git commit messages in English prefixed
+- New branch per new issue. Name of the branch format:  issue-issueID-issueName, example: issue-40-get-sthit-done
+  
 ```cpp
 // Variables, function parameters, class members (snake_case)
 const std::string snake_case_variable;
