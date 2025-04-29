@@ -1,0 +1,51 @@
+{
+    "automate_name": "TOF5s",
+    "automate_comment": "Timer to off, jednoduchá verze",
+    "inputs": [
+        "in"
+    ],
+    "outputs": [
+        "out"
+    ],
+    "variables": [
+        {
+            "type": "int",
+            "name": "timeout",
+            "value": 5000
+        }
+    ],
+    "initial_state": "IDLE",
+    "states": {
+        "IDLE": {
+            "action": "output('out', 0)",
+            "transitions": [
+                {
+                    "to": "ACTIVE",
+                    "condition": "atoi(valueof('in')) == 1"
+                }
+            ]
+        },
+        "ACTIVE": {
+            "action": "output('out', 1)",
+            "transitions": [
+                {
+                    "to": "TIMING",
+                    "condition": "atoi(valueof('in')) == 0"
+                }
+            ]
+        },
+        "TIMING": {
+            "action": "",
+            "transitions": [
+                {
+                    "to": "ACTIVE",
+                    "condition": "atoi(valueof('in')) == 1"
+                },
+                {
+                    "to": "IDLE",
+                    "condition": "@timeout"
+                }
+            ]
+        }
+    }
+}
