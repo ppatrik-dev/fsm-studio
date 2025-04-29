@@ -7,16 +7,17 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp
+    gui/main.cpp \
+    gui/mainwindow.cpp \
+    parser/MooreMachine.cpp \
+    parser/MooreState.cpp \
+    parser/MooreStateFactory.cpp
 
 HEADERS += \
-    mainwindow.h
+    gui/mainwindow.h \
+    parser/MooreMachine.h \
+    parser/MooreState.h \
+    parser/MooreStateFactory.h
 
 FORMS += \
-    mainwindow.ui
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+    gui/mainwindow.ui

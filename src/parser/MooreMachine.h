@@ -16,7 +16,15 @@ class MooreMachine
     std::map<std::string, std::shared_ptr<MooreState>> states;
 
 public:
-    MooreMachine(const std::string &name = "", const std::string &comment = "");
+    MooreMachine() = default;
+    MooreMachine(const std::string &name, const std::string &comment);
+
+    void setName(const std::string &name);
+    void setComment(const std::string &comment);
+
+    const std::string &getName() const;
+    const std::string &getComment() const;
+
     void addState(const std::string &name, const std::shared_ptr<MooreState> &state);
     std::shared_ptr<MooreState> getState(const std::string &name);
 };

@@ -5,11 +5,11 @@
 #include <QString>
 #include <QMap>
 #include <QDebug>
-
+#include "MooreMachine.h"
 class AutomateJsonDocument
 {
 public:
-    bool loadAutomateFromJsonFile(const QString &fileName)
+    bool loadAutomateFromJsonFile(const QString &fileName, MooreMachine &machine)
     {
         QFile file(fileName);
         if (!file.open(QIODevice::ReadOnly))
