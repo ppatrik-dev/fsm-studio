@@ -12,7 +12,5 @@ class AutomateJsonDocument
 {
 public:
     bool loadAutomateFromJsonFile(const QString &fileName, MooreMachine &machine);
-
-private:
-    bool processStates(const QJsonObject &jsonObj, MooreMachine &machine);
+    bool saveAutomateToJsonFile(const QString &fileName, MooreMachine &machine);
 };

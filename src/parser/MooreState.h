@@ -9,9 +9,9 @@ class MooreState : public IMooreState
     QString name;
     QString output;
     bool is_end_state;
-    QVector<MooreTransition> transitions;
 
 public:
+    QVector<MooreTransition> transitions;
     MooreState(const QString &name, const QString &output, bool is_end_state = false);
 
     QString getName() const override;

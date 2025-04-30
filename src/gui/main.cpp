@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     MooreMachine mooreMachine;
     AutomateJsonDocument jsonDocument;
     jsonDocument.loadAutomateFromJsonFile("automate.json", mooreMachine);
+    jsonDocument.saveAutomateToJsonFile("output.json", mooreMachine);
     std::cout
         << "Hello World" << std::endl;
     return a.exec();
