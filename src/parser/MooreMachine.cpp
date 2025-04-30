@@ -24,6 +24,10 @@ void MooreMachine::addOutputs(const QString &name)
 {
     automate_outputs.append(name);
 }
+void MooreMachine::addVariable(const QString &command)
+{
+    variables.append(command);
+}
 const QString &MooreMachine::getName() const
 {
     return automate_name;
@@ -55,4 +59,9 @@ const QVector<QString> &MooreMachine::getInputs() const
 const QVector<QString> &MooreMachine::getOutputs() const
 {
     return automate_outputs;
+}
+
+const QVector<QString> &MooreMachine::getVariables() const
+{
+    return variables;
 }

@@ -2,27 +2,27 @@
     "automate_comment": "Timer to off, jednoduchá verze",
     "automate_name": "TOF5s",
     "inputs": [
-        "in"
+        "var in = abcd;"
     ],
     "outputs": [
-        "out"
+        "var out;"
     ],
     "start_state": "IDLE",
     "states": {
         "ACTIVE": {
-            "action": "output('out', 1)",
+            "action": "out = 1;",
             "transitions": [
                 {
-                    "condition": "atoi(valueof('in')) == 0",
+                    "condition": "in == 0",
                     "to": "TIMING"
                 }
             ]
         },
         "IDLE": {
-            "action": "output('out', 0)",
+            "action": "out = 0;",
             "transitions": [
                 {
-                    "condition": "atoi(valueof('in')) == 1",
+                    "condition": "in == 1",
                     "to": "ACTIVE"
                 }
             ]
@@ -31,7 +31,7 @@
             "action": "",
             "transitions": [
                 {
-                    "condition": "atoi(valueof('in')) == 1",
+                    "condition": "in == 1",
                     "to": "ACTIVE"
                 },
                 {
@@ -40,5 +40,8 @@
                 }
             ]
         }
-    }
+    },
+    "variables": [
+        "var x = 10;"
+    ]
 }

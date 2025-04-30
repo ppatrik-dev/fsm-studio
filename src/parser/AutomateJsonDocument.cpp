@@ -47,6 +47,17 @@ bool AutomateJsonDocument::loadAutomateFromJsonFile(const QString &fileName, Moo
             machine.addOutputs(value.toString());
         }
     }
+
+    QJsonArray variablesArray = jsonObj["variables"].toArray();
+
+    for (const QJsonValue &value : variablesArray)
+    {
+        if (value.isString())
+        {
+            machine.addVariable(value.toString());
+        }
+    }
+
     QJsonObject statesObj = jsonObj["states"].toObject();
 
     qDebug() << "States:";
@@ -92,6 +103,13 @@ bool AutomateJsonDocument::saveAutomateToJsonFile(const QString &fileName, Moore
         outputsArray.append(output);
     }
     jsonObject["outputs"] = outputsArray;
+
+    QJsonArray variablesArray;
+    for (const QString &variable : machine.getVariables())
+    {
+        variablesArray.append(variable);
+    }
+    jsonObject["variables"] = variablesArray;
 
     QJsonObject statesObject;
 

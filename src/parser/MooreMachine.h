@@ -13,7 +13,7 @@ class MooreMachine
     QString start_state;
     QVector<QString> automate_inputs;
     QVector<QString> automate_outputs;
-    QMap<QString, QString> variables;
+    QVector<QString> variables;
 
 public:
     QMap<QString, std::shared_ptr<MooreState>> states;
@@ -25,12 +25,14 @@ public:
     void setStartState(const QString &name);
     void addInputs(const QString &name);
     void addOutputs(const QString &name);
+    void addVariable(const QString &command);
 
     const QString &getName() const;
     const QString &getComment() const;
     const QString &getStartState() const;
     const QVector<QString> &getInputs() const;
     const QVector<QString> &getOutputs() const;
+    const QVector<QString> &getVariables() const;
 
     void addState(const QString &name, const std::shared_ptr<MooreState> &state);
     std::shared_ptr<MooreState> getState(const QString &name);
