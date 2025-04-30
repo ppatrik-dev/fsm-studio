@@ -1,13 +1,12 @@
 #pragma once
+#include <QString>
 
-#include <string>
-#include <vector>
-#include "MooreState.h";
 class MooreTransition
 {
 public:
-    std::string input;
-    MooreState *target;
-    MooreTransition(std::string input, MooreState *target)
+    QString input;
+    QString target;
+
+    MooreTransition(QString &input, QString &target)
         : input(input), target(target) {}
 };

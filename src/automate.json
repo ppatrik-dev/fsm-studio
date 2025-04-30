@@ -14,7 +14,7 @@
             "value": 5000
         }
     ],
-    "initial_state": "IDLE",
+    "start_state": "IDLE",
     "states": {
         "IDLE": {
             "action": "output('out', 0)",

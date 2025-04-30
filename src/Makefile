@@ -56,12 +56,14 @@ SOURCES       = gui/main.cpp \
 		gui/mainwindow.cpp \
 		parser/MooreMachine.cpp \
 		parser/MooreState.cpp \
-		parser/MooreStateFactory.cpp moc_mainwindow.cpp
+		parser/MooreStateFactory.cpp \
+		parser/AutomateJsonDocument.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		MooreMachine.o \
 		MooreState.o \
 		MooreStateFactory.o \
+		AutomateJsonDocument.o \
 		moc_mainwindow.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -143,11 +145,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		gui/gui/gui.pro gui/mainwindow.h \
 		parser/MooreMachine.h \
 		parser/MooreState.h \
-		parser/MooreStateFactory.h gui/main.cpp \
+		parser/MooreStateFactory.h \
+		parser/AutomateJsonDocument.h gui/main.cpp \
 		gui/mainwindow.cpp \
 		parser/MooreMachine.cpp \
 		parser/MooreState.cpp \
-		parser/MooreStateFactory.cpp
+		parser/MooreStateFactory.cpp \
+		parser/AutomateJsonDocument.cpp
 QMAKE_TARGET  = icp-fsm-app
 DESTDIR       = 
 TARGET        = icp-fsm-app
@@ -331,8 +335,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h $(DISTDIR)/
-	$(COPY_FILE) --parents gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h $(DISTDIR)/
+	$(COPY_FILE) --parents gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/mainwindow.ui $(DISTDIR)/
 
 
@@ -418,6 +422,11 @@ MooreStateFactory.o: parser/MooreStateFactory.cpp parser/MooreStateFactory.h \
 		parser/IMooreState.h \
 		parser/MooreState.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MooreStateFactory.o parser/MooreStateFactory.cpp
+
+AutomateJsonDocument.o: parser/AutomateJsonDocument.cpp parser/MooreMachine.h \
+		parser/MooreState.h \
+		parser/IMooreState.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AutomateJsonDocument.o parser/AutomateJsonDocument.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

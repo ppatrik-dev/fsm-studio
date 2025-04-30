@@ -11,13 +11,15 @@ SOURCES += \
     gui/mainwindow.cpp \
     parser/MooreMachine.cpp \
     parser/MooreState.cpp \
-    parser/MooreStateFactory.cpp
+    parser/MooreStateFactory.cpp \
+    parser/AutomateJsonDocument.cpp
 
 HEADERS += \
     gui/mainwindow.h \
     parser/MooreMachine.h \
     parser/MooreState.h \
-    parser/MooreStateFactory.h
+    parser/MooreStateFactory.h \
+    parser/AutomateJsonDocument.h
 
 FORMS += \
     gui/mainwindow.ui

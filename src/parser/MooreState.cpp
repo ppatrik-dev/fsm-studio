@@ -1,32 +1,26 @@
 #include "MooreState.h"
 
-MooreState::MooreState(const std::string &name, const std::string &output, bool is_end_state)
+MooreState::MooreState(const QString &name, const QString &output, bool is_end_state)
     : name(name), output(output), is_end_state(is_end_state)
 {
 }
 
-std::string MooreState::getName() const
+QString MooreState::getName() const
 {
     return name;
 }
 
-std::string MooreState::getOutput() const
+QString MooreState::getOutput() const
 {
     return output;
 }
 
-bool MooreState::isFinal()
+bool MooreState::isFinal() const
 {
     return is_end_state;
 }
 
-void MooreState::addTransition(char input, IMooreState *target)
+void MooreState::addTransition(QString &input, QString &targetName)
 {
-    transitions[input] = target;
-}
-
-IMooreState *MooreState::getNextState(char input) const
-{
-    auto it = transitions.find(input);
-    return it != transitions.end() ? it->second : nullptr;
+    transitions.append(MooreTransition(input, targetName));
 }

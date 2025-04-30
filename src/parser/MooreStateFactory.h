@@ -1,13 +1,15 @@
 #pragma once
+
 #include "IMooreState.h"
 #include <memory>
-#include <unordered_map>
+#include <QMap>
+#include <QString>
 
 class StateFactory
 {
-    std::unordered_map<std::string, std::unique_ptr<IMooreState>> states;
+    QMap<QString, std::shared_ptr<IMooreState>> states;
 
 public:
-    IMooreState *createState(const std::string &name, const std::string &output);
-    IMooreState *getState(const std::string &name) const;
+    std::shared_ptr<IMooreState> createState(const QString &name, const QString &output);
+    std::shared_ptr<IMooreState> getState(const QString &name) const;
 };

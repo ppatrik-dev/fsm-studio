@@ -1,22 +1,21 @@
 #pragma once
-
 #include "IMooreState.h"
-#include <map>
-#include <string>
+#include "MooreTransition.h"
+#include <QVector>
+#include <QString>
 
 class MooreState : public IMooreState
 {
-    std::string name;
-    std::string output;
+    QString name;
+    QString output;
     bool is_end_state;
-    std::map<char, IMooreState *> transitions;
+    QVector<MooreTransition> transitions;
 
 public:
-    MooreState(const std::string &name, const std::string &output, bool is_end_state = false);
+    MooreState(const QString &name, const QString &output, bool is_end_state = false);
 
-    std::string getName() const override;
-    std::string getOutput() const override;
-    bool isFinal();
-    void addTransition(char input, IMooreState *target) override;
-    IMooreState *getNextState(char input) const override;
+    QString getName() const override;
+    QString getOutput() const override;
+    bool isFinal() const override;
+    void addTransition(QString &input, QString &target) override;
 };

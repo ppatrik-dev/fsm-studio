@@ -1,4 +1,4 @@
-#include "gui/mainwindow.h"
+#include "mainwindow.h"
 #include <QApplication>
 #include <iostream>
 #include <vector>
@@ -11,6 +11,9 @@ int main(int argc, char *argv[])
     // MainWindow w;
     // w.show();
     MooreMachine mooreMachine;
-    std::cout << "Hello World" << std::endl;
+    AutomateJsonDocument jsonDocument;
+    jsonDocument.loadAutomateFromJsonFile("automate.json", mooreMachine);
+    std::cout
+        << "Hello World" << std::endl;
     return a.exec();
 }

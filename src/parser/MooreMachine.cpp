@@ -1,34 +1,34 @@
 #include "MooreMachine.h"
 
-MooreMachine::MooreMachine(const std::string &name, const std::string &comment)
+MooreMachine::MooreMachine(const QString &name, const QString &comment)
     : automate_name(name), automate_comment(comment) {}
 
-void MooreMachine::setName(const std::string &name)
+void MooreMachine::setName(const QString &name)
 {
     automate_name = name;
 }
 
-void MooreMachine::setComment(const std::string &comment)
+void MooreMachine::setComment(const QString &comment)
 {
     automate_comment = comment;
 }
 
-const std::string &MooreMachine::getName() const
+const QString &MooreMachine::getName() const
 {
     return automate_name;
 }
 
-const std::string &MooreMachine::getComment() const
+const QString &MooreMachine::getComment() const
 {
     return automate_comment;
 }
 
-void MooreMachine::addState(const std::string &name, const std::shared_ptr<MooreState> &state)
+void MooreMachine::addState(const QString &name, const std::shared_ptr<MooreState> &state)
 {
-    states[name] = state;
+    states.insert(name, state);
 }
 
-std::shared_ptr<MooreState> MooreMachine::getState(const std::string &name)
+std::shared_ptr<MooreState> MooreMachine::getState(const QString &name)
 {
-    return states[name];
+    return states.value(name, nullptr);
 }

@@ -1,16 +1,14 @@
 #include "MooreStateFactory.h"
 #include "MooreState.h"
 
-IMooreState *StateFactory::createState(const std::string &name, const std::string &output)
+std::shared_ptr<IMooreState> StateFactory::createState(const QString &name, const QString &output)
 {
-    auto state = std::make_unique<MooreState>(name, output);
-    IMooreState *rawPtr = state.get();
-    states[name] = std::move(state);
-    return rawPtr;
+    auto state = std::make_shared<MooreState>(name, output);
+    states.insert(name, state); // Vkladáme stav do mapy
+    return state;
 }
 
-IMooreState *StateFactory::getState(const std::string &name) const
+std::shared_ptr<IMooreState> StateFactory::getState(const QString &name) const
 {
-    auto it = states.find(name);
-    return it != states.end() ? it->second.get() : nullptr;
+    return states.value(name, nullptr); // Ak stav neexistuje, vráti nullptr
 }

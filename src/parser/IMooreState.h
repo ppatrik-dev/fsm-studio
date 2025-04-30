@@ -1,12 +1,13 @@
 #pragma once
-#include <string>
+#include <QString>
 
 class IMooreState
 {
 public:
     virtual ~IMooreState() = default;
-    virtual std::string getName() const = 0;
-    virtual std::string getOutput() const = 0;
-    virtual void addTransition(char input, IMooreState *target) = 0;
-    virtual IMooreState *getNextState(char input) const = 0;
+
+    virtual QString getName() const = 0;
+    virtual QString getOutput() const = 0;
+    virtual bool isFinal() const = 0;
+    virtual void addTransition(QString &input, QString &target) = 0;
 };
