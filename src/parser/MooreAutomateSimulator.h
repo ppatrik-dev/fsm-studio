@@ -13,4 +13,5 @@ public:
 private:
     MooreMachine *machine;
     MooreState *currentState;
+    QString output;
 };

@@ -9,7 +9,12 @@ MooreSimulator::MooreSimulator(MooreMachine *machine)
 bool MooreSimulator::step(std::shared_ptr<MooreState> state, ActionExecutor &engine)
 {
     auto result = engine.evaluate(state->getOutput());
-    qDebug() << "State: " << state->getName() << "Output: " << result.toInt();
+    if (result.toString() == "undefined")
+        output += "";
+    else
+        output += result.toString();
+    qDebug()
+        << "State:" << state->getName() << "Output:" << output;
     for (const auto &transition : state->getTransitions())
     {
         auto boolResult = engine.evaluate(transition.getInput());
@@ -46,20 +51,6 @@ bool MooreSimulator::run()
     {
         engine.evaluate(variable);
     }
-
-    auto result = engine.evaluate(state->getOutput());
-    qDebug() << "State: " << state->getName() << "Output: " << result.toInt();
-
-    for (const auto &transition : state->getTransitions())
-    {
-        auto boolResult = engine.evaluate(transition.getInput());
-        qDebug() << "Condition Result:" << boolResult.toBool();
-        if (boolResult.toBool())
-        {
-
-            step(machine->getState(transition.getTarget()), engine);
-            return true;
-        }
-    }
+    step(state, engine);
     return true;
 }
