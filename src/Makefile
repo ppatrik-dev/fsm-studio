@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -std=gnu++1z -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -Igui -I. -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -Igui -I. -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = icp-fsm-app1.0.0
 DISTDIR = /home/miroslav/icp/ICP-Project/src/.tmp/icp-fsm-app1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
-LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Qml.so /usr/lib/x86_64-linux-gnu/libQt5Network.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -57,14 +57,20 @@ SOURCES       = gui/main.cpp \
 		parser/MooreMachine.cpp \
 		parser/MooreState.cpp \
 		parser/MooreStateFactory.cpp \
-		parser/AutomateJsonDocument.cpp moc_mainwindow.cpp
+		parser/AutomateJsonDocument.cpp \
+		parser/ActionExecutor.cpp \
+		parser/MooreAutomateSimulator.cpp moc_mainwindow.cpp \
+		moc_ActionExecutor.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		MooreMachine.o \
 		MooreState.o \
 		MooreStateFactory.o \
 		AutomateJsonDocument.o \
-		moc_mainwindow.o
+		ActionExecutor.o \
+		MooreAutomateSimulator.o \
+		moc_mainwindow.o \
+		moc_ActionExecutor.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -105,6 +111,12 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlmodels.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlworkerscript.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri \
@@ -146,12 +158,16 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		parser/MooreMachine.h \
 		parser/MooreState.h \
 		parser/MooreStateFactory.h \
-		parser/AutomateJsonDocument.h gui/main.cpp \
+		parser/AutomateJsonDocument.h \
+		parser/ActionExecutor.h \
+		parser/MooreAutomateSimulator.h gui/main.cpp \
 		gui/mainwindow.cpp \
 		parser/MooreMachine.cpp \
 		parser/MooreState.cpp \
 		parser/MooreStateFactory.cpp \
-		parser/AutomateJsonDocument.cpp
+		parser/AutomateJsonDocument.cpp \
+		parser/ActionExecutor.cpp \
+		parser/MooreAutomateSimulator.cpp
 QMAKE_TARGET  = icp-fsm-app
 DESTDIR       = 
 TARGET        = icp-fsm-app
@@ -203,6 +219,12 @@ Makefile: gui/gui.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlmodels.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlworkerscript.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri \
@@ -282,6 +304,12 @@ Makefile: gui/gui.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlmodels.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlworkerscript.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri:
@@ -335,8 +363,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h $(DISTDIR)/
-	$(COPY_FILE) --parents gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h parser/ActionExecutor.h parser/MooreAutomateSimulator.h $(DISTDIR)/
+	$(COPY_FILE) --parents gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp parser/ActionExecutor.cpp parser/MooreAutomateSimulator.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/mainwindow.ui $(DISTDIR)/
 
 
@@ -369,13 +397,18 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_ActionExecutor.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_ActionExecutor.cpp
 moc_mainwindow.cpp: gui/mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/miroslav/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/miroslav/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/miroslav/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/miroslav/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/mainwindow.h -o moc_mainwindow.cpp
+
+moc_ActionExecutor.cpp: parser/ActionExecutor.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/miroslav/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/miroslav/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include parser/ActionExecutor.h -o moc_ActionExecutor.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -402,7 +435,9 @@ main.o: gui/main.cpp gui/mainwindow.h \
 		parser/AutomateJsonDocument.h \
 		parser/MooreMachine.h \
 		parser/MooreState.h \
-		parser/IMooreState.h
+		parser/IMooreState.h \
+		parser/MooreTransition.h \
+		parser/ActionExecutor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o gui/main.cpp
 
 mainwindow.o: gui/mainwindow.cpp gui/mainwindow.h \
@@ -411,25 +446,42 @@ mainwindow.o: gui/mainwindow.cpp gui/mainwindow.h \
 
 MooreMachine.o: parser/MooreMachine.cpp parser/MooreMachine.h \
 		parser/MooreState.h \
-		parser/IMooreState.h
+		parser/IMooreState.h \
+		parser/MooreTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MooreMachine.o parser/MooreMachine.cpp
 
 MooreState.o: parser/MooreState.cpp parser/MooreState.h \
-		parser/IMooreState.h
+		parser/IMooreState.h \
+		parser/MooreTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MooreState.o parser/MooreState.cpp
 
 MooreStateFactory.o: parser/MooreStateFactory.cpp parser/MooreStateFactory.h \
 		parser/IMooreState.h \
-		parser/MooreState.h
+		parser/MooreState.h \
+		parser/MooreTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MooreStateFactory.o parser/MooreStateFactory.cpp
 
-AutomateJsonDocument.o: parser/AutomateJsonDocument.cpp parser/MooreMachine.h \
+AutomateJsonDocument.o: parser/AutomateJsonDocument.cpp parser/AutomateJsonDocument.h \
+		parser/MooreMachine.h \
 		parser/MooreState.h \
-		parser/IMooreState.h
+		parser/IMooreState.h \
+		parser/MooreTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AutomateJsonDocument.o parser/AutomateJsonDocument.cpp
+
+ActionExecutor.o: parser/ActionExecutor.cpp parser/ActionExecutor.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActionExecutor.o parser/ActionExecutor.cpp
+
+MooreAutomateSimulator.o: parser/MooreAutomateSimulator.cpp parser/MooreMachine.h \
+		parser/MooreState.h \
+		parser/IMooreState.h \
+		parser/MooreTransition.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MooreAutomateSimulator.o parser/MooreAutomateSimulator.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_ActionExecutor.o: moc_ActionExecutor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ActionExecutor.o moc_ActionExecutor.cpp
 
 ####### Install
 

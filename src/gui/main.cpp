@@ -4,6 +4,8 @@
 #include <vector>
 #include "parser/AutomateJsonDocument.h"
 #include "parser/MooreMachine.h"
+#include "parser/ActionExecutor.h"
+#include "parser/MooreAutomateSimulator.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,8 +15,8 @@ int main(int argc, char *argv[])
     MooreMachine mooreMachine;
     AutomateJsonDocument jsonDocument;
     jsonDocument.loadAutomateFromJsonFile("automate.json", mooreMachine);
-    jsonDocument.saveAutomateToJsonFile("output.json", mooreMachine);
-    std::cout
-        << "Hello World" << std::endl;
+    MooreSimulator mooreSimulation(&mooreMachine);
+    mooreSimulation.run();
+    // jsonDocument.saveAutomateToJsonFile("output.json", mooreMachine);
     return a.exec();
 }

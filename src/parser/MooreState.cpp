@@ -24,3 +24,7 @@ void MooreState::addTransition(QString &input, QString &targetName)
 {
     transitions.append(MooreTransition(input, targetName));
 }
+const QVector<MooreTransition> &MooreState::getTransitions() const
+{
+    return transitions;
+}

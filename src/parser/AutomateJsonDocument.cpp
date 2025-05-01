@@ -59,8 +59,6 @@ bool AutomateJsonDocument::loadAutomateFromJsonFile(const QString &fileName, Moo
     }
 
     QJsonObject statesObj = jsonObj["states"].toObject();
-
-    qDebug() << "States:";
     for (const QString &stateName : statesObj.keys())
     {
         QJsonObject stateDetail = statesObj[stateName].toObject();
@@ -125,8 +123,8 @@ bool AutomateJsonDocument::saveAutomateToJsonFile(const QString &fileName, Moore
         for (const auto &transition : state->transitions)
         {
             QJsonObject transitionObj;
-            transitionObj["to"] = transition.target;
-            transitionObj["condition"] = transition.input;
+            transitionObj["to"] = transition.getTarget();
+            transitionObj["condition"] = transition.getInput();
 
             transitionsArray.append(transitionObj);
         }
