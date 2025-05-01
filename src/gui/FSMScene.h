@@ -30,10 +30,20 @@ public:
     }
 
     inline QString getStateLabel() {
+        QString label;
         QChar letter = QChar('A' + (stateCounter % 26));
-        int number = stateCounter / 26;
+
+        if (stateCounter < 26) {
+            label = QString(letter);
+        }
+        else {
+            int number = stateCounter / 26;
+            label = QString("%1%2").arg(letter).arg(number);
+        }
+
         stateCounter++;
-        return QString("%1%2").arg(letter).arg(number);
+
+        return label;
     }
 
 public slots:

@@ -4,9 +4,6 @@
 
 #include "FSMScene.h"
 #include "FSMState.h"
-// File: FSMScene.cpp
-// Author: Patrik Prochazka
-// Login: xprochp00
 
 #include <QPen>
 #include <QGraphicsLineItem>
