@@ -3,12 +3,7 @@
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>1588</width>
-    <height>1001</height>
-   </rect>
+   <rect><x>0</x><y>0</y><width>1588</width><height>1001</height></rect>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -81,37 +76,114 @@
       </item>
      </layout>
     </item>
+
+    <!-- RIGHT PANEL -->
     <item>
      <widget class="QFrame" name="rightPanel">
       <property name="frameShape"><enum>QFrame::StyledPanel</enum></property>
       <layout class="QVBoxLayout" name="rightLayout">
        <item><widget class="QLabel" name="labelProperties"><property name="text"><string>Automata Properties</string></property></widget></item>
        <item><widget class="QLineEdit" name="nameLineEdit"><property name="text"><string>Testing FSM Automata</string></property></widget></item>
-       <item><widget class="QTextEdit" name="descriptionEdit"><property name="plainText"><string>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</string></property></widget></item>
+       <item><widget class="QTextEdit" name="descriptionEdit"><property name="plainText"><string>Lorem Ipsum</string></property></widget></item>
 
-       <item><widget class="QGroupBox" name="groupInputs"><property name="title"><string>Inputs</string></property>
-        <layout class="QVBoxLayout" name="inputsLayout">
-         <item><widget class="QLabel" name="inputA"><property name="text"><string>A       2</string></property></widget></item>
-         <item><widget class="QLabel" name="inputTimeout"><property name="text"><string>Timeout     500</string></property></widget></item>
-         <item><widget class="QPushButton" name="addInput"><property name="text"><string>+ Add row</string></property></widget></item>
-        </layout>
-       </widget></item>
+       <!-- Scrollable Section Template -->
+       <item>
+        <widget class="QGroupBox" name="groupInputs">
+         <property name="title"><string>Inputs</string></property>
+         <layout class="QVBoxLayout" name="inputsLayout">
+          <item>
+           <widget class="QScrollArea" name="scrollInputs">
+            <property name="widgetResizable"><bool>true</bool></property>
+            <widget class="QWidget" name="scrollInputsWidget">
+             <layout class="QVBoxLayout" name="scrollInputsLayout">
+              <item>
+               <layout class="QHBoxLayout" name="inputRow1">
+                <item><widget class="QLineEdit" name="inputKey1"><property name="text"><string>A</string></property></widget></item>
+                <item><widget class="QLineEdit" name="inputValue1"><property name="text"><string>2</string></property></widget></item>
+                <item><widget class="QPushButton" name="delInput1"><property name="text"><string>🗑️</string></property></widget></item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="inputRow2">
+                <item><widget class="QLineEdit" name="inputKey2"><property name="text"><string>Timeout</string></property></widget></item>
+                <item><widget class="QLineEdit" name="inputValue2"><property name="text"><string>500</string></property></widget></item>
+                <item><widget class="QPushButton" name="delInput2"><property name="text"><string>🗑️</string></property></widget></item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item><widget class="QPushButton" name="addInput"><property name="text"><string>+ Add row</string></property></widget></item>
+         </layout>
+        </widget>
+       </item>
 
-       <item><widget class="QGroupBox" name="groupOutputs"><property name="title"><string>Outputs</string></property>
-        <layout class="QVBoxLayout" name="outputsLayout">
-         <item><widget class="QLabel" name="outputA"><property name="text"><string>A       2</string></property></widget></item>
-         <item><widget class="QLabel" name="outputTimeout"><property name="text"><string>Timeout     500</string></property></widget></item>
-         <item><widget class="QPushButton" name="addOutput"><property name="text"><string>+ Add row</string></property></widget></item>
-        </layout>
-       </widget></item>
+       <!-- Outputs -->
+       <item>
+        <widget class="QGroupBox" name="groupOutputs">
+         <property name="title"><string>Outputs</string></property>
+         <layout class="QVBoxLayout" name="outputsLayout">
+          <item>
+           <widget class="QScrollArea" name="scrollOutputs">
+            <property name="widgetResizable"><bool>true</bool></property>
+            <widget class="QWidget" name="scrollOutputsWidget">
+             <layout class="QVBoxLayout" name="scrollOutputsLayout">
+              <item>
+               <layout class="QHBoxLayout" name="outputRow1">
+                <item><widget class="QLineEdit" name="outputKey1"><property name="text"><string>A</string></property></widget></item>
+                <item><widget class="QLineEdit" name="outputValue1"><property name="text"><string>2</string></property></widget></item>
+                <item><widget class="QPushButton" name="delOutput1"><property name="text"><string>🗑️</string></property></widget></item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="outputRow2">
+                <item><widget class="QLineEdit" name="outputKey2"><property name="text"><string>Timeout</string></property></widget></item>
+                <item><widget class="QLineEdit" name="outputValue2"><property name="text"><string>500</string></property></widget></item>
+                <item><widget class="QPushButton" name="delOutput2"><property name="text"><string>🗑️</string></property></widget></item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item><widget class="QPushButton" name="addOutput"><property name="text"><string>+ Add row</string></property></widget></item>
+         </layout>
+        </widget>
+       </item>
 
-       <item><widget class="QGroupBox" name="groupVariables"><property name="title"><string>Variables</string></property>
-        <layout class="QVBoxLayout" name="variablesLayout">
-         <item><widget class="QLabel" name="varA"><property name="text"><string>A       2</string></property></widget></item>
-         <item><widget class="QLabel" name="varTimeout"><property name="text"><string>Timeout     500</string></property></widget></item>
-         <item><widget class="QPushButton" name="addVariable"><property name="text"><string>+ Add row</string></property></widget></item>
-        </layout>
-       </widget></item>
+       <!-- Variables -->
+       <item>
+        <widget class="QGroupBox" name="groupVariables">
+         <property name="title"><string>Variables</string></property>
+         <layout class="QVBoxLayout" name="variablesLayout">
+          <item>
+           <widget class="QScrollArea" name="scrollVariables">
+            <property name="widgetResizable"><bool>true</bool></property>
+            <widget class="QWidget" name="scrollVariablesWidget">
+             <layout class="QVBoxLayout" name="scrollVariablesLayout">
+              <item>
+               <layout class="QHBoxLayout" name="varRow1">
+                <item><widget class="QLineEdit" name="varKey1"><property name="text"><string>A</string></property></widget></item>
+                <item><widget class="QLineEdit" name="varValue1"><property name="text"><string>2</string></property></widget></item>
+                <item><widget class="QPushButton" name="delVar1"><property name="text"><string>🗑️</string></property></widget></item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="varRow2">
+                <item><widget class="QLineEdit" name="varKey2"><property name="text"><string>Timeout</string></property></widget></item>
+                <item><widget class="QLineEdit" name="varValue2"><property name="text"><string>500</string></property></widget></item>
+                <item><widget class="QPushButton" name="delVar2"><property name="text"><string>🗑️</string></property></widget></item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item><widget class="QPushButton" name="addVariable"><property name="text"><string>+ Add row</string></property></widget></item>
+         </layout>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
