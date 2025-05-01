@@ -26,16 +26,16 @@
             "transitions": [
                 {
                     "to": "TIMING",
-                    "condition": "input == 0"
+                    "condition": "input == 1"
                 }
             ]
         },
         "TIMING": {
-            "action": "out = 1",
+            "action": "",
             "transitions": [
                 {
                     "to": "ACTIVE",
-                    "condition": "input == 1"
+                    "condition": "input == 0"
                 },
                 {
                     "to": "IDLE",

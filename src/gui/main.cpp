@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     // w.show();
     MooreMachine mooreMachine;
     AutomateJsonDocument jsonDocument;
-    jsonDocument.loadAutomateFromJsonFile("automate.json", mooreMachine);
+    jsonDocument.loadAutomateFromJsonFile("output.json", mooreMachine);
     MooreSimulator mooreSimulation(&mooreMachine);
     mooreSimulation.run();
     // jsonDocument.saveAutomateToJsonFile("output.json", mooreMachine);

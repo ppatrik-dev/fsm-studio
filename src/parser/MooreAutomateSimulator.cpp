@@ -17,8 +17,11 @@ bool MooreSimulator::step(std::shared_ptr<MooreState> state, ActionExecutor &eng
         if (boolResult.toBool())
         {
 
-            // step(machine->getState(transition.getTarget()));
-            return true;
+            step(machine->getState(transition.getTarget()), engine);
+        }
+        else
+        {
+            return false;
         }
     }
 
