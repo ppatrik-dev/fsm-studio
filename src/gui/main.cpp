@@ -1,3 +1,7 @@
+// File: main.cpp
+// Author: Patrik Prochazka
+// Login: xprochp00
+
 #include <QApplication>
 #include <QFile>
 #include <QTextStream>
