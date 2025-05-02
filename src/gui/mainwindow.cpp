@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     fsmView->setScene(fsmScene);
 
     connect(fsmView, &FSMView::addStateRequested, fsmScene, &FSMScene::onAddState);
-    // connect(fsmView, &FSMView::addTransitionRequested, fsmScene, &FSMScene::onAddTransition);
+    connect(fsmView, &FSMView::addTransitionRequested, fsmScene, &FSMScene::onAddTransition);
 }
 MainWindow::~MainWindow()
 {

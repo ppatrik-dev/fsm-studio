@@ -9,14 +9,19 @@
 #include <QList>
 #include <QGraphicsLineItem>
 #include "FSMState.h"
+#include "FSMTransition.h"
 
 class FSMScene : public QGraphicsScene {
     Q_OBJECT
 
 private:
     int stateCounter;
+
+    bool addTransitionMode;
+    FSMState *fromSelectedState;
+
     QList<FSMState*> m_FSMStates;
-    QList<QGraphicsLineItem*> m_transitions;
+    QList<FSMTransition*> m_transitions;
 
 public:
     explicit FSMScene(QObject *parent = nullptr);
@@ -25,7 +30,7 @@ public:
         return m_FSMStates;
     }
 
-    inline QList<QGraphicsLineItem*> getTransitions() const {
+    inline QList<FSMTransition*> getTransitions() const {
         return m_transitions;
     }
 
@@ -46,9 +51,12 @@ public:
         return label;
     }
 
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+
 public slots:
     void onAddState(const QPointF &pos);
-    // void onAddTransition();
+    void onAddTransition();
 };
 
 #endif // FSMSCENE_H

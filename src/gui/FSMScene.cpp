@@ -7,10 +7,11 @@
 
 #include <QPen>
 #include <QGraphicsLineItem>
-#include <QDebug>
+#include <QGraphicsSceneMouseEvent>
 
 FSMScene::FSMScene(QObject *parent)
-    : QGraphicsScene{parent}, stateCounter(0)
+    : QGraphicsScene{parent},
+    stateCounter(0), addTransitionMode(false)
 {}
 
 void FSMScene::onAddState(const QPointF &pos) {
@@ -18,6 +19,42 @@ void FSMScene::onAddState(const QPointF &pos) {
     state->setPos(pos);
     addItem(state);
     m_FSMStates.append(state);
+}
+
+void FSMScene::onAddTransition() {
+    addTransitionMode = true;
+    fromSelectedState = nullptr;
+}
+
+void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    if (addTransitionMode) {
+        QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
+        FSMState *state = qgraphicsitem_cast<FSMState*>(item);
+        state->setSelected(true);
+
+        if (state) {
+            if (!fromSelectedState) {
+                fromSelectedState = state;
+            }
+            else {
+                FSMState *toSelectedState = state;
+
+                FSMTransition *transition = new FSMTransition(fromSelectedState, toSelectedState);
+                addItem(transition);
+
+                fromSelectedState->addTransition(transition);
+                toSelectedState->addTransition(transition);
+
+                m_transitions.append(transition);
+
+                addTransitionMode = false;
+                fromSelectedState = nullptr;
+            }
+        }
+    }
+    else {
+        QGraphicsScene::mousePressEvent(event);
+    }
 }
 
 // void FSMScene::onAddTransition() {

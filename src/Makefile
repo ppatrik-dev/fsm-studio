@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = icp-fsm-app1.0.0
-DISTDIR = /home/aresgornos/ICP/src/.tmp/icp-fsm-app1.0.0
+DISTDIR = /home/xprochp00/2bit/letny/icp/ICP-Project/src/.tmp/icp-fsm-app1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
 LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
@@ -52,10 +52,22 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = gui/main.cpp \
-		gui/mainwindow.cpp moc_mainwindow.cpp
-OBJECTS       = main.o \
+SOURCES       = gui/FSMScene.cpp \
+		gui/FSMState.cpp \
+		gui/FSMTransition.cpp \
+		gui/FSMView.cpp \
+		gui/main.cpp \
+		gui/mainwindow.cpp moc_FSMScene.cpp \
+		moc_FSMView.cpp \
+		moc_mainwindow.cpp
+OBJECTS       = FSMScene.o \
+		FSMState.o \
+		FSMTransition.o \
+		FSMView.o \
+		main.o \
 		mainwindow.o \
+		moc_FSMScene.o \
+		moc_FSMView.o \
 		moc_mainwindow.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -134,7 +146,15 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		gui/gui/gui.pro gui/mainwindow.h gui/main.cpp \
+		gui/gui/gui.pro gui/FSMScene.h \
+		gui/FSMState.h \
+		gui/FSMTransition.h \
+		gui/FSMView.h \
+		gui/mainwindow.h gui/FSMScene.cpp \
+		gui/FSMState.cpp \
+		gui/FSMTransition.cpp \
+		gui/FSMView.cpp \
+		gui/main.cpp \
 		gui/mainwindow.cpp
 QMAKE_TARGET  = icp-fsm-app
 DESTDIR       = 
@@ -319,8 +339,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents gui/mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents gui/main.cpp gui/mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents gui/FSMScene.h gui/FSMState.h gui/FSMTransition.h gui/FSMView.h gui/mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents gui/FSMScene.cpp gui/FSMState.cpp gui/FSMTransition.cpp gui/FSMView.cpp gui/main.cpp gui/mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/mainwindow.ui $(DISTDIR)/
 
 
@@ -353,13 +373,29 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp
-moc_mainwindow.cpp: gui/mainwindow.h \
+	-$(DEL_FILE) moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp
+moc_FSMScene.cpp: gui/FSMScene.h \
+		gui/FSMState.h \
+		gui/FSMTransition.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/aresgornos/ICP/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/aresgornos/ICP/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMScene.h -o moc_FSMScene.cpp
+
+moc_FSMView.cpp: gui/FSMView.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMView.h -o moc_FSMView.cpp
+
+moc_mainwindow.cpp: gui/mainwindow.h \
+		gui/FSMView.h \
+		gui/FSMScene.h \
+		gui/FSMState.h \
+		gui/FSMTransition.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -369,7 +405,8 @@ compiler_uic_make_all: ui_mainwindow.h
 compiler_uic_clean:
 	-$(DEL_FILE) ui_mainwindow.h
 ui_mainwindow.h: gui/mainwindow.ui \
-		/usr/lib/qt5/bin/uic
+		/usr/lib/qt5/bin/uic \
+		gui/FSMView.h
 	/usr/lib/qt5/bin/uic gui/mainwindow.ui -o ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
@@ -382,12 +419,42 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-main.o: gui/main.cpp gui/mainwindow.h
+FSMScene.o: gui/FSMScene.cpp gui/FSMScene.h \
+		gui/FSMState.h \
+		gui/FSMTransition.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMScene.o gui/FSMScene.cpp
+
+FSMState.o: gui/FSMState.cpp gui/FSMState.h \
+		gui/FSMTransition.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMState.o gui/FSMState.cpp
+
+FSMTransition.o: gui/FSMTransition.cpp gui/FSMTransition.h \
+		gui/FSMState.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMTransition.o gui/FSMTransition.cpp
+
+FSMView.o: gui/FSMView.cpp gui/FSMView.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMView.o gui/FSMView.cpp
+
+main.o: gui/main.cpp gui/mainwindow.h \
+		gui/FSMView.h \
+		gui/FSMScene.h \
+		gui/FSMState.h \
+		gui/FSMTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o gui/main.cpp
 
 mainwindow.o: gui/mainwindow.cpp gui/mainwindow.h \
+		gui/FSMView.h \
+		gui/FSMScene.h \
+		gui/FSMState.h \
+		gui/FSMTransition.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o gui/mainwindow.cpp
+
+moc_FSMScene.o: moc_FSMScene.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_FSMScene.o moc_FSMScene.cpp
+
+moc_FSMView.o: moc_FSMView.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_FSMView.o moc_FSMView.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
