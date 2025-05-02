@@ -16,7 +16,9 @@ SOURCES += \
     parser/MooreStateFactory.cpp \
     parser/AutomateJsonDocument.cpp \
     parser/ActionExecutor.cpp \
-     parser/MooreAutomateSimulator.cpp
+     parser/MooreMachineExecutor.cpp\
+     parser/RunExecutionStrategy.cpp \
+     parser/StepExecutionStrategy.cpp
 
 HEADERS += \
     gui/mainwindow.h \
@@ -25,7 +27,10 @@ HEADERS += \
     parser/MooreStateFactory.h \
     parser/AutomateJsonDocument.h \
     parser/ActionExecutor.h \
-    parser/MooreAutomateSimulator.h
+    IExecutionStrategy.h \
+    parser/MooreMachineExecutor.h\
+     parser/RunExecutionStrategy.h \
+     parser/StepExecutionStrategy.h
 
 FORMS += \
     gui/mainwindow.ui

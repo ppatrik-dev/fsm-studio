@@ -1,13 +1,12 @@
 #pragma once
 
+#include "IExecutionStrategy.h"
 #include "MooreMachine.h"
-#include "ActionExecutor.h" // nezabudni pridať
 
-class MooreSimulator
+class RunExecutionStrategy : public IExecutionStrategy
 {
 public:
-    MooreSimulator(MooreMachine *machine);
-    bool run();
+    void Execute(MooreMachine &automaton) override;
     bool step(std::shared_ptr<MooreState> state, ActionExecutor &engine);
 
 private:

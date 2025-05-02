@@ -1,11 +1,6 @@
-#include "MooreAutomateSimulator.h"
-#include "MooreState.h"
-#include "ActionExecutor.h"
+#include "RunExecutionStrategy.h"
+#include "MooreMachine.h"
 
-MooreSimulator::MooreSimulator(MooreMachine *machine)
-    : machine(machine), currentState(nullptr)
-{
-}
 bool MooreSimulator::step(std::shared_ptr<MooreState> state, ActionExecutor &engine)
 {
     auto result = engine.evaluate(state->getOutput());
@@ -32,7 +27,7 @@ bool MooreSimulator::step(std::shared_ptr<MooreState> state, ActionExecutor &eng
 
     return true;
 }
-bool MooreSimulator::run()
+void RunExecutionStrategy::Execute()
 {
     std::shared_ptr<MooreState> state = machine->getState(machine->getStartState());
     ActionExecutor engine;
@@ -52,5 +47,4 @@ bool MooreSimulator::run()
         engine.evaluate(variable);
     }
     step(state, engine);
-    return true;
 }

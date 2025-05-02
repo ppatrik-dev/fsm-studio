@@ -59,7 +59,9 @@ SOURCES       = gui/main.cpp \
 		parser/MooreStateFactory.cpp \
 		parser/AutomateJsonDocument.cpp \
 		parser/ActionExecutor.cpp \
-		parser/MooreAutomateSimulator.cpp moc_mainwindow.cpp \
+		parser/MooreMachineExecutor.cpp \
+		parser/RunExecutionStrategy.cpp \
+		parser/StepExecutionStrategy.cpp moc_mainwindow.cpp \
 		moc_ActionExecutor.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
@@ -68,7 +70,9 @@ OBJECTS       = main.o \
 		MooreStateFactory.o \
 		AutomateJsonDocument.o \
 		ActionExecutor.o \
-		MooreAutomateSimulator.o \
+		MooreMachineExecutor.o \
+		RunExecutionStrategy.o \
+		StepExecutionStrategy.o \
 		moc_mainwindow.o \
 		moc_ActionExecutor.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -160,14 +164,19 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		parser/MooreStateFactory.h \
 		parser/AutomateJsonDocument.h \
 		parser/ActionExecutor.h \
-		parser/MooreAutomateSimulator.h gui/main.cpp \
+		IExecutionStrategy.h \
+		parser/MooreMachineExecutor.h \
+		parser/RunExecutionStrategy.h \
+		parser/StepExecutionStrategy.h gui/main.cpp \
 		gui/mainwindow.cpp \
 		parser/MooreMachine.cpp \
 		parser/MooreState.cpp \
 		parser/MooreStateFactory.cpp \
 		parser/AutomateJsonDocument.cpp \
 		parser/ActionExecutor.cpp \
-		parser/MooreAutomateSimulator.cpp
+		parser/MooreMachineExecutor.cpp \
+		parser/RunExecutionStrategy.cpp \
+		parser/StepExecutionStrategy.cpp
 QMAKE_TARGET  = icp-fsm-app
 DESTDIR       = 
 TARGET        = icp-fsm-app
@@ -363,8 +372,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h parser/ActionExecutor.h parser/MooreAutomateSimulator.h $(DISTDIR)/
-	$(COPY_FILE) --parents gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp parser/ActionExecutor.cpp parser/MooreAutomateSimulator.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h parser/ActionExecutor.h IExecutionStrategy.h parser/MooreMachineExecutor.h parser/RunExecutionStrategy.h parser/StepExecutionStrategy.h $(DISTDIR)/
+	$(COPY_FILE) --parents gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp parser/ActionExecutor.cpp parser/MooreMachineExecutor.cpp parser/RunExecutionStrategy.cpp parser/StepExecutionStrategy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/mainwindow.ui $(DISTDIR)/
 
 
@@ -437,7 +446,11 @@ main.o: gui/main.cpp gui/mainwindow.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		parser/ActionExecutor.h
+		parser/ActionExecutor.h \
+		parser/MooreMachineExecutor.h \
+		parser/IExecutionStrategy.h \
+		parser/RunExecutionStrategy.h \
+		parser/StepExecutionStrategy.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o gui/main.cpp
 
 mainwindow.o: gui/mainwindow.cpp gui/mainwindow.h \
@@ -471,11 +484,23 @@ AutomateJsonDocument.o: parser/AutomateJsonDocument.cpp parser/AutomateJsonDocum
 ActionExecutor.o: parser/ActionExecutor.cpp parser/ActionExecutor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActionExecutor.o parser/ActionExecutor.cpp
 
-MooreAutomateSimulator.o: parser/MooreAutomateSimulator.cpp parser/MooreMachine.h \
+MooreMachineExecutor.o: parser/MooreMachineExecutor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MooreMachineExecutor.o parser/MooreMachineExecutor.cpp
+
+RunExecutionStrategy.o: parser/RunExecutionStrategy.cpp parser/RunExecutionStrategy.h \
+		parser/IExecutionStrategy.h \
+		parser/MooreMachine.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MooreAutomateSimulator.o parser/MooreAutomateSimulator.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RunExecutionStrategy.o parser/RunExecutionStrategy.cpp
+
+StepExecutionStrategy.o: parser/StepExecutionStrategy.cpp parser/StepExecutionStrategy.h \
+		parser/MooreMachine.h \
+		parser/MooreState.h \
+		parser/IMooreState.h \
+		parser/MooreTransition.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o StepExecutionStrategy.o parser/StepExecutionStrategy.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
