@@ -2,1637 +2,442 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
-    <height>1080</height>
+    <width>1588</width>
+    <height>1001</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>1920</width>
-    <height>1080</height>
-   </size>
-  </property>
-  <property name="windowTitle">
-   <string>AutomataLab</string>
+  <property name="styleSheet">
+   <string notr="true">
+    QWidget {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+    QLineEdit, QTextEdit, QLabel, QPushButton {
+        background-color: #2e2e2e;
+        color: #ffffff;
+        border: 1px solid #444444;
+        border-radius: 6px;
+        padding: 6px;
+    }
+    QGroupBox {
+        border: 1px solid #444444;
+        margin-top: 10px;
+        background-color: #2e2e2e;
+        color: #ffffff;
+        border-radius: 8px;
+    }
+    QGroupBox::title {
+        subcontrol-origin: margin;
+        subcontrol-position: top left;
+        padding: 4px 6px;
+    }
+    QGraphicsView {
+        background-color: #1e1e1e;
+    }
+    QPushButton {
+        background-color: #3a3a3a;
+        color: white;
+        border: 1px solid #5a5a5a;
+        border-radius: 6px;
+        padding: 6px 12px;
+    }
+    QPushButton:hover {
+        background-color: #505050;
+    }
+    QPushButton:pressed {
+        background-color: #707070;
+    }
+    QFrame#rightPanel {
+        background-color: #2b2b2b;
+        border-radius: 12px;
+        padding: 12px;
+    }
+   </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>1920</width>
-     <height>1080</height>
-    </size>
-   </property>
-   <property name="font">
-    <font>
-     <family>DejaVu Sans</family>
-     <pointsize>12</pointsize>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <widget class="QGroupBox" name="Group_manage">
-    <property name="geometry">
-     <rect>
-      <x>1490</x>
-      <y>30</y>
-      <width>400</width>
-      <height>500</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>400</width>
-      <height>500</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>0</width>
-      <height>0</height>
-     </size>
-    </property>
-    <property name="title">
-     <string>Manage Automat</string>
-    </property>
-    <widget class="QPushButton" name="START">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>50</y>
-       <width>150</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>START</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="STOP">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>140</y>
-       <width>150</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>STOP</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="STEP">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>230</y>
-       <width>150</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>STEP</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="GENERATE">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>320</y>
-       <width>150</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>GENERATE</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="IMPORT">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>410</y>
-       <width>150</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>IMPORT</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="EXPORT">
-     <property name="geometry">
-      <rect>
-       <x>235</x>
-       <y>410</y>
-       <width>150</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>EXPORT</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="Group_watch">
-    <property name="geometry">
-     <rect>
-      <x>1490</x>
-      <y>550</y>
-      <width>400</width>
-      <height>500</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>400</width>
-      <height>500</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>0</width>
-      <height>0</height>
-     </size>
-    </property>
-    <property name="title">
-     <string>Watch</string>
-    </property>
-    <widget class="QLabel" name="INPUTS_TEXT">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>50</y>
-       <width>67</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>INPUTS</string>
-     </property>
-    </widget>
-    <widget class="QScrollArea" name="Scroll_inputs">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>80</y>
-       <width>350</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>350</width>
-       <height>100</height>
-      </size>
-     </property>
-     <property name="palette">
-      <palette>
-       <active>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </active>
-       <inactive>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>239</red>
-           <green>239</green>
-           <blue>239</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </inactive>
-       <disabled>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </disabled>
-      </palette>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>348</width>
-        <height>98</height>
-       </rect>
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,1">
+    <item>
+     <layout class="QVBoxLayout" name="mainLayout">
+      <item>
+       <layout class="QHBoxLayout" name="topButtonLayout">
+        <item>
+         <widget class="QPushButton" name="importButton">
+          <property name="text">
+           <string>Import</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exportButton">
+          <property name="text">
+           <string>Export</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="runButton">
+          <property name="text">
+           <string>Run</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacerTop">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="FSMView" name="fsmGraphicsView"/>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="bottomLayout">
+        <item>
+         <spacer name="bottomSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="zoomOutButton">
+          <property name="text">
+           <string>−</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="zoomLabel">
+          <property name="text">
+           <string>100 %</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="zoomInButton">
+          <property name="text">
+           <string>+</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QFrame" name="rightPanel">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
       </property>
+      <layout class="QVBoxLayout" name="rightLayout">
+       <item>
+        <widget class="QLabel" name="labelProperties">
+         <property name="text">
+          <string>Automata Properties</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="nameLineEdit">
+         <property name="text">
+          <string>Testing FSM Automata</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="descriptionEdit">
+         <property name="plainText">
+          <string>Lorem Ipsum</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupInputs">
+         <property name="title">
+          <string>Inputs</string>
+         </property>
+         <layout class="QVBoxLayout" name="inputsLayout">
+          <item>
+           <widget class="QScrollArea" name="scrollInputs">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollInputsWidget">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>249</width>
+               <height>148</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="scrollInputsLayout">
+              <item>
+               <layout class="QHBoxLayout" name="inputRow1">
+                <item>
+                 <widget class="QLineEdit" name="inputKey1">
+                  <property name="text">
+                   <string>A</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="inputValue1">
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="delInput1">
+                  <property name="text">
+                   <string>🗑️</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="inputRow2">
+                <item>
+                 <widget class="QLineEdit" name="inputKey2">
+                  <property name="text">
+                   <string>Timeout</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="inputValue2">
+                  <property name="text">
+                   <string>500</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="delInput2">
+                  <property name="text">
+                   <string>🗑️</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="addInput">
+            <property name="text">
+             <string>+ Add row</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupOutputs">
+         <property name="title">
+          <string>Outputs</string>
+         </property>
+         <layout class="QVBoxLayout" name="outputsLayout">
+          <item>
+           <widget class="QScrollArea" name="scrollOutputs">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollOutputsWidget">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>249</width>
+               <height>147</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="scrollOutputsLayout">
+              <item>
+               <layout class="QHBoxLayout" name="outputRow1">
+                <item>
+                 <widget class="QLineEdit" name="outputKey1">
+                  <property name="text">
+                   <string>A</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="outputValue1">
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="delOutput1">
+                  <property name="text">
+                   <string>🗑️</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="outputRow2">
+                <item>
+                 <widget class="QLineEdit" name="outputKey2">
+                  <property name="text">
+                   <string>Timeout</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="outputValue2">
+                  <property name="text">
+                   <string>500</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="delOutput2">
+                  <property name="text">
+                   <string>🗑️</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="addOutput">
+            <property name="text">
+             <string>+ Add row</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupVariables">
+         <property name="title">
+          <string>Variables</string>
+         </property>
+         <layout class="QVBoxLayout" name="variablesLayout">
+          <item>
+           <widget class="QScrollArea" name="scrollVariables">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollVariablesWidget">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>249</width>
+               <height>147</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="scrollVariablesLayout">
+              <item>
+               <layout class="QHBoxLayout" name="varRow1">
+                <item>
+                 <widget class="QLineEdit" name="varKey1">
+                  <property name="text">
+                   <string>A</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="varValue1">
+                  <property name="text">
+                   <string>2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="delVar1">
+                  <property name="text">
+                   <string>🗑️</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="varRow2">
+                <item>
+                 <widget class="QLineEdit" name="varKey2">
+                  <property name="text">
+                   <string>Timeout</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="varValue2">
+                  <property name="text">
+                   <string>500</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="delVar2">
+                  <property name="text">
+                   <string>🗑️</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="addVariable">
+            <property name="text">
+             <string>+ Add row</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </widget>
-    </widget>
-    <widget class="QLabel" name="OUTPUTS_TEXT">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>200</y>
-       <width>85</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>OUTPUTS</string>
-     </property>
-    </widget>
-    <widget class="QScrollArea" name="Scroll_outputs">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>230</y>
-       <width>350</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>350</width>
-       <height>100</height>
-      </size>
-     </property>
-     <property name="palette">
-      <palette>
-       <active>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </active>
-       <inactive>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>239</red>
-           <green>239</green>
-           <blue>239</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </inactive>
-       <disabled>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </disabled>
-      </palette>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents_3">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>348</width>
-        <height>98</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QLabel" name="VARIABLES_TEXT">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>350</y>
-       <width>100</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>VARIABLES</string>
-     </property>
-    </widget>
-    <widget class="QScrollArea" name="Scroll_variables">
-     <property name="geometry">
-      <rect>
-       <x>15</x>
-       <y>380</y>
-       <width>350</width>
-       <height>100</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>350</width>
-       <height>100</height>
-      </size>
-     </property>
-     <property name="palette">
-      <palette>
-       <active>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </active>
-       <inactive>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>239</red>
-           <green>239</green>
-           <blue>239</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </inactive>
-       <disabled>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </disabled>
-      </palette>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents_2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>348</width>
-        <height>98</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="Group_create_automat">
-    <property name="geometry">
-     <rect>
-      <x>1</x>
-      <y>30</y>
-      <width>1350</width>
-      <height>1020</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>1350</width>
-      <height>1020</height>
-     </size>
-    </property>
-    <property name="title">
-     <string>Create Automat</string>
-    </property>
-    <widget class="QGroupBox" name="Group_automat">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>40</y>
-       <width>400</width>
-       <height>950</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>400</width>
-       <height>950</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Automat</string>
-     </property>
-     <widget class="QLabel" name="NAME_AUTOMAT">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>50</y>
-        <width>67</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>NAME</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="NAME_LINE">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>80</y>
-        <width>350</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>350</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QLabel" name="ADD_VARIABLE">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>180</y>
-        <width>139</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>ADD VARIABLE</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="VARIABLE_LINE">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>210</y>
-        <width>230</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>230</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="ADD_VAR_BUT">
-      <property name="geometry">
-       <rect>
-        <x>265</x>
-        <y>210</y>
-        <width>100</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>100</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>ADD</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="ADD_INPUT">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>370</y>
-        <width>105</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>ADD INPUT</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="INPUT_LINE">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>400</y>
-        <width>230</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>230</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="ADD_IN_BUT">
-      <property name="geometry">
-       <rect>
-        <x>265</x>
-        <y>400</y>
-        <width>100</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>100</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>ADD</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="ADD_OUTPUT">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>560</y>
-        <width>127</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>ADD OUTPUT</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="OUTPUT_LINE">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>590</y>
-        <width>230</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>230</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="ADD_OUT_BUT">
-      <property name="geometry">
-       <rect>
-        <x>265</x>
-        <y>590</y>
-        <width>100</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>100</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>ADD</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="ADD_STATE">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>750</y>
-        <width>127</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>ADD STATE</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="STATE_LINE">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>780</y>
-        <width>230</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>230</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="ADD_STATE_BUT">
-      <property name="geometry">
-       <rect>
-        <x>265</x>
-        <y>780</y>
-        <width>100</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>100</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>ADD</string>
-      </property>
-     </widget>
-     <widget class="QScrollArea" name="SCROLL_STATE">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>840</y>
-        <width>350</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>350</width>
-        <height>80</height>
-       </size>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>239</red>
-            <green>239</green>
-            <blue>239</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_4">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>348</width>
-         <height>78</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QScrollArea" name="SCROLL_OUTPUT">
-      <property name="geometry">
-       <rect>
-        <x>12</x>
-        <y>650</y>
-        <width>350</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>350</width>
-        <height>80</height>
-       </size>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>239</red>
-            <green>239</green>
-            <blue>239</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_5">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>348</width>
-         <height>78</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QScrollArea" name="SCROLL_INPUT">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>460</y>
-        <width>350</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>350</width>
-        <height>80</height>
-       </size>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>239</red>
-            <green>239</green>
-            <blue>239</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_6">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>348</width>
-         <height>78</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QScrollArea" name="SCROLL_VAR">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>270</y>
-        <width>350</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>350</width>
-        <height>80</height>
-       </size>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>239</red>
-            <green>239</green>
-            <blue>239</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_7">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>348</width>
-         <height>78</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QGroupBox" name="Group_state">
-     <property name="geometry">
-      <rect>
-       <x>480</x>
-       <y>40</y>
-       <width>400</width>
-       <height>950</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>400</width>
-       <height>950</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>State</string>
-     </property>
-     <widget class="QLabel" name="NAME_STATE">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>50</y>
-        <width>67</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>NAME</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="ADD_FUNCTION">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>320</y>
-        <width>155</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>155</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>ADD FUNCTION</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="IF_TEXT">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>380</y>
-        <width>40</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>DejaVu Sans</family>
-        <pointsize>20</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>IF</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="IF_FUNC_LINE">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>380</y>
-        <width>305</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>305</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QLabel" name="THEN_TEXT">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>440</y>
-        <width>80</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>DejaVu Sans</family>
-        <pointsize>20</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>THEN</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="THEN_FUNC_LINE">
-      <property name="geometry">
-       <rect>
-        <x>110</x>
-        <y>440</y>
-        <width>255</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>255</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="ADD_TRANSITION">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>600</y>
-        <width>170</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>100</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>ADD TRANSITION</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="STATE_TEXT_1">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>660</y>
-        <width>95</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>DejaVu Sans</family>
-        <pointsize>20</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>STATE</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="STATE_TEXT_2">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>720</y>
-        <width>95</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>DejaVu Sans</family>
-        <pointsize>20</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>STATE</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="IF_TEXT_2">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>780</y>
-        <width>40</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>DejaVu Sans</family>
-        <pointsize>20</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>IF</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="IF_TRAN_LINE">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>780</y>
-        <width>305</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>305</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="COMBO_STATE_NAME">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>80</y>
-        <width>350</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>350</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QScrollArea" name="SCROLL_TRANSITION">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>840</y>
-        <width>350</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>350</width>
-        <height>80</height>
-       </size>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>239</red>
-            <green>239</green>
-            <blue>239</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_8">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>348</width>
-         <height>78</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QScrollArea" name="SCROLL_FUNCTION">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>500</y>
-        <width>350</width>
-        <height>80</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>350</width>
-        <height>80</height>
-       </size>
-      </property>
-      <property name="palette">
-       <palette>
-        <active>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </active>
-        <inactive>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>239</red>
-            <green>239</green>
-            <blue>239</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </inactive>
-        <disabled>
-         <colorrole role="Window">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
-           </color>
-          </brush>
-         </colorrole>
-        </disabled>
-       </palette>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_9">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>348</width>
-         <height>78</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QTextEdit" name="COMMENT_TEXT_EDIT">
-      <property name="geometry">
-       <rect>
-        <x>15</x>
-        <y>140</y>
-        <width>350</width>
-        <height>160</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="COMBO_STATE_1">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>660</y>
-        <width>245</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>245</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="COMBO_STATE_2">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>720</y>
-        <width>245</width>
-        <height>40</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>245</width>
-        <height>40</height>
-       </size>
-      </property>
-     </widget>
-    </widget>
-   </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FSMView</class>
+   <extends>QGraphicsView</extends>
+   <header>FSMView.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
- <designerdata>
-  <property name="gridDeltaX">
-   <number>10</number>
-  </property>
-  <property name="gridDeltaY">
-   <number>10</number>
-  </property>
-  <property name="gridSnapX">
-   <bool>false</bool>
-  </property>
-  <property name="gridSnapY">
-   <bool>false</bool>
-  </property>
-  <property name="gridVisible">
-   <bool>true</bool>
-  </property>
- </designerdata>
 </ui>
