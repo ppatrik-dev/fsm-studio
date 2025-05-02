@@ -13,7 +13,7 @@
             "action": "out = '1';",
             "transitions": [
                 {
-                    "condition": "input == 1",
+                    "condition": "input == '1'",
                     "to": "TIMING"
                 }
             ]
@@ -22,7 +22,7 @@
             "action": "out = '0';",
             "transitions": [
                 {
-                    "condition": "input == 1",
+                    "condition": "input == '1'",
                     "to": "ACTIVE"
                 }
             ]
@@ -31,7 +31,7 @@
             "action": "",
             "transitions": [
                 {
-                    "condition": "input == 0",
+                    "condition": "input == '0'",
                     "to": "ACTIVE"
                 },
                 {

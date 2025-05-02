@@ -8,10 +8,10 @@ void MachineExecutor::SetStrategy(IExecutionStrategy *strategy)
     strategy_ = strategy;
 }
 
-void MachineExecutor::Execute(Automaton &automaton)
+void MachineExecutor::Execute(MooreMachine &machine)
 {
     if (strategy_)
     {
-        strategy_->Execute(automaton);
+        strategy_->Execute(machine);
     }
 }

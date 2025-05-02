@@ -1,7 +1,7 @@
 #include "RunExecutionStrategy.h"
 #include "MooreMachine.h"
 
-bool MooreSimulator::step(std::shared_ptr<MooreState> state, ActionExecutor &engine)
+bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecutor &engine, MooreMachine &machine)
 {
     auto result = engine.evaluate(state->getOutput());
     if (result.toString() == "undefined")
@@ -16,8 +16,8 @@ bool MooreSimulator::step(std::shared_ptr<MooreState> state, ActionExecutor &eng
         qDebug() << "Condition result:" << boolResult.toBool();
         if (boolResult.toBool())
         {
-
-            step(machine->getState(transition.getTarget()), engine);
+            engine.evaluate("index++;");
+            step(machine.getState(transition.getTarget()), engine, machine);
         }
         else
         {
@@ -27,24 +27,27 @@ bool MooreSimulator::step(std::shared_ptr<MooreState> state, ActionExecutor &eng
 
     return true;
 }
-void RunExecutionStrategy::Execute()
+void RunExecutionStrategy::Execute(MooreMachine &machine)
 {
-    std::shared_ptr<MooreState> state = machine->getState(machine->getStartState());
+    std::shared_ptr<MooreState> state = machine.getState(machine.getStartState());
     ActionExecutor engine;
 
-    for (const QString &input : machine->getInputs())
+    for (const QString &input : machine.getInputs())
     {
         engine.evaluate(input);
     }
 
-    for (const QString &output : machine->getOutputs())
+    for (const QString &output : machine.getOutputs())
     {
         engine.evaluate(output);
     }
 
-    for (const QString &variable : machine->getVariables())
+    for (const QString &variable : machine.getVariables())
     {
         engine.evaluate(variable);
     }
-    step(state, engine);
+    engine.evaluate("var index = 0;");
+    auto result = engine.evaluate("input");
+    qDebug() << "Input value: " << result.toString();
+    step(state, engine, machine);
 }

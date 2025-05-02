@@ -26,6 +26,5 @@ int main(int argc, char *argv[])
     executor.SetStrategy(&runStrategy);
     executor.Execute(mooreMachine);
 
-    jsonDocument.saveAutomateToJsonFile("output.json", mooreMachine);
     return a.exec();
 }
