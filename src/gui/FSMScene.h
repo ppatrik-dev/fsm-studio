@@ -17,17 +17,18 @@ class FSMScene : public QGraphicsScene {
 private:
     int stateCounter;
 
-    bool addTransitionMode;
-    FSMState *fromSelectedState;
-
-    QList<FSMState*> m_FSMStates;
+    FSMState *firstSelectedState;
+    QList<FSMState*> m_states;
     QList<FSMTransition*> m_transitions;
+
+    enum sceneModeEnum {DEFAULT, ADD, DELETE};
+    enum sceneModeEnum sceneMode;
 
 public:
     explicit FSMScene(QObject *parent = nullptr);
 
     inline QList<FSMState*> getFSMStates() const {
-        return m_FSMStates;
+        return m_states;
     }
 
     inline QList<FSMTransition*> getTransitions() const {
@@ -57,6 +58,10 @@ protected:
 public slots:
     void onAddState(const QPointF &pos);
     void onAddTransition();
+    void onDeleteState();
+
+signals:
+    void itemSelected(QGraphicsItem *item);
 };
 
 #endif // FSMSCENE_H
