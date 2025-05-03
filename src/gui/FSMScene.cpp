@@ -38,8 +38,9 @@ void FSMScene::onDeleteTransition() {
 }
 
 void FSMScene::addState(QPointF pos) {
-    FSMState *state = new FSMState(getStateLabel());
-    m_states.append(state);
+    QString label = getStateLabel();
+    FSMState *state = new FSMState(label);
+    m_states.insert(label, state);
     state->setPos(pos);
     state->setSelected(true);
     addItem(state);
@@ -93,12 +94,12 @@ void FSMScene::deleteState(FSMState *state) {
     }
 
     removeItem(state);
-    m_states.removeAll(state);
+    m_states.remove(state->getLabel());
     delete state;
 }
 
 void FSMScene::clear() {
-    auto states = m_states;
+    auto states = m_states.values();
     for (FSMState *state : states) {
         deleteState(state);
     }

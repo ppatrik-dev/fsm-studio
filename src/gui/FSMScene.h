@@ -7,6 +7,7 @@
 
 #include <QGraphicsScene>
 #include <QList>
+#include <QMap>
 #include <QGraphicsLineItem>
 #include "FSMState.h"
 #include "FSMTransition.h"
@@ -16,7 +17,7 @@ class FSMScene : public QGraphicsScene {
 
 private:
     FSMState *firstSelectedState;
-    QList<FSMState*> m_states;
+    QMap<QString, FSMState*> m_states;
     QList<FSMTransition*> m_transitions;
     enum sceneModeEnum {SELECT_MODE, ADD_TRANSITION_MODE, DELETE_STATE_MODE, DELETE_TRANSITION_MODE};
     enum sceneModeEnum sceneMode;
@@ -27,7 +28,7 @@ private:
 public:
     explicit FSMScene(QObject *parent = nullptr);
 
-    inline QList<FSMState*> getFSMStates() const {
+    inline QMap<QString, FSMState*> getFSMStates() const {
         return m_states;
     }
 

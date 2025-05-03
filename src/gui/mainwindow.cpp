@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     fsmView->setScene(fsmScene);
 
     // Control buttons
-    connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
+    connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);    
 
     // FSM scale
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent) {
