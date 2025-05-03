@@ -384,6 +384,9 @@ moc_FSMScene.cpp: gui/FSMScene.h \
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMScene.h -o moc_FSMScene.cpp
 
 moc_FSMView.cpp: gui/FSMView.h \
+		gui/FSMScene.h \
+		gui/FSMState.h \
+		gui/FSMTransition.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMView.h -o moc_FSMView.cpp
@@ -406,7 +409,10 @@ compiler_uic_clean:
 	-$(DEL_FILE) ui_mainwindow.h
 ui_mainwindow.h: gui/mainwindow.ui \
 		/usr/lib/qt5/bin/uic \
-		gui/FSMView.h
+		gui/FSMView.h \
+		gui/FSMScene.h \
+		gui/FSMState.h \
+		gui/FSMTransition.h
 	/usr/lib/qt5/bin/uic gui/mainwindow.ui -o ui_mainwindow.h
 
 compiler_yacc_decl_make_all:
@@ -432,7 +438,10 @@ FSMTransition.o: gui/FSMTransition.cpp gui/FSMTransition.h \
 		gui/FSMState.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMTransition.o gui/FSMTransition.cpp
 
-FSMView.o: gui/FSMView.cpp gui/FSMView.h
+FSMView.o: gui/FSMView.cpp gui/FSMView.h \
+		gui/FSMScene.h \
+		gui/FSMState.h \
+		gui/FSMTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMView.o gui/FSMView.cpp
 
 main.o: gui/main.cpp gui/mainwindow.h \
