@@ -20,8 +20,7 @@ private:
     FSMState *firstSelectedState;
     QList<FSMState*> m_states;
     QList<FSMTransition*> m_transitions;
-
-    enum sceneModeEnum {DEFAULT, ADD, DELETE};
+    enum sceneModeEnum {SELECT_MODE, ADD_TRANSITION_MODE, DELETE_STATE_MODE, DELETE_TRANSITION_MODE};
     enum sceneModeEnum sceneMode;
 
 public:
@@ -54,11 +53,16 @@ public:
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void addState(QPointF pos);
+    void addTransition(FSMState *state);
+    void deleteTransition(FSMTransition *transition);
+    void deleteState(FSMState *state);
 
 public slots:
     void onAddState(const QPointF &pos);
     void onAddTransition();
     void onDeleteState();
+    void onDeleteTransition();
 
 signals:
     void itemSelected(QGraphicsItem *item);

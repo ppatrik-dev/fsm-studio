@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QContextMenuEvent>
+#include <QApplication>
 
 FSMView::FSMView(QWidget *parent) : QGraphicsView(parent) {
     setRenderHint(QPainter::Antialiasing);
@@ -36,25 +37,20 @@ void FSMView::zoomOut() {
 void FSMView::contextMenuEvent(QContextMenuEvent *event) {
     QMenu menu(this);
 
-    QAction *addStateAction = new QAction("Add State", this);
-    QAction *addTransitionAction = new QAction("Add Transition", this);
-    QAction *deleteStateAction = new QAction("Delete State", this);
+    QAction *addStateAction = menu.addAction("Add State");
+    QAction *addTransitionAction = menu.addAction("Add Transition");
+    QAction *deleteStateAction = menu.addAction("Delete State");
+    QAction *deleteTransitionAction = menu.addAction("Delete Transition");
 
-    connect(addStateAction, &QAction::triggered, this, [=]() {
+    QAction *selected = menu.exec(event->globalPos());
+
+    if (selected == addStateAction) {
         emit addStateRequested(mapToScene(event->pos()));
-    });
-
-    connect(addTransitionAction, &QAction::triggered, this, [=]() {
+    } else if (selected == addTransitionAction) {
         emit addTransitionRequested();
-    });
-
-    connect(deleteStateAction, &QAction::triggered, this, [=]() {
+    } else if (selected == deleteStateAction) {
         emit deleteStateRequested();
-    });
-
-    menu.addAction(addStateAction);
-    menu.addAction(addTransitionAction);
-    menu.addAction(deleteStateAction);
-
-    menu.exec(event->globalPos());
+    } else if (selected == deleteTransitionAction) {
+        emit deleteTransitionRequested();
+    }
 }

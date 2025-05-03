@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmView, &FSMView::addStateRequested, fsmScene, &FSMScene::onAddState);
     connect(fsmView, &FSMView::addTransitionRequested, fsmScene, &FSMScene::onAddTransition);
     connect(fsmView, &FSMView::deleteStateRequested, fsmScene, &FSMScene::onDeleteState);
+    connect(fsmView, &FSMView::deleteTransitionRequested, fsmScene, &FSMScene::onDeleteTransition);
 
     connect(fsmScene, &FSMScene::itemSelected, this, [=](QGraphicsItem *item) {
         if (!item) {

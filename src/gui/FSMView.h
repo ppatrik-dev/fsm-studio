@@ -28,6 +28,7 @@ signals:
     void addStateRequested(const QPointF &pos);
     void addTransitionRequested();
     void deleteStateRequested();
+    void deleteTransitionRequested();
 };
 
 #endif // FSMVIEW_H
