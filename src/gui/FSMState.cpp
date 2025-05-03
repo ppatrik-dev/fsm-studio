@@ -12,6 +12,7 @@ FSMState::FSMState(const QString &label)
 {
     setFlag(ItemIsMovable);
     setFlag(ItemIsSelectable);
+    setAcceptHoverEvents(true);
     setFlag(ItemSendsGeometryChanges);
     setCacheMode(DeviceCoordinateCache);
 }
@@ -24,9 +25,11 @@ void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
     QRectF rect = boundingRect();
-    QColor outlineColor = isSelected() ? QColor(102, 204, 255) : Qt::blue;
+    QColor outlineColor = isSelected() ? QColor(0, 204, 153) : QColor(51, 153, 102);
 
-    painter->setBrush(QColor(40, 40, 40));
+    QColor baseColor(40, 40, 40);
+    QColor fillColor = m_hovered ? baseColor.lighter(130) : baseColor;
+    painter->setBrush(fillColor);
     painter->setPen(QPen(outlineColor, 2));
     painter->drawEllipse(rect);
 
@@ -44,4 +47,16 @@ QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value) 
         }
     }
     return QGraphicsItem::itemChange(change, value);
+}
+
+void FSMState::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
+    m_hovered = true;
+    update();  // triggers repaint
+    QGraphicsItem::hoverEnterEvent(event);
+}
+
+void FSMState::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
+    m_hovered = false;
+    update();  // triggers repaint
+    QGraphicsItem::hoverLeaveEvent(event);
 }

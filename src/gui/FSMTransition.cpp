@@ -9,7 +9,6 @@ FSMTransition::FSMTransition(FSMState *first, FSMState *second)
 {
     setZValue(-1);
     updatePosition();
-    setFlag(ItemIsSelectable);
     setCacheMode(DeviceCoordinateCache);
 }
 

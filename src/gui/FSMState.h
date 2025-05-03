@@ -15,7 +15,9 @@ class FSMTransition;
 
 class FSMState : public QGraphicsItem
 {
+
 private:
+    bool m_hovered = false;
     QString m_label;
     QList<FSMTransition *> m_transitions;
     std::shared_ptr<MooreState> m_state;
@@ -51,18 +53,29 @@ public:
 
     inline QList<FSMTransition *> getTransitions() const
     {
-        return m_transitions;
-    }
+        inline QString getLabel() const
+        {
+            return m_label;
+        }
 
-    inline void appendTransition(FSMTransition *transition)
-    {
-        m_transitions.append(transition);
-    }
+        inline QList<FSMTransition *> getTransitions() const
+        {
+            return m_transitions;
+        }
 
-    inline void removeTransition(FSMTransition *transition)
-    {
-        m_transitions.removeAll(transition);
-    }
-};
+        inline void appendTransition(FSMTransition * transition)
+        {
+            m_transitions.append(transition);
+        }
+
+        inline void removeTransition(FSMTransition * transition)
+        {
+            m_transitions.removeAll(transition);
+        }
+
+    protected:
+        void hoverEnterEvent(QGraphicsSceneHoverEvent * event) override;
+        void hoverLeaveEvent(QGraphicsSceneHoverEvent * event) override;
+    };
 
 #endif // FSMSTATE_H

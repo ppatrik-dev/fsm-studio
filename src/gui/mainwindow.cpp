@@ -31,27 +31,30 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
     connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
+    // Control buttons
+    connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
+
+    // FSM scale
+    connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
+            { ui->zoomLabel->setText(QString::number(percent) + "%"); });
+
+    // FSM editing
     connect(fsmView, &FSMView::addStateRequested, fsmScene, &FSMScene::onAddState);
     connect(fsmView, &FSMView::addTransitionRequested, fsmScene, &FSMScene::onAddTransition);
     connect(fsmView, &FSMView::deleteStateRequested, fsmScene, &FSMScene::onDeleteState);
     connect(fsmView, &FSMView::deleteTransitionRequested, fsmScene, &FSMScene::onDeleteTransition);
 
+    // Details panel
     connect(fsmScene, &FSMScene::itemSelected, this, [=](QGraphicsItem *item)
             {
-        if (!item)
-        {
+        if (!item) {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
         }
         else if (item->type() == FSMState::Type)
         {
             ui->rightPanel->setCurrentWidget(ui->statePropertiesPanel);
         }
-        else if (item->type() == FSMTransition::Type)
-        {
-            ui->rightPanel->setCurrentWidget(ui->transitionPropertiesPanel);
-        }
-        else
-        {
+        else {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
         } });
 

@@ -6,6 +6,7 @@
 #define FSMVIEW_H
 
 #include <QGraphicsView>
+#include <QWheelEvent>
 #include "FSMScene.h"
 
 class FSMView : public QGraphicsView {
@@ -18,10 +19,7 @@ public:
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
-
-public slots:
-    void zoomIn();
-    void zoomOut();
+    void wheelEvent(QWheelEvent *event);
 
 signals:
     void zoomChanged(int percent);
