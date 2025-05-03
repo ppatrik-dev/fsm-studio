@@ -6,6 +6,10 @@
 #include <QFile>
 #include <QDebug>
 
+AutomateJsonDocument::AutomateJsonDocument(QObject *parent)
+    : QObject(parent)
+{
+}
 bool AutomateJsonDocument::loadAutomateFromJsonFile(const QString &fileName, MooreMachine &machine)
 {
     QFile file(fileName);
@@ -22,7 +26,6 @@ bool AutomateJsonDocument::loadAutomateFromJsonFile(const QString &fileName, Moo
         qWarning() << "Failed loading json.";
         return false;
     }
-
     QJsonObject jsonObj = doc.object();
     machine.setName(jsonObj["automate_name"].toString());
     machine.setStartState(jsonObj["start_state"].toString());

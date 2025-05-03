@@ -8,10 +8,12 @@
 #include <QMainWindow>
 #include "FSMView.h"
 #include "FSMScene.h"
+#include "parser/MooreMachine.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 QT_END_NAMESPACE
 
@@ -29,5 +31,9 @@ private:
 private:
     FSMView *fsmView;
     FSMScene *fsmScene;
+    MooreMachine *machine;
+signals:
+    void loadJsonRequested(const QString &fileName, MooreMachine &machine);
+    void exportJsonRequested(const QString &fileName, MooreMachine &machine);
 };
 #endif // MAINWINDOW_H

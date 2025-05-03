@@ -2,11 +2,12 @@ TARGET = icp-fsm-app
 
 QT += core \
       gui \
-      qml
+      qml 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++17 \ 
+        moc
 
 SOURCES += \
     FSMScene.cpp \
@@ -14,26 +15,7 @@ SOURCES += \
     FSMTransition.cpp \
     FSMView.cpp \
     main.cpp \
-    mainwindow.cpp
-
-HEADERS += \
-    FSMScene.h \
-    FSMState.h \
-    FSMTransition.h \
-    FSMView.h \
-    mainwindow.h
-
-FORMS += \
-    mainwindow.ui
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
-DISTFILES +=
-    gui/main.cpp \
-    gui/mainwindow.cpp \
+    mainwindow.cpp \
     parser/MooreMachine.cpp \
     parser/MooreState.cpp \
     parser/MooreStateFactory.cpp \
@@ -44,7 +26,11 @@ DISTFILES +=
      parser/StepExecutionStrategy.cpp
 
 HEADERS += \
-    gui/mainwindow.h \
+    FSMScene.h \
+    FSMState.h \
+    FSMTransition.h \
+    FSMView.h \
+    mainwindow.h \
     parser/MooreMachine.h \
     parser/MooreState.h \
     parser/MooreStateFactory.h \
@@ -56,4 +42,4 @@ HEADERS += \
      parser/StepExecutionStrategy.h
 
 FORMS += \
-    gui/mainwindow.ui
+    mainwindow.ui
