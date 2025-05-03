@@ -253,7 +253,7 @@ QPushButton:hover {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
+                <width>298</width>
                 <height>129</height>
                </rect>
               </property>
@@ -291,7 +291,7 @@ QPushButton:hover {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
+                <width>298</width>
                 <height>129</height>
                </rect>
               </property>
@@ -329,7 +329,7 @@ QPushButton:hover {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
+                <width>298</width>
                 <height>129</height>
                </rect>
               </property>
@@ -354,26 +354,85 @@ QPushButton:hover {
        </layout>
       </widget>
       <widget class="QWidget" name="statePropertiesPanel">
-       <widget class="QLabel" name="labelProperties_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>362</width>
-          <height>37</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>State Properties</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="statePropertiesLayout">
+        <item>
+         <widget class="QLabel" name="labelProperties_2">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>State Properties</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="stateIdLabel">
+          <property name="text">
+           <string>ID: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Minimum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="ifThenLabel">
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Conditions</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="scrollConditions">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollConditionsContent">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>318</width>
+             <height>752</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="conditionsLayout">
+            <item>
+             <widget class="QWidget" name="scrollConWidget" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="addConditionButton">
+          <property name="text">
+           <string>+ Add condition</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="transitionPropertiesPanel">
        <widget class="QLabel" name="labelProperties_3">

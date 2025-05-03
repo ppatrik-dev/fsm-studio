@@ -6,6 +6,7 @@
 #include "ui_mainwindow.h"
 #include "FSMView.h"
 #include "FSMScene.h"
+#include "ConditionRowWidget.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -56,6 +57,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->addInput, &QPushButton::clicked, this, &MainWindow::onAddRowButtonClicked);
     connect(ui->addOutput, &QPushButton::clicked, this, &MainWindow::onAddOutputClicked);
     connect(ui->addVariable, &QPushButton::clicked, this, &MainWindow::onAddVariableClicked);
+
+
+    connect(ui->addConditionButton, &QPushButton::clicked, this, [=]() {
+        auto *row = new ConditionRowWidget();
+        ui->conditionsLayout->addWidget(row);
+
+        connect(row, &ConditionRowWidget::requestDelete, this, [=]() {
+            ui->conditionsLayout->removeWidget(row);
+            row->deleteLater();
+        });
+    });
 }
 
 MainWindow::~MainWindow()

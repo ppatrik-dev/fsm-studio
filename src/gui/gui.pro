@@ -7,6 +7,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 
 SOURCES += \
+    ConditionRowWidget.cpp \
     FSMScene.cpp \
     FSMState.cpp \
     FSMTransition.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    ConditionRowWidget.h \
     FSMScene.h \
     FSMState.h \
     FSMTransition.h \
