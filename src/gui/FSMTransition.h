@@ -1,26 +1,37 @@
 #ifndef FSMTRANSITION_H
 #define FSMTRANSITION_H
 
-#include <QGraphicsItem>
+// File: FSMState.h
+// Author: Patrik Prochazka
+// Login: xprochp00
+
 #include "FSMState.h"
 
 class FSMTransition : public QGraphicsItem {
 private:
-    FSMState *m_fromState;
-    FSMState *m_toState;
+    FSMState *m_firstState;
+    FSMState *m_secondState;
     QLineF m_line;
 
 public:
-    FSMTransition(FSMState *from, FSMState *to)
-        : m_fromState(from), m_toState(to) {
-        setZValue(-1);
-        updatePosition();
-    }
+    enum { Type = UserType + 2 };
+    int type() const override { return Type; }
+
+public:
+    explicit FSMTransition(FSMState *from, FSMState *to);
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     void updatePosition();
+
+    FSMState* getFirstState() const {
+        return m_firstState;
+    }
+
+    FSMState* getSecondState() const {
+        return m_secondState;
+    }
 };
 
 #endif // FSMTRANSITION_H

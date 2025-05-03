@@ -1,6 +1,6 @@
 // File: mainwindow.h
-// Author: Patrik Prochazka
-// Login: xprochp00
+// Author: Patrik Prochazka, Filip Ficka
+// Login: xprochp00, xfickaf00
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -9,6 +9,7 @@
 #include "FSMView.h"
 #include "FSMScene.h"
 #include "parser/MooreMachine.h"
+#include "GenericRowWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -28,12 +29,23 @@ public:
 private:
     Ui::MainWindow *ui;
 
-private:
     FSMView *fsmView;
     FSMScene *fsmScene;
     MooreMachine *machine;
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
     void exportJsonRequested(const QString &fileName, MooreMachine &machine);
+
+    QVBoxLayout *inputsLayout;
+    QVBoxLayout *outputsLayout;
+    QVBoxLayout *variablesLayout;
+
+private slots:
+    void onAddRowButtonClicked();
+    void onAddOutputClicked();
+    void onAddVariableClicked();
+
+    void onDeleteRow(GenericRowWidget *row);
 };
+
 #endif // MAINWINDOW_H

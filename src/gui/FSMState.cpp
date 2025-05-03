@@ -4,6 +4,8 @@
 
 #include "FSMState.h"
 #include "FSMTransition.h"
+#include <QMenu>
+#include <QGraphicsSceneContextMenuEvent>
 
 FSMState::FSMState(const QString &label)
     : m_label(label)
@@ -11,11 +13,7 @@ FSMState::FSMState(const QString &label)
     setFlag(ItemIsMovable);
     setFlag(ItemIsSelectable);
     setFlag(ItemSendsGeometryChanges);
-}
-
-void FSMState::addTransition(FSMTransition *transition) {
-    if (!m_transitions.contains(transition))
-        m_transitions.append(transition);
+    setCacheMode(DeviceCoordinateCache);
 }
 
 QRectF FSMState::boundingRect() const {
@@ -42,7 +40,7 @@ void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value) {
     if (change == ItemPositionHasChanged) {
         for (FSMTransition *transition : m_transitions) {
-            transition->updatePosition(); // Update the position of all transitions connected to this state
+            transition->updatePosition();
         }
     }
     return QGraphicsItem::itemChange(change, value);

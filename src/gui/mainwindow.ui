@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1588</width>
+    <width>1473</width>
     <height>1001</height>
    </rect>
   </property>
@@ -59,13 +59,25 @@
    </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,1">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1">
     <item>
      <layout class="QVBoxLayout" name="mainLayout">
       <item>
        <layout class="QHBoxLayout" name="topButtonLayout">
         <item>
          <widget class="QPushButton" name="importButton">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    background-color: #1e62eb;  /* Blue */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+}
+QPushButton:hover {
+    background-color: #1552c4;
+}</string>
+          </property>
           <property name="text">
            <string>Import</string>
           </property>
@@ -80,6 +92,18 @@
         </item>
         <item>
          <widget class="QPushButton" name="runButton">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+    background-color: #1faa3d;  /* Green */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+}
+QPushButton:hover {
+    background-color: #178e33;
+}</string>
+          </property>
           <property name="text">
            <string>Run</string>
           </property>
@@ -101,7 +125,11 @@
        </layout>
       </item>
       <item>
-       <widget class="FSMView" name="fsmGraphicsView"/>
+       <widget class="FSMView" name="fsmGraphicsView">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="bottomLayout">
@@ -144,288 +172,290 @@
      </layout>
     </item>
     <item>
-     <widget class="QFrame" name="rightPanel">
+     <widget class="QStackedWidget" name="rightPanel">
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
-      <layout class="QVBoxLayout" name="rightLayout">
-       <item>
-        <widget class="QLabel" name="labelProperties">
-         <property name="text">
-          <string>Automata Properties</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="nameLineEdit">
-         <property name="text">
-          <string>Testing FSM Automata</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTextEdit" name="descriptionEdit">
-         <property name="plainText">
-          <string>Lorem Ipsum</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupInputs">
-         <property name="title">
-          <string>Inputs</string>
-         </property>
-         <layout class="QVBoxLayout" name="inputsLayout">
-          <item>
-           <widget class="QScrollArea" name="scrollInputs">
-            <property name="widgetResizable">
-             <bool>true</bool>
-            </property>
-            <widget class="QWidget" name="scrollInputsWidget">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>249</width>
-               <height>148</height>
-              </rect>
+      <widget class="QWidget" name="automataPropertiesPanel">
+       <layout class="QVBoxLayout" name="rightLayout">
+        <item>
+         <widget class="QLabel" name="labelProperties">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <italic>false</italic>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Automata Properties</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="automataName">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="lineWidth">
+           <number>0</number>
+          </property>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="nameLineEdit">
+          <property name="text">
+           <string>Testing FSM Automata</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Description</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="descriptionEdit">
+          <property name="plainText">
+           <string>Lorem Ipsum</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupInputs">
+          <property name="title">
+           <string>Inputs</string>
+          </property>
+          <layout class="QVBoxLayout" name="inputsLayout">
+           <item>
+            <widget class="QScrollArea" name="scrollInputs">
+             <property name="widgetResizable">
+              <bool>true</bool>
              </property>
-             <layout class="QVBoxLayout" name="scrollInputsLayout">
-              <item>
-               <layout class="QHBoxLayout" name="inputRow1">
-                <item>
-                 <widget class="QLineEdit" name="inputKey1">
-                  <property name="text">
-                   <string>A</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="inputValue1">
-                  <property name="text">
-                   <string>2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="delInput1">
-                  <property name="text">
-                   <string>🗑️</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="inputRow2">
-                <item>
-                 <widget class="QLineEdit" name="inputKey2">
-                  <property name="text">
-                   <string>Timeout</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="inputValue2">
-                  <property name="text">
-                   <string>500</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="delInput2">
-                  <property name="text">
-                   <string>🗑️</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
+             <widget class="QWidget" name="scrollInputsWidget">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>298</width>
+                <height>129</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="scrollInputsLayout">
+               <item>
+                <widget class="QWidget" name="scrollInWidgets" native="true"/>
+               </item>
+              </layout>
+             </widget>
             </widget>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="addInput">
-            <property name="text">
-             <string>+ Add row</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupOutputs">
-         <property name="title">
-          <string>Outputs</string>
-         </property>
-         <layout class="QVBoxLayout" name="outputsLayout">
-          <item>
-           <widget class="QScrollArea" name="scrollOutputs">
-            <property name="widgetResizable">
-             <bool>true</bool>
-            </property>
-            <widget class="QWidget" name="scrollOutputsWidget">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>249</width>
-               <height>147</height>
-              </rect>
+           </item>
+           <item>
+            <widget class="QPushButton" name="addInput">
+             <property name="text">
+              <string>+ Add row</string>
              </property>
-             <layout class="QVBoxLayout" name="scrollOutputsLayout">
-              <item>
-               <layout class="QHBoxLayout" name="outputRow1">
-                <item>
-                 <widget class="QLineEdit" name="outputKey1">
-                  <property name="text">
-                   <string>A</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="outputValue1">
-                  <property name="text">
-                   <string>2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="delOutput1">
-                  <property name="text">
-                   <string>🗑️</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="outputRow2">
-                <item>
-                 <widget class="QLineEdit" name="outputKey2">
-                  <property name="text">
-                   <string>Timeout</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="outputValue2">
-                  <property name="text">
-                   <string>500</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="delOutput2">
-                  <property name="text">
-                   <string>🗑️</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
             </widget>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="addOutput">
-            <property name="text">
-             <string>+ Add row</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupVariables">
-         <property name="title">
-          <string>Variables</string>
-         </property>
-         <layout class="QVBoxLayout" name="variablesLayout">
-          <item>
-           <widget class="QScrollArea" name="scrollVariables">
-            <property name="widgetResizable">
-             <bool>true</bool>
-            </property>
-            <widget class="QWidget" name="scrollVariablesWidget">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>249</width>
-               <height>147</height>
-              </rect>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupOutputs">
+          <property name="title">
+           <string>Outputs</string>
+          </property>
+          <layout class="QVBoxLayout" name="outputsLayout">
+           <item>
+            <widget class="QScrollArea" name="scrollOutputs">
+             <property name="widgetResizable">
+              <bool>true</bool>
              </property>
-             <layout class="QVBoxLayout" name="scrollVariablesLayout">
-              <item>
-               <layout class="QHBoxLayout" name="varRow1">
-                <item>
-                 <widget class="QLineEdit" name="varKey1">
-                  <property name="text">
-                   <string>A</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="varValue1">
-                  <property name="text">
-                   <string>2</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="delVar1">
-                  <property name="text">
-                   <string>🗑️</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="varRow2">
-                <item>
-                 <widget class="QLineEdit" name="varKey2">
-                  <property name="text">
-                   <string>Timeout</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="varValue2">
-                  <property name="text">
-                   <string>500</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="delVar2">
-                  <property name="text">
-                   <string>🗑️</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
+             <widget class="QWidget" name="scrollOutputsWidget">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>298</width>
+                <height>129</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="scrollOutputsLayout">
+               <item>
+                <widget class="QWidget" name="scrollOutWidgets" native="true"/>
+               </item>
+              </layout>
+             </widget>
             </widget>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="addVariable">
-            <property name="text">
-             <string>+ Add row</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="addOutput">
+             <property name="text">
+              <string>+ Add row</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupVariables">
+          <property name="title">
+           <string>Variables</string>
+          </property>
+          <layout class="QVBoxLayout" name="variablesLayout">
+           <item>
+            <widget class="QScrollArea" name="scrollVariables">
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="scrollVariablesWidget">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>298</width>
+                <height>129</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="scrollVariablesLayout">
+               <item>
+                <widget class="QWidget" name="scrollVarWidgets" native="true"/>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="addVariable">
+             <property name="text">
+              <string>+ Add row</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="statePropertiesPanel">
+       <layout class="QVBoxLayout" name="statePropertiesLayout">
+        <item>
+         <widget class="QLabel" name="labelProperties_2">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>State Properties</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="stateIdLabel">
+          <property name="text">
+           <string>ID: </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Minimum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="ifThenLabel">
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Conditions</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QScrollArea" name="scrollConditions">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollConditionsContent">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>318</width>
+             <height>752</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="conditionsLayout">
+            <item>
+             <widget class="QWidget" name="scrollConWidget" native="true"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="addConditionButton">
+          <property name="text">
+           <string>+ Add condition</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="transitionPropertiesPanel">
+       <widget class="QLabel" name="labelProperties_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>362</width>
+          <height>37</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Transition Properties</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>

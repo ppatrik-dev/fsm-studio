@@ -10,10 +10,12 @@ CONFIG += c++17 \
         moc
 
 SOURCES += \
+    ConditionRowWidget.cpp \
     FSMScene.cpp \
     FSMState.cpp \
     FSMTransition.cpp \
     FSMView.cpp \
+    GenericRowWidget.cpp \
     main.cpp \
     mainwindow.cpp \
     parser/MooreMachine.cpp \
@@ -26,6 +28,7 @@ SOURCES += \
      parser/StepExecutionStrategy.cpp
 
 HEADERS += \
+    ConditionRowWidget.h \
     FSMScene.h \
     FSMState.h \
     FSMTransition.h \
@@ -40,6 +43,8 @@ HEADERS += \
     parser/MooreMachineExecutor.h\
      parser/RunExecutionStrategy.h \
      parser/StepExecutionStrategy.h
+    GenericRowWidget.h \
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
