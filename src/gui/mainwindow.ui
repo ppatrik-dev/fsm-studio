@@ -65,9 +65,44 @@
       <item>
        <layout class="QHBoxLayout" name="topButtonLayout">
         <item>
-         <widget class="QPushButton" name="importButton">
+         <widget class="QFrame" name="toolbarFrame">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="styleSheet">
-           <string notr="true">QPushButton {
+           <string notr="true">QFrame#toolbarFrame{
+    border: 2px solid #666;
+    border-radius: 12px;
+    background-color: #2b2b2b;
+}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QPushButton" name="exportButton">
+             <property name="text">
+              <string>Export</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="importButton">
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
     background-color: #1e62eb;  /* Blue */
     color: white;
     border: none;
@@ -77,23 +112,16 @@
 QPushButton:hover {
     background-color: #1552c4;
 }</string>
-          </property>
-          <property name="text">
-           <string>Import</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="exportButton">
-          <property name="text">
-           <string>Export</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="runButton">
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
+             </property>
+             <property name="text">
+              <string>Import</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="runButton">
+             <property name="styleSheet">
+              <string notr="true">QPushButton {
     background-color: #1faa3d;  /* Green */
     color: white;
     border: none;
@@ -103,10 +131,13 @@ QPushButton:hover {
 QPushButton:hover {
     background-color: #178e33;
 }</string>
-          </property>
-          <property name="text">
-           <string>Run</string>
-          </property>
+             </property>
+             <property name="text">
+              <string>Run</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
@@ -413,8 +444,8 @@ QPushButton:hover {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>318</width>
-             <height>752</height>
+             <width>66</width>
+             <height>28</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="conditionsLayout">
