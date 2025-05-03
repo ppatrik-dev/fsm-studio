@@ -11,6 +11,7 @@ SOURCES += \
     FSMState.cpp \
     FSMTransition.cpp \
     FSMView.cpp \
+    GenericRowWidget.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -19,6 +20,7 @@ HEADERS += \
     FSMState.h \
     FSMTransition.h \
     FSMView.h \
+    GenericRowWidget.h \
     mainwindow.h
 
 FORMS += \

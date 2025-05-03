@@ -1,6 +1,6 @@
 // File: mainwindow.cpp
-// Author: Patrik Prochazka
-// Login: xprochp00
+// Author: Patrik Prochazka, Filip Ficka
+// Login: xprochp00, xfickaf00
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -42,8 +42,71 @@ MainWindow::MainWindow(QWidget *parent)
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
         }
     });
+
+    // Init layouts
+    inputsLayout = new QVBoxLayout();
+    outputsLayout = new QVBoxLayout();
+    variablesLayout = new QVBoxLayout();
+
+    ui->scrollInWidgets->setLayout(inputsLayout);
+    ui->scrollOutWidgets->setLayout(outputsLayout);
+    ui->scrollVarWidgets->setLayout(variablesLayout);
+
+    // map buttons to addrow func
+    connect(ui->addInput, &QPushButton::clicked, this, &MainWindow::onAddRowButtonClicked);
+    connect(ui->addOutput, &QPushButton::clicked, this, &MainWindow::onAddOutputClicked);
+    connect(ui->addVariable, &QPushButton::clicked, this, &MainWindow::onAddVariableClicked);
 }
+
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+// INPUTS
+void MainWindow::onAddRowButtonClicked() {
+    GenericRowWidget *row = new GenericRowWidget(GenericRowWidget::Input);
+    inputsLayout->addWidget(row);
+
+    connect(row, &GenericRowWidget::requestDelete, this, [=]() {
+        inputsLayout->removeWidget(row);
+        row->deleteLater();
+    });
+}
+
+// OUTPUTS
+void MainWindow::onAddOutputClicked() {
+    GenericRowWidget *row = new GenericRowWidget(GenericRowWidget::Output);
+    outputsLayout->addWidget(row);
+
+    connect(row, &GenericRowWidget::requestDelete, this, [=]() {
+        outputsLayout->removeWidget(row);
+        row->deleteLater();
+    });
+}
+
+// VARIABLES
+void MainWindow::onAddVariableClicked() {
+    GenericRowWidget *row = new GenericRowWidget(GenericRowWidget::Variable);
+    variablesLayout->addWidget(row);
+
+    connect(row, &GenericRowWidget::requestDelete, this, [=]() {
+        variablesLayout->removeWidget(row);
+        row->deleteLater();
+    });
+}
+
+void MainWindow::onDeleteRow(GenericRowWidget *row) {
+    if (!row) return;
+
+    // from which layout it came
+    if (inputsLayout->indexOf(row) != -1) {
+        inputsLayout->removeWidget(row);
+    } else if (outputsLayout->indexOf(row) != -1) {
+        outputsLayout->removeWidget(row);
+    } else if (variablesLayout->indexOf(row) != -1) {
+        variablesLayout->removeWidget(row);
+    }
+
+    row->deleteLater();
 }
