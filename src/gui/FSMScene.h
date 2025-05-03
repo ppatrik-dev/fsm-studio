@@ -10,38 +10,52 @@
 #include <QGraphicsLineItem>
 #include "FSMState.h"
 #include "FSMTransition.h"
+#include "parser/MooreMachine.h"
+#include "parser/MooreState.h"
 
-class FSMScene : public QGraphicsScene {
+class FSMScene : public QGraphicsScene
+{
     Q_OBJECT
 
 private:
     int stateCounter;
 
     FSMState *firstSelectedState;
-    QList<FSMState*> m_states;
-    QList<FSMTransition*> m_transitions;
-    enum sceneModeEnum {SELECT_MODE, ADD_TRANSITION_MODE, DELETE_STATE_MODE, DELETE_TRANSITION_MODE};
+    QList<FSMState *> m_states;
+    QList<FSMTransition *> m_transitions;
+    enum sceneModeEnum
+    {
+        SELECT_MODE,
+        ADD_TRANSITION_MODE,
+        DELETE_STATE_MODE,
+        DELETE_TRANSITION_MODE
+    };
     enum sceneModeEnum sceneMode;
 
 public:
     explicit FSMScene(QObject *parent = nullptr);
 
-    inline QList<FSMState*> getFSMStates() const {
+    inline QList<FSMState *> getFSMStates() const
+    {
         return m_states;
     }
 
-    inline QList<FSMTransition*> getTransitions() const {
+    inline QList<FSMTransition *> getTransitions() const
+    {
         return m_transitions;
     }
 
-    inline QString getStateLabel() {
+    inline QString getStateLabel()
+    {
         QString label;
         QChar letter = QChar('A' + (stateCounter % 26));
 
-        if (stateCounter < 26) {
+        if (stateCounter < 26)
+        {
             label = QString(letter);
         }
-        else {
+        else
+        {
             int number = stateCounter / 26;
             label = QString("%1%2").arg(letter).arg(number);
         }
@@ -54,15 +68,18 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void addState(QPointF pos);
+    void addImportState(QString name, const std::shared_ptr<MooreState> &state);
     void addTransition(FSMState *state);
     void deleteTransition(FSMTransition *transition);
     void deleteState(FSMState *state);
 
 public slots:
-    void onAddState(const QPointF &pos);
+    void
+    onAddState(const QPointF &pos);
     void onAddTransition();
     void onDeleteState();
     void onDeleteTransition();
+    void createMachineFile(MooreMachine &machine);
 
 signals:
     void itemSelected(QGraphicsItem *item);

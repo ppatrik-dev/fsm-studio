@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
+    connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
     connect(fsmView, &FSMView::addStateRequested, fsmScene, &FSMScene::onAddState);
     connect(fsmView, &FSMView::addTransitionRequested, fsmScene, &FSMScene::onAddTransition);
     connect(fsmView, &FSMView::deleteStateRequested, fsmScene, &FSMScene::onDeleteState);
@@ -37,16 +38,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(fsmScene, &FSMScene::itemSelected, this, [=](QGraphicsItem *item)
             {
-        if (!item) {
+        if (!item)
+        {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
         }
-        else if (item->type() == FSMState::Type) {
+        else if (item->type() == FSMState::Type)
+        {
             ui->rightPanel->setCurrentWidget(ui->statePropertiesPanel);
         }
-        else if (item->type() == FSMTransition::Type) {
+        else if (item->type() == FSMTransition::Type)
+        {
             ui->rightPanel->setCurrentWidget(ui->transitionPropertiesPanel);
         }
-        else {
+        else
+        {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
         } });
 
@@ -69,15 +74,16 @@ MainWindow::MainWindow(QWidget *parent)
         auto *row = new ConditionRowWidget();
         ui->conditionsLayout->addWidget(row);
 
-        connect(row, &ConditionRowWidget::requestDelete, this, [=]() {
+        connect(row, &ConditionRowWidget::requestDelete, this, [=]()
+                {
             ui->conditionsLayout->removeWidget(row);
-            row->deleteLater();
-        }); });
+            row->deleteLater(); }); });
+
+    emit loadJsonRequested("automate.json", *machine);
+    emit createMachine(*machine);
+    // emit exportJsonRequested("output1.json", *machine);
 }
 
-emit loadJsonRequested("automate.json", *machine);
-emit exportJsonRequested("output1.json", *machine);
-}
 MainWindow::~MainWindow()
 {
     delete ui;

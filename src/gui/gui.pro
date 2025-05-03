@@ -6,7 +6,7 @@ QT += core \
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17 \ 
+CONFIG += c++17 \
         moc
 
 SOURCES += \
@@ -39,12 +39,11 @@ HEADERS += \
     parser/MooreStateFactory.h \
     parser/AutomateJsonDocument.h \
     parser/ActionExecutor.h \
-    IExecutionStrategy.h \
+    parser/IExecutionStrategy.h \
     parser/MooreMachineExecutor.h\
      parser/RunExecutionStrategy.h \
-     parser/StepExecutionStrategy.h
-    GenericRowWidget.h \
-    mainwindow.h
+     parser/StepExecutionStrategy.h \
+    GenericRowWidget.h 
 
 FORMS += \
     mainwindow.ui

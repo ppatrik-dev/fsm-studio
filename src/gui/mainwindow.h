@@ -32,13 +32,15 @@ private:
     FSMView *fsmView;
     FSMScene *fsmScene;
     MooreMachine *machine;
-signals:
-    void loadJsonRequested(const QString &fileName, MooreMachine &machine);
-    void exportJsonRequested(const QString &fileName, MooreMachine &machine);
 
     QVBoxLayout *inputsLayout;
     QVBoxLayout *outputsLayout;
     QVBoxLayout *variablesLayout;
+
+signals:
+    void loadJsonRequested(const QString &fileName, MooreMachine &machine);
+    void exportJsonRequested(const QString &fileName, MooreMachine &machine);
+    void createMachine(MooreMachine &machine);
 
 private slots:
     void onAddRowButtonClicked();

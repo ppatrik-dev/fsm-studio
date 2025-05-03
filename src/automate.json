@@ -10,35 +10,35 @@
     "variables": [
         "var x = 10;"
     ],
-    "start_state": "IDLE",
+    "start_state": "A",
     "states": {
-        "IDLE": {
+        "A": {
             "action": "out = '0';",
             "transitions": [
                 {
-                    "to": "ACTIVE",
+                    "to": "A",
                     "condition": "input[index] == '1'"
                 }
             ]
         },
-        "ACTIVE": {
+        "B": {
             "action": "out = '1';",
             "transitions": [
                 {
-                    "to": "TIMING",
+                    "to": "C",
                     "condition": "input[index] == '1'"
                 }
             ]
         },
-        "TIMING": {
+        "C": {
             "action": "",
             "transitions": [
                 {
-                    "to": "ACTIVE",
+                    "to": "A",
                     "condition": "input[index] == '0'"
                 },
                 {
-                    "to": "IDLE",
+                    "to": "B",
                     "condition": "@timeout"
                 }
             ]
