@@ -15,13 +15,14 @@ class FSMScene : public QGraphicsScene {
     Q_OBJECT
 
 private:
-    int stateCounter;
-
     FSMState *firstSelectedState;
     QList<FSMState*> m_states;
     QList<FSMTransition*> m_transitions;
     enum sceneModeEnum {SELECT_MODE, ADD_TRANSITION_MODE, DELETE_STATE_MODE, DELETE_TRANSITION_MODE};
     enum sceneModeEnum sceneMode;
+
+    int m_labelCount;
+    QList<QString> m_labelList;
 
 public:
     explicit FSMScene(QObject *parent = nullptr);
@@ -36,17 +37,33 @@ public:
 
     inline QString getStateLabel() {
         QString label;
-        QChar letter = QChar('A' + (stateCounter % 26));
 
-        if (stateCounter < 26) {
-            label = QString(letter);
+        if (m_states.count() == 0) {
+            m_labelCount = 0;
+            m_labelList.clear();
+        }
+
+        if (m_labelList.count() > 1 && m_labelCount < 26) {
+            std::sort(m_labelList.begin(), m_labelList.end());
+        }
+
+        if (m_states.count() < m_labelCount) {
+            label = m_labelList.takeFirst();
         }
         else {
-            int number = stateCounter / 26;
-            label = QString("%1%2").arg(letter).arg(number);
-        }
+            int count = m_states.count();
+            QChar letter = QChar('A' + (count % 26));
 
-        stateCounter++;
+            if (count < 26) {
+                label = QString(letter);
+            }
+            else {
+                int number = count / 26;
+                label = QString("%1%2").arg(letter).arg(number);
+            }
+
+            m_labelCount++;
+        }
 
         return label;
     }
@@ -57,12 +74,14 @@ protected:
     void addTransition(FSMState *state);
     void deleteTransition(FSMTransition *transition);
     void deleteState(FSMState *state);
+    void clear();
 
 public slots:
     void onAddState(const QPointF &pos);
     void onAddTransition();
     void onDeleteState();
     void onDeleteTransition();
+    void onClearScene();
 
 signals:
     void itemSelected(QGraphicsItem *item);

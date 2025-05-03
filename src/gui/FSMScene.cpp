@@ -12,7 +12,7 @@
 
 FSMScene::FSMScene(QObject *parent)
     : QGraphicsScene{parent},
-    stateCounter(0), sceneMode(SELECT_MODE)
+    m_labelCount(0), sceneMode(SELECT_MODE)
 {}
 
 void FSMScene::onAddState(const QPointF &pos) {
@@ -20,7 +20,7 @@ void FSMScene::onAddState(const QPointF &pos) {
 }
 
 void FSMScene::onAddTransition() {
-    if (stateCounter < 2) {
+    if (m_states.count() < 2) {
         qDebug() << "Warning: Cannot create transition, 2 states needed\n";
         return;
     }
@@ -43,8 +43,11 @@ void FSMScene::addState(QPointF pos) {
     state->setPos(pos);
     state->setSelected(true);
     addItem(state);
-
     emit itemSelected(state);
+}
+
+void FSMScene::onClearScene() {
+    clear();
 }
 
 void FSMScene::addTransition(FSMState *state) {
@@ -82,13 +85,23 @@ void FSMScene::deleteTransition(FSMTransition *transition) {
 }
 
 void FSMScene::deleteState(FSMState *state) {
-    for (FSMTransition *transition : state->getTransitions()) {
+    m_labelList.append(state->getLabel());
+
+    auto transitions = state->getTransitions();
+    for (FSMTransition *transition : transitions) {
         deleteTransition(transition);
     }
 
     removeItem(state);
     m_states.removeAll(state);
     delete state;
+}
+
+void FSMScene::clear() {
+    auto states = m_states;
+    for (FSMState *state : states) {
+        deleteState(state);
+    }
 }
 
 void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {

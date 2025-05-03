@@ -14,7 +14,9 @@ class FSMTransition;
 
 class FSMState : public QGraphicsItem
 {
+
 private:
+    bool m_hovered = false;
     QString m_label;
     QList<FSMTransition*> m_transitions;
 
@@ -29,6 +31,10 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
+    inline QString getLabel() const {
+        return m_label;
+    }
+
     inline QList<FSMTransition*> getTransitions() const {
         return m_transitions;
     }
@@ -40,6 +46,11 @@ public:
     inline void removeTransition(FSMTransition *transition) {
         m_transitions.removeAll(transition);
     }
+
+protected:
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
+
 };
 
 #endif // FSMSTATE_H

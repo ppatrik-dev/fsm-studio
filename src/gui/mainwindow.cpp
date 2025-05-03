@@ -18,26 +18,27 @@ MainWindow::MainWindow(QWidget *parent)
     fsmScene = new FSMScene(this);
     fsmView->setScene(fsmScene);
 
-    connect(ui->zoomInButton, &QPushButton::clicked, ui->fsmGraphicsView, &FSMView::zoomIn);
-    connect(ui->zoomOutButton, &QPushButton::clicked, ui->fsmGraphicsView, &FSMView::zoomOut);
+    // Control buttons
+    connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
+
+    // FSM scale
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent) {
         ui->zoomLabel->setText(QString::number(percent) + "%");
     });
 
+    // FSM editing
     connect(fsmView, &FSMView::addStateRequested, fsmScene, &FSMScene::onAddState);
     connect(fsmView, &FSMView::addTransitionRequested, fsmScene, &FSMScene::onAddTransition);
     connect(fsmView, &FSMView::deleteStateRequested, fsmScene, &FSMScene::onDeleteState);
     connect(fsmView, &FSMView::deleteTransitionRequested, fsmScene, &FSMScene::onDeleteTransition);
 
+    // Details panel
     connect(fsmScene, &FSMScene::itemSelected, this, [=](QGraphicsItem *item) {
         if (!item) {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
         }
         else if (item->type() == FSMState::Type) {
             ui->rightPanel->setCurrentWidget(ui->statePropertiesPanel);
-        }
-        else if (item->type() == FSMTransition::Type) {
-            ui->rightPanel->setCurrentWidget(ui->transitionPropertiesPanel);
         }
         else {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);

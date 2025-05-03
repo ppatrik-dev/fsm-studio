@@ -59,11 +59,24 @@
    </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,0">
     <item>
      <layout class="QVBoxLayout" name="mainLayout">
       <item>
        <layout class="QHBoxLayout" name="topButtonLayout">
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <widget class="QFrame" name="toolbarFrame">
           <property name="sizePolicy">
@@ -93,25 +106,15 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QPushButton" name="exportButton">
-             <property name="text">
-              <string>Export</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QPushButton" name="importButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="styleSheet">
-              <string notr="true">QPushButton {
-    background-color: #1e62eb;  /* Blue */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 6px 12px;
-}
-QPushButton:hover {
-    background-color: #1552c4;
-}</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>Import</string>
@@ -119,18 +122,41 @@ QPushButton:hover {
             </widget>
            </item>
            <item>
+            <widget class="QPushButton" name="exportButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Export</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="clearButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Clear</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="runButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="styleSheet">
-              <string notr="true">QPushButton {
-    background-color: #1faa3d;  /* Green */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 6px 12px;
-}
-QPushButton:hover {
-    background-color: #178e33;
-}</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>Run</string>
@@ -178,23 +204,9 @@ QPushButton:hover {
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="zoomOutButton">
-          <property name="text">
-           <string>−</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QLabel" name="zoomLabel">
           <property name="text">
            <string>100 %</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="zoomInButton">
-          <property name="text">
-           <string>+</string>
           </property>
          </widget>
         </item>
@@ -224,7 +236,7 @@ QPushButton:hover {
            </font>
           </property>
           <property name="text">
-           <string>Automata Properties</string>
+           <string>FSM details</string>
           </property>
          </widget>
         </item>
@@ -284,7 +296,7 @@ QPushButton:hover {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>298</width>
+                <width>234</width>
                 <height>129</height>
                </rect>
               </property>
@@ -322,7 +334,7 @@ QPushButton:hover {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>298</width>
+                <width>234</width>
                 <height>129</height>
                </rect>
               </property>
@@ -360,7 +372,7 @@ QPushButton:hover {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>298</width>
+                <width>234</width>
                 <height>129</height>
                </rect>
               </property>
@@ -395,7 +407,7 @@ QPushButton:hover {
            </font>
           </property>
           <property name="text">
-           <string>State Properties</string>
+           <string>State details</string>
           </property>
          </widget>
         </item>
@@ -444,8 +456,8 @@ QPushButton:hover {
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>28</height>
+             <width>254</width>
+             <height>752</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="conditionsLayout">
@@ -464,28 +476,6 @@ QPushButton:hover {
          </widget>
         </item>
        </layout>
-      </widget>
-      <widget class="QWidget" name="transitionPropertiesPanel">
-       <widget class="QLabel" name="labelProperties_3">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>362</width>
-          <height>37</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Transition Properties</string>
-        </property>
-       </widget>
       </widget>
      </widget>
     </item>
