@@ -6,8 +6,11 @@ QT += core \
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+QMAKE_CXXFLAGS += -fsanitize=address -fno-omit-frame-pointer
+QMAKE_LFLAGS += -fsanitize=address
+
 CONFIG += c++17 \
-        moc
+        debug
 
 SOURCES += \
     ConditionRowWidget.cpp \

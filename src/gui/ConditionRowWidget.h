@@ -12,6 +12,9 @@ class ConditionRowWidget : public QWidget
 
 public:
     explicit ConditionRowWidget(QWidget *parent = nullptr);
+    void setConditionTexts(const QString &ifText, const QString &thenText);
+    QString getIfText() const;
+    QString getThenText() const;
 
 signals:
     void requestDelete(ConditionRowWidget *self);

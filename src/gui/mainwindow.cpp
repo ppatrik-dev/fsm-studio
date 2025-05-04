@@ -9,6 +9,7 @@
 #include "parser/AutomateJsonDocument.h"
 #include "parser/MooreMachine.h"
 #include "ConditionRowWidget.h"
+#include "FSMState.h"
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -54,13 +55,39 @@ MainWindow::MainWindow(QWidget *parent)
             {
         if (!item) {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
+            clearConditionWidgets();
         }
-        else if (item->type() == FSMState::Type)
-        {
+
+        else if (item->type() == FSMState::Type) {            
             ui->rightPanel->setCurrentWidget(ui->statePropertiesPanel);
+
+            FSMState *state = qgraphicsitem_cast<FSMState*>(item);
+            ui->stateNameLineEdit->setText(state->getLabel());
+
+            // Display conditions
+            for (auto condition : state->getConditions()) {
+                auto row = new ConditionRowWidget();
+                row->setConditionTexts(condition.first, condition.second);
+
+                conditionWidgets.append(row);
+                ui->conditionsLayout->addWidget(row);
+
+                connect(row, &ConditionRowWidget::requestDelete, this, [=]() {
+                    ui->conditionsLayout->removeWidget(row);
+                    conditionWidgets.removeAll(row);
+                    row->deleteLater();
+                });
+            }
+
+            // Save conditions
+            disconnect(ui->saveConditionsButton, nullptr, nullptr, nullptr);
+            connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]() {
+                state->saveConditions(conditionWidgets);
+            });
         }
         else {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
+            clearConditionWidgets();
         } });
 
     // Init layouts
@@ -85,10 +112,21 @@ MainWindow::MainWindow(QWidget *parent)
         connect(row, &ConditionRowWidget::requestDelete, this, [=]()
                 {
             ui->conditionsLayout->removeWidget(row);
-            row->deleteLater(); }); });
+            conditionWidgets.removeAll(row);
+            row->deleteLater();
+        });
 
-    // emit loadJsonRequested("automate.json", *machine);
-    // emit createMachine(*machine);
+        conditionWidgets.append(row); });
+
+    // auto *test = new ConditionRowWidget();
+    // ui->conditionsLayout->addWidget(test);
+
+    // connect(test, &ConditionRowWidget::requestDelete, this, [=]() {
+    //     ui->conditionsLayout->removeWidget(test);
+    //     test->deleteLater();
+    // });
+
+    // test->setConditionTexts("x > 5", "doSomething()");
 }
 
 MainWindow::~MainWindow()
@@ -171,4 +209,15 @@ void MainWindow::onDeleteRow(GenericRowWidget *row)
     }
 
     row->deleteLater();
+}
+void MainWindow::clearConditionWidgets()
+{
+    for (ConditionRowWidget *row : conditionWidgets)
+    {
+        if (row)
+        {
+            row->deleteLater();
+        }
+    }
+    conditionWidgets.clear();
 }

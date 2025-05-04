@@ -4,8 +4,10 @@
 
 #include "FSMState.h"
 #include "FSMTransition.h"
+#include "ConditionRowWidget.h"
 #include <QMenu>
 #include <QGraphicsSceneContextMenuEvent>
+#include <QDebug>
 
 FSMState::FSMState(const QString &label)
     : m_label(label)
@@ -47,6 +49,14 @@ QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value) 
         }
     }
     return QGraphicsItem::itemChange(change, value);
+}
+
+void FSMState::saveConditions(QList<ConditionRowWidget*> conditionsRows) {
+    m_conditions.clear();
+
+    for (auto row : conditionsRows) {
+        m_conditions.append({row->getIfText(), row->getThenText()});
+    }
 }
 
 void FSMState::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {

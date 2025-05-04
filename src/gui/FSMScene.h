@@ -24,6 +24,7 @@ private:
     FSMState *firstSelectedState;
     QMap<QString, FSMState *> m_states;
     QList<FSMTransition *> m_transitions;
+    MooreMachine *machine;
     enum sceneModeEnum
     {
         SELECT_MODE,
@@ -32,7 +33,6 @@ private:
         DELETE_TRANSITION_MODE
     };
     enum sceneModeEnum sceneMode;
-    MooreMachine *machine;
 
 public:
     explicit FSMScene(QObject *parent = nullptr);

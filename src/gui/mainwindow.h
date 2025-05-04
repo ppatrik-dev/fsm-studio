@@ -10,6 +10,7 @@
 #include "FSMScene.h"
 #include "parser/MooreMachine.h"
 #include "GenericRowWidget.h"
+#include "ConditionRowWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -36,6 +37,7 @@ private:
     QVBoxLayout *inputsLayout;
     QVBoxLayout *outputsLayout;
     QVBoxLayout *variablesLayout;
+    QList<ConditionRowWidget*> conditionWidgets;
 
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -50,6 +52,7 @@ private slots:
     void onExportFileClicked();
 
     void onDeleteRow(GenericRowWidget *row);
+    void clearConditionWidgets();
 };
 
 #endif // MAINWINDOW_H
