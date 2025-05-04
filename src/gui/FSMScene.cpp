@@ -58,7 +58,7 @@ void FSMScene::addImportState(QString name, const std::shared_ptr<MooreState> &m
 {
     FSMState *state = new FSMState(name);
     state->setMooreState(mooreState);
-    m_states.append(state);
+    m_states.insert(name, state);
 }
 
 void FSMScene::onClearScene()

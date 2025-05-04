@@ -19,6 +19,8 @@ class FSMScene : public QGraphicsScene
     Q_OBJECT
 
 private:
+    int m_labelCount;
+    QList<QString> m_labelList;
     FSMState *firstSelectedState;
     QMap<QString, FSMState *> m_states;
     QList<FSMTransition *> m_transitions;
@@ -30,9 +32,6 @@ private:
         DELETE_TRANSITION_MODE
     };
     enum sceneModeEnum sceneMode;
-
-    int m_labelCount;
-    QList<QString> m_labelList;
 
 public:
     explicit FSMScene(QObject *parent = nullptr);

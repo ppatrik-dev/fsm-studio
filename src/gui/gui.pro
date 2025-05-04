@@ -2,7 +2,7 @@ TARGET = icp-fsm-app
 
 QT += core \
       gui \
-      qml 
+      qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

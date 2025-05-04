@@ -29,11 +29,6 @@ public:
     };
     int type() const override { return Type; }
 
-    QString getLabel() const
-    {
-        return m_label;
-    }
-
     void setMooreState(const std::shared_ptr<MooreState> &state)
     {
         m_state = state;
@@ -51,31 +46,29 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
+    inline QString getLabel() const
+    {
+        return m_label;
+    }
+
     inline QList<FSMTransition *> getTransitions() const
     {
-        inline QString getLabel() const
-        {
-            return m_label;
-        }
+        return m_transitions;
+    }
 
-        inline QList<FSMTransition *> getTransitions() const
-        {
-            return m_transitions;
-        }
+    inline void appendTransition(FSMTransition * transition)
+    {
+        m_transitions.append(transition);
+    }
 
-        inline void appendTransition(FSMTransition * transition)
-        {
-            m_transitions.append(transition);
-        }
+    inline void removeTransition(FSMTransition * transition)
+    {
+        m_transitions.removeAll(transition);
+    }
 
-        inline void removeTransition(FSMTransition * transition)
-        {
-            m_transitions.removeAll(transition);
-        }
-
-    protected:
-        void hoverEnterEvent(QGraphicsSceneHoverEvent * event) override;
-        void hoverLeaveEvent(QGraphicsSceneHoverEvent * event) override;
-    };
+protected:
+    void hoverEnterEvent(QGraphicsSceneHoverEvent * event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent * event) override;
+};
 
 #endif // FSMSTATE_H
