@@ -66,3 +66,16 @@ ConditionRowWidget::ConditionRowWidget(QWidget *parent)
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(frame);
 }
+
+void ConditionRowWidget::setConditionTexts(const QString &ifText, const QString &thenText) {
+    ifEdit->setPlainText(ifText);
+    thenEdit->setPlainText(thenText);
+}
+
+QString ConditionRowWidget::getIfText() const {
+    return ifEdit->toPlainText();
+}
+
+QString ConditionRowWidget::getThenText() const {
+    return thenEdit->toPlainText();
+}

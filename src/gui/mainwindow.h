@@ -9,6 +9,7 @@
 #include "FSMView.h"
 #include "FSMScene.h"
 #include "GenericRowWidget.h"
+#include "ConditionRowWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,6 +34,7 @@ private:
     QVBoxLayout *inputsLayout;
     QVBoxLayout *outputsLayout;
     QVBoxLayout *variablesLayout;
+    QList<ConditionRowWidget*> conditionWidgets;
 
 private slots:
     void onAddRowButtonClicked();
@@ -40,6 +42,7 @@ private slots:
     void onAddVariableClicked();
 
     void onDeleteRow(GenericRowWidget *row);
+    void clearConditionWidgets();
 };
 
 #endif // MAINWINDOW_H

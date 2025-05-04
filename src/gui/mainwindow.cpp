@@ -6,7 +6,6 @@
 #include "ui_mainwindow.h"
 #include "FSMView.h"
 #include "FSMScene.h"
-#include "ConditionRowWidget.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -36,12 +35,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmScene, &FSMScene::itemSelected, this, [=](QGraphicsItem *item) {
         if (!item) {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
+            clearConditionWidgets();
         }
         else if (item->type() == FSMState::Type) {
             ui->rightPanel->setCurrentWidget(ui->statePropertiesPanel);
         }
         else {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
+            clearConditionWidgets();
         }
     });
 
@@ -66,9 +67,22 @@ MainWindow::MainWindow(QWidget *parent)
 
         connect(row, &ConditionRowWidget::requestDelete, this, [=]() {
             ui->conditionsLayout->removeWidget(row);
+            conditionWidgets.removeAll(row);
             row->deleteLater();
         });
+
+        conditionWidgets.append(row);
     });
+
+    // auto *test = new ConditionRowWidget();
+    // ui->conditionsLayout->addWidget(test);
+
+    // connect(test, &ConditionRowWidget::requestDelete, this, [=]() {
+    //     ui->conditionsLayout->removeWidget(test);
+    //     test->deleteLater();
+    // });
+
+    // test->setConditionTexts("x > 5", "doSomething()");
 }
 
 MainWindow::~MainWindow()
@@ -123,3 +137,12 @@ void MainWindow::onDeleteRow(GenericRowWidget *row) {
 
     row->deleteLater();
 }
+void MainWindow::clearConditionWidgets() {
+    for (ConditionRowWidget *row : conditionWidgets) {
+        if (row) {
+            row->deleteLater();
+        }
+    }
+    conditionWidgets.clear();
+}
+
