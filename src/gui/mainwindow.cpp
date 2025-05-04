@@ -6,6 +6,7 @@
 #include "ui_mainwindow.h"
 #include "FSMView.h"
 #include "FSMScene.h"
+#include "FSMState.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -37,8 +38,33 @@ MainWindow::MainWindow(QWidget *parent)
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
             clearConditionWidgets();
         }
-        else if (item->type() == FSMState::Type) {
+
+        else if (item->type() == FSMState::Type) {            
             ui->rightPanel->setCurrentWidget(ui->statePropertiesPanel);
+
+            FSMState *state = qgraphicsitem_cast<FSMState*>(item);
+            ui->stateNameLineEdit->setText(state->getLabel());
+
+            // Display conditions
+            for (auto condition : state->getConditions()) {
+                auto row = new ConditionRowWidget();
+                row->setConditionTexts(condition.first, condition.second);
+
+                conditionWidgets.append(row);
+                ui->conditionsLayout->addWidget(row);
+
+                connect(row, &ConditionRowWidget::requestDelete, this, [=]() {
+                    ui->conditionsLayout->removeWidget(row);
+                    conditionWidgets.removeAll(row);
+                    row->deleteLater();
+                });
+            }
+
+            // Save conditions
+            disconnect(ui->saveConditionsButton, nullptr, nullptr, nullptr);
+            connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]() {
+                state->saveConditions(conditionWidgets);
+            });
         }
         else {
             ui->rightPanel->setCurrentWidget(ui->automataPropertiesPanel);
@@ -59,7 +85,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->addInput, &QPushButton::clicked, this, &MainWindow::onAddRowButtonClicked);
     connect(ui->addOutput, &QPushButton::clicked, this, &MainWindow::onAddOutputClicked);
     connect(ui->addVariable, &QPushButton::clicked, this, &MainWindow::onAddVariableClicked);
-
 
     connect(ui->addConditionButton, &QPushButton::clicked, this, [=]() {
         auto *row = new ConditionRowWidget();

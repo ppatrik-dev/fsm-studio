@@ -6,19 +6,21 @@
 #define FSMSTATE_H
 
 #include <QGraphicsItem>
+#include <QPair>
 #include <QString>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
+#include <ConditionRowWidget.h>
+#include <QVBoxLayout>
 
 class FSMTransition;
 
-class FSMState : public QGraphicsItem
-{
-
+class FSMState : public QGraphicsItem {
 private:
     bool m_hovered = false;
     QString m_label;
     QList<FSMTransition*> m_transitions;
+    QList<QPair<QString, QString>> m_conditions;
 
 public:
     enum { Type = UserType + 1};
@@ -33,6 +35,10 @@ public:
 
     inline QString getLabel() const {
         return m_label;
+    }
+
+    inline QList<QPair<QString, QString>> getConditions() const {
+        return m_conditions;
     }
 
     inline QList<FSMTransition*> getTransitions() const {
@@ -51,6 +57,8 @@ protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 
+public:
+    void saveConditions(QList<ConditionRowWidget*> conditionsRows);
 };
 
 #endif // FSMSTATE_H

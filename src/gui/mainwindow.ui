@@ -104,7 +104,7 @@
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
             <widget class="QPushButton" name="importButton">
              <property name="sizePolicy">
@@ -412,11 +412,46 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="stateIdLabel">
-          <property name="text">
-           <string>ID: </string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="stateLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <italic>false</italic>
+              <bold>true</bold>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="stateNameLineEdit">
+            <property name="font">
+             <font>
+              <italic>true</italic>
+             </font>
+            </property>
+            <property name="text">
+             <string>IDLE</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <spacer name="verticalSpacer">
@@ -424,7 +459,7 @@
            <enum>Qt::Vertical</enum>
           </property>
           <property name="sizeType">
-           <enum>QSizePolicy::Minimum</enum>
+           <enum>QSizePolicy::Fixed</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -457,14 +492,10 @@
              <x>0</x>
              <y>0</y>
              <width>254</width>
-             <height>730</height>
+             <height>726</height>
             </rect>
            </property>
-           <layout class="QVBoxLayout" name="conditionsLayout">
-            <item>
-             <widget class="QWidget" name="scrollConWidget" native="true"/>
-            </item>
-           </layout>
+           <layout class="QVBoxLayout" name="conditionsLayout"/>
           </widget>
          </widget>
         </item>
@@ -491,7 +522,7 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="saveConditionsButton">
              <property name="text">
               <string>Save</string>
              </property>
@@ -500,7 +531,7 @@
            <item>
             <widget class="QPushButton" name="addConditionButton">
              <property name="text">
-              <string>+ Add condition</string>
+              <string>Add</string>
              </property>
             </widget>
            </item>

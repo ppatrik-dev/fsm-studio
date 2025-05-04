@@ -14,9 +14,9 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -O2 -std=gnu++1z -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
+DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+CFLAGS        = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -g -std=gnu++1z -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -Igui -I. -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
@@ -37,9 +37,9 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = icp-fsm-app1.0.0
-DISTDIR = /home/aresgornos/ICP/src/.tmp/icp-fsm-app1.0.0
+DISTDIR = /home/xprochp00/2bit/letny/icp/ICP-Project/src/.tmp/icp-fsm-app1.0.0
 LINK          = g++
-LFLAGS        = -Wl,-O1
+LFLAGS        = 
 LIBS          = $(SUBLIBS) /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
@@ -383,7 +383,7 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
-	g++ -pipe -O2 -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
+	g++ -pipe -g -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: moc_ConditionRowWidget.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_GenericRowWidget.cpp moc_mainwindow.cpp
 compiler_moc_header_clean:
@@ -391,37 +391,40 @@ compiler_moc_header_clean:
 moc_ConditionRowWidget.cpp: gui/ConditionRowWidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/aresgornos/ICP/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/aresgornos/ICP/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/ConditionRowWidget.h -o moc_ConditionRowWidget.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/ConditionRowWidget.h -o moc_ConditionRowWidget.cpp
 
 moc_FSMScene.cpp: gui/FSMScene.h \
 		gui/FSMState.h \
+		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/aresgornos/ICP/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/aresgornos/ICP/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMScene.h -o moc_FSMScene.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMScene.h -o moc_FSMScene.cpp
 
 moc_FSMView.cpp: gui/FSMView.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
+		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/aresgornos/ICP/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/aresgornos/ICP/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMView.h -o moc_FSMView.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMView.h -o moc_FSMView.cpp
 
 moc_GenericRowWidget.cpp: gui/GenericRowWidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/aresgornos/ICP/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/aresgornos/ICP/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/GenericRowWidget.h -o moc_GenericRowWidget.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/GenericRowWidget.h -o moc_GenericRowWidget.cpp
 
 moc_mainwindow.cpp: gui/mainwindow.h \
 		gui/FSMView.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
+		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h \
 		gui/GenericRowWidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/aresgornos/ICP/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/aresgornos/ICP/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -435,6 +438,7 @@ ui_mainwindow.h: gui/mainwindow.ui \
 		gui/FSMView.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
+		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h
 	/usr/lib/qt5/bin/uic gui/mainwindow.ui -o ui_mainwindow.h
 
@@ -453,20 +457,24 @@ ConditionRowWidget.o: gui/ConditionRowWidget.cpp gui/ConditionRowWidget.h
 
 FSMScene.o: gui/FSMScene.cpp gui/FSMScene.h \
 		gui/FSMState.h \
+		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMScene.o gui/FSMScene.cpp
 
 FSMState.o: gui/FSMState.cpp gui/FSMState.h \
+		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMState.o gui/FSMState.cpp
 
 FSMTransition.o: gui/FSMTransition.cpp gui/FSMTransition.h \
-		gui/FSMState.h
+		gui/FSMState.h \
+		gui/ConditionRowWidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMTransition.o gui/FSMTransition.cpp
 
 FSMView.o: gui/FSMView.cpp gui/FSMView.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
+		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMView.o gui/FSMView.cpp
 
@@ -477,6 +485,7 @@ main.o: gui/main.cpp gui/mainwindow.h \
 		gui/FSMView.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
+		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h \
 		gui/GenericRowWidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o gui/main.cpp
@@ -485,10 +494,10 @@ mainwindow.o: gui/mainwindow.cpp gui/mainwindow.h \
 		gui/FSMView.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
+		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h \
 		gui/GenericRowWidget.h \
-		ui_mainwindow.h \
-		gui/ConditionRowWidget.h
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o gui/mainwindow.cpp
 
 moc_ConditionRowWidget.o: moc_ConditionRowWidget.cpp 
@@ -511,7 +520,6 @@ moc_mainwindow.o: moc_mainwindow.cpp
 install_target: first FORCE
 	@test -d $(INSTALL_ROOT)/opt/icp-fsm-app/bin || mkdir -p $(INSTALL_ROOT)/opt/icp-fsm-app/bin
 	$(QINSTALL_PROGRAM) $(QMAKE_TARGET) $(INSTALL_ROOT)/opt/icp-fsm-app/bin/$(QMAKE_TARGET)
-	-$(STRIP) $(INSTALL_ROOT)/opt/icp-fsm-app/bin/$(QMAKE_TARGET)
 
 uninstall_target: FORCE
 	-$(DEL_FILE) $(INSTALL_ROOT)/opt/icp-fsm-app/bin/$(QMAKE_TARGET)
