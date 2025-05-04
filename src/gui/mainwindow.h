@@ -46,6 +46,7 @@ private slots:
     void onAddRowButtonClicked();
     void onAddOutputClicked();
     void onAddVariableClicked();
+    void onImportFileClicked();
 
     void onDeleteRow(GenericRowWidget *row);
 };

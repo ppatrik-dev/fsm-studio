@@ -10,7 +10,7 @@
 #include "parser/MooreMachine.h"
 #include "ConditionRowWidget.h"
 #include <QDebug>
-#include <QFIleDialog>
+#include <QFileDialog>
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
     // Control buttons
     connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
-
+    connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     // FSM scale
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
@@ -84,8 +84,8 @@ MainWindow::MainWindow(QWidget *parent)
             ui->conditionsLayout->removeWidget(row);
             row->deleteLater(); }); });
 
-    emit loadJsonRequested("automate.json", *machine);
-    emit createMachine(*machine);
+    // emit loadJsonRequested("automate.json", *machine);
+    // emit createMachine(*machine);
     // emit exportJsonRequested("output1.json", *machine);
 }
 
@@ -94,10 +94,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::onImportFile()
+void MainWindow::onImportFileClicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
-    QMessage::information(this, tr("File Name"), filename);
     emit loadJsonRequested(filename, *machine);
     emit createMachine(*machine);
 }
