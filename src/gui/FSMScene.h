@@ -19,11 +19,12 @@ private:
     FSMState *firstSelectedState;
     QMap<QString, FSMState*> m_states;
     QList<FSMTransition*> m_transitions;
-    enum sceneModeEnum {SELECT_MODE, ADD_TRANSITION_MODE, DELETE_STATE_MODE, DELETE_TRANSITION_MODE};
-    enum sceneModeEnum sceneMode;
-
+    
     int m_labelCount;
     QList<QString> m_labelList;
+    
+    enum sceneModeEnum {SELECT_MODE, ADD_TRANSITION_MODE, DELETE_STATE_MODE, DELETE_TRANSITION_MODE};
+    enum sceneModeEnum sceneMode;
 
 public:
     explicit FSMScene(QObject *parent = nullptr);
