@@ -23,6 +23,7 @@ private:
     std::shared_ptr<MooreState> m_state;
 
 public:
+    QPointF m_displacement;
     enum
     {
         Type = UserType + 1
@@ -56,19 +57,19 @@ public:
         return m_transitions;
     }
 
-    inline void appendTransition(FSMTransition * transition)
+    inline void appendTransition(FSMTransition *transition)
     {
         m_transitions.append(transition);
     }
 
-    inline void removeTransition(FSMTransition * transition)
+    inline void removeTransition(FSMTransition *transition)
     {
         m_transitions.removeAll(transition);
     }
 
 protected:
-    void hoverEnterEvent(QGraphicsSceneHoverEvent * event) override;
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent * event) override;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 };
 
 #endif // FSMSTATE_H

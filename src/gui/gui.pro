@@ -25,7 +25,8 @@ SOURCES += \
     parser/ActionExecutor.cpp \
      parser/MooreMachineExecutor.cpp\
      parser/RunExecutionStrategy.cpp \
-     parser/StepExecutionStrategy.cpp
+     parser/StepExecutionStrategy.cpp \
+     ForceDirectedLayout.cpp
 
 HEADERS += \
     ConditionRowWidget.h \
@@ -43,7 +44,8 @@ HEADERS += \
     parser/MooreMachineExecutor.h\
      parser/RunExecutionStrategy.h \
      parser/StepExecutionStrategy.h \
-    GenericRowWidget.h 
+    GenericRowWidget.h \
+    ForceDirectedLayout.h
 
 FORMS += \
     mainwindow.ui

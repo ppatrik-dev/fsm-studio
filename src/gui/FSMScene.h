@@ -93,6 +93,9 @@ protected:
     void addTransition(FSMState *state);
     void deleteTransition(FSMTransition *transition);
     void deleteState(FSMState *state);
+    void addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState);
+    void displayAutomaton(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions);
+    FSMState *getStateByName(const QString &name) const;
     void clear();
 
 public slots:

@@ -1,8 +1,8 @@
 {
     "automate_name": "TOF5s",
-    "automate_comment": "Timer to off, jednoduchá verze",
+    "automate_comment": "Timer to off, rozšířená verze na testovanie",
     "inputs": [
-        "var input = '1101';"
+        "var input = '1101001';"
     ],
     "outputs": [
         "var output;"
@@ -18,6 +18,10 @@
                 {
                     "to": "A",
                     "condition": "input[index] == '1'"
+                },
+                {
+                    "to": "D",
+                    "condition": "input[index] == '0'"
                 }
             ]
         },
@@ -40,6 +44,37 @@
                 {
                     "to": "B",
                     "condition": "@timeout"
+                }
+            ]
+        },
+        "D": {
+            "action": "x = x - 1;",
+            "transitions": [
+                {
+                    "to": "E",
+                    "condition": "x <= 5"
+                },
+                {
+                    "to": "A",
+                    "condition": "input[index] == '1'"
+                }
+            ]
+        },
+        "E": {
+            "action": "out = '1';",
+            "transitions": [
+                {
+                    "to": "F",
+                    "condition": "@timeout"
+                }
+            ]
+        },
+        "F": {
+            "action": "out = '0';",
+            "transitions": [
+                {
+                    "to": "A",
+                    "condition": "true"
                 }
             ]
         }

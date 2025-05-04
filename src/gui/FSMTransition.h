@@ -7,14 +7,18 @@
 
 #include "FSMState.h"
 
-class FSMTransition : public QGraphicsItem {
+class FSMTransition : public QGraphicsItem
+{
 private:
     FSMState *m_firstState;
     FSMState *m_secondState;
     QLineF m_line;
 
 public:
-    enum { Type = UserType + 2 };
+    enum
+    {
+        Type = UserType + 2
+    };
     int type() const override { return Type; }
 
 public:
@@ -25,13 +29,16 @@ public:
 
     void updatePosition();
 
-    FSMState* getFirstState() const {
+    FSMState *getFirstState() const
+    {
         return m_firstState;
     }
 
-    FSMState* getSecondState() const {
+    FSMState *getSecondState() const
+    {
         return m_secondState;
     }
+    FSMState *target() const;
 };
 
 #endif // FSMTRANSITION_H

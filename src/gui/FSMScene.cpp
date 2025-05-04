@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QGraphicsLineItem>
 #include <QGraphicsSceneMouseEvent>
+#include "ForceDirectedLayout.h"
 
 FSMScene::FSMScene(QObject *parent)
     : QGraphicsScene{parent},
@@ -59,6 +60,18 @@ void FSMScene::addImportState(QString name, const std::shared_ptr<MooreState> &m
     FSMState *state = new FSMState(name);
     state->setMooreState(mooreState);
     m_states.insert(name, state);
+}
+
+void FSMScene::addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState)
+{
+    FSMTransition *transition = new FSMTransition(firstSelectedState, secondSelectedState);
+    m_transitions.append(transition);
+    firstSelectedState->appendTransition(transition);
+    secondSelectedState->appendTransition(transition);
+}
+FSMState *FSMScene::getStateByName(const QString &name) const
+{
+    return m_states.value(name, nullptr);
 }
 
 void FSMScene::onClearScene()
@@ -206,5 +219,30 @@ void FSMScene::createMachineFile(MooreMachine &machine)
         const std::shared_ptr<MooreState> &state = it.value();
         QString name = it.key();
         addImportState(name, state);
+    }
+
+    for (FSMState *state : m_states)
+    {
+        for (const auto &transition : state->getMooreState()->transitions)
+        {
+            addImportTransition(state, getStateByName(transition.getTarget()));
+        }
+    }
+    displayAutomaton(m_states.values(), m_transitions);
+}
+
+void FSMScene::displayAutomaton(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions)
+{
+    ForceDirectedLayout layout;
+    layout.applyLayout(states, transitions, 800, 600, 100);
+
+    for (FSMState *state : states)
+    {
+        addItem(state);
+    }
+
+    for (FSMTransition *transition : transitions)
+    {
+        addItem(transition);
     }
 }
