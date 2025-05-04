@@ -1,7 +1,15 @@
 #include "MooreMachine.h"
 
-MooreMachine::MooreMachine(const QString &name, const QString &comment)
-    : automate_name(name), automate_comment(comment) {}
+MooreMachine::MooreMachine(QObject *parent)
+    : QObject(parent) {}
+
+MooreMachine::MooreMachine(const QString &name, const QString &comment, QObject *parent)
+    : QObject(parent), automate_name(name), automate_comment(comment) {}
+
+MooreMachine::~MooreMachine()
+{
+    states.clear(); // not strictly needed, smart pointers will destruct
+}
 
 void MooreMachine::setName(const QString &name)
 {

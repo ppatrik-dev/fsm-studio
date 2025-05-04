@@ -20,8 +20,10 @@ class MooreMachine : public QObject
 
 public:
     QMap<QString, std::shared_ptr<MooreState>> states;
-    MooreMachine() = default;
-    MooreMachine(const QString &name, const QString &comment);
+    explicit MooreMachine(QObject *parent = nullptr);
+    MooreMachine(const QString &name, const QString &comment, QObject *parent = nullptr);
+
+    ~MooreMachine() override;
 
     void setName(const QString &name);
     void setComment(const QString &comment);

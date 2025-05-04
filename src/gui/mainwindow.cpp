@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     fsmView = ui->fsmGraphicsView;
     fsmScene = new FSMScene(this);
     fsmView->setScene(fsmScene);
-    machine = new MooreMachine();
+    machine = new MooreMachine(this);
     fsmScene->setMachine(machine);
     fsmScene->addConnects();
 
@@ -106,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->addConditionButton, &QPushButton::clicked, this, [=]()
             {
-        auto *row = new ConditionRowWidget();
+        auto *row = new ConditionRowWidget(this);
         ui->conditionsLayout->addWidget(row);
 
         connect(row, &ConditionRowWidget::requestDelete, this, [=]()
@@ -156,7 +156,7 @@ void MainWindow::onImportFileClicked()
 // INPUTS
 void MainWindow::onAddRowButtonClicked()
 {
-    GenericRowWidget *row = new GenericRowWidget(GenericRowWidget::Input);
+    GenericRowWidget *row = new GenericRowWidget(GenericRowWidget::Input, this);
     inputsLayout->addWidget(row);
 
     connect(row, &GenericRowWidget::requestDelete, this, [=]()
@@ -168,7 +168,7 @@ void MainWindow::onAddRowButtonClicked()
 // OUTPUTS
 void MainWindow::onAddOutputClicked()
 {
-    GenericRowWidget *row = new GenericRowWidget(GenericRowWidget::Output);
+    GenericRowWidget *row = new GenericRowWidget(GenericRowWidget::Output, this);
     outputsLayout->addWidget(row);
 
     connect(row, &GenericRowWidget::requestDelete, this, [=]()
@@ -180,7 +180,7 @@ void MainWindow::onAddOutputClicked()
 // VARIABLES
 void MainWindow::onAddVariableClicked()
 {
-    GenericRowWidget *row = new GenericRowWidget(GenericRowWidget::Variable);
+    GenericRowWidget *row = new GenericRowWidget(GenericRowWidget::Variable, this);
     variablesLayout->addWidget(row);
 
     connect(row, &GenericRowWidget::requestDelete, this, [=]()
