@@ -18,5 +18,5 @@ public:
     QString getOutput() const override;
     bool isFinal() const override;
     const QVector<MooreTransition> &getTransitions() const;
-    void addTransition(QString &input, QString &target) override;
+    void addTransition(const QString &input, const QString &target) override;
 };

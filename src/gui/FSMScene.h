@@ -32,10 +32,12 @@ private:
         DELETE_TRANSITION_MODE
     };
     enum sceneModeEnum sceneMode;
+    MooreMachine *machine;
 
 public:
     explicit FSMScene(QObject *parent = nullptr);
-
+    void setMachine(MooreMachine *machine);
+    void addConnects();
     inline QMap<QString, FSMState *> getFSMStates() const
     {
         return m_states;
@@ -96,6 +98,7 @@ protected:
     void addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState);
     void displayAutomaton(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions);
     FSMState *getStateByName(const QString &name) const;
+
     void clear();
 
 public slots:
@@ -109,6 +112,8 @@ public slots:
 
 signals:
     void itemSelected(QGraphicsItem *item);
+    void createStateRequested(std::shared_ptr<MooreState> &state, const QString &stateName, const QString &output);
+    void createTransitionRequest(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetname);
 };
 
 #endif // FSMSCENE_H

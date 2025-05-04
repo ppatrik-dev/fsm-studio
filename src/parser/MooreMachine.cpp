@@ -46,6 +46,16 @@ void MooreMachine::addState(const QString &name, const std::shared_ptr<MooreStat
     states.insert(name, state);
 }
 
+void MooreMachine::createAndAddState(std::shared_ptr<MooreState> &state, const QString &stateName, const QString &output)
+{
+    state = std::make_shared<MooreState>(stateName, output);
+    addState(stateName, state);
+}
+void MooreMachine::createTransition(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetStateName)
+{
+    state->addTransition(action, targetStateName);
+}
+
 std::shared_ptr<MooreState> MooreMachine::getState(const QString &name)
 {
     return states.value(name, nullptr);

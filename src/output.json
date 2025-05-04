@@ -1,47 +1,27 @@
 {
-    "automate_comment": "Timer to off, jednoduchá verze",
-    "automate_name": "TOF5s",
+    "automate_comment": "",
+    "automate_name": "",
     "inputs": [
-        "var input = '1';"
     ],
     "outputs": [
-        "var output;"
     ],
-    "start_state": "IDLE",
+    "start_state": "",
     "states": {
-        "ACTIVE": {
-            "action": "out = '1';",
+        "A": {
+            "action": "Output1",
             "transitions": [
                 {
-                    "condition": "input == '1'",
-                    "to": "TIMING"
+                    "condition": "",
+                    "to": "B"
                 }
             ]
         },
-        "IDLE": {
-            "action": "out = '0';",
+        "B": {
+            "action": "Output1",
             "transitions": [
-                {
-                    "condition": "input == '1'",
-                    "to": "ACTIVE"
-                }
-            ]
-        },
-        "TIMING": {
-            "action": "",
-            "transitions": [
-                {
-                    "condition": "input == '0'",
-                    "to": "ACTIVE"
-                },
-                {
-                    "condition": "@timeout",
-                    "to": "IDLE"
-                }
             ]
         }
     },
     "variables": [
-        "var x = 10;"
     ]
 }

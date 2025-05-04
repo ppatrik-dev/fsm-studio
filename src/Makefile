@@ -72,6 +72,7 @@ SOURCES       = gui/ConditionRowWidget.cpp \
 		moc_FSMScene.cpp \
 		moc_FSMView.cpp \
 		moc_mainwindow.cpp \
+		moc_MooreMachine.cpp \
 		moc_AutomateJsonDocument.cpp \
 		moc_ActionExecutor.cpp \
 		moc_GenericRowWidget.cpp
@@ -96,6 +97,7 @@ OBJECTS       = ConditionRowWidget.o \
 		moc_FSMScene.o \
 		moc_FSMView.o \
 		moc_mainwindow.o \
+		moc_MooreMachine.o \
 		moc_AutomateJsonDocument.o \
 		moc_ActionExecutor.o \
 		moc_GenericRowWidget.o
@@ -442,9 +444,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++1z -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_ConditionRowWidget.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp
+compiler_moc_header_make_all: moc_ConditionRowWidget.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_ConditionRowWidget.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp
+	-$(DEL_FILE) moc_ConditionRowWidget.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp
 moc_ConditionRowWidget.cpp: gui/ConditionRowWidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -486,6 +488,14 @@ moc_mainwindow.cpp: gui/mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/miroslav/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/miroslav/icp/ICP-Project/src/gui -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/mainwindow.h -o moc_mainwindow.cpp
+
+moc_MooreMachine.cpp: parser/MooreMachine.h \
+		parser/MooreState.h \
+		parser/IMooreState.h \
+		parser/MooreTransition.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/miroslav/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/miroslav/icp/ICP-Project/src/gui -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include parser/MooreMachine.h -o moc_MooreMachine.cpp
 
 moc_AutomateJsonDocument.cpp: parser/AutomateJsonDocument.h \
 		parser/MooreMachine.h \
@@ -681,6 +691,9 @@ moc_FSMView.o: moc_FSMView.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_MooreMachine.o: moc_MooreMachine.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MooreMachine.o moc_MooreMachine.cpp
 
 moc_AutomateJsonDocument.o: moc_AutomateJsonDocument.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_AutomateJsonDocument.o moc_AutomateJsonDocument.cpp

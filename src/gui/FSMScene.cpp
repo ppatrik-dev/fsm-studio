@@ -10,13 +10,17 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsSceneMouseEvent>
 #include "ForceDirectedLayout.h"
+#include "parser/MooreMachine.h"
 
 FSMScene::FSMScene(QObject *parent)
     : QGraphicsScene{parent},
       m_labelCount(0), sceneMode(SELECT_MODE)
 {
 }
-
+void FSMScene::setMachine(MooreMachine *machine)
+{
+    this->machine = machine;
+}
 void FSMScene::onAddState(const QPointF &pos)
 {
     addState(pos);
@@ -48,6 +52,9 @@ void FSMScene::addState(QPointF pos)
 {
     QString label = getStateLabel();
     FSMState *state = new FSMState(label);
+    std::shared_ptr<MooreState> mooreState = nullptr;
+    emit createStateRequested(mooreState, label, "Output1");
+    state->setMooreState(mooreState);
     m_states.insert(label, state);
     state->setPos(pos);
     state->setSelected(true);
@@ -87,8 +94,25 @@ void FSMScene::addTransition(FSMState *state)
     }
     else
     {
-        FSMState *secondSelectedState = state;
 
+        FSMState *secondSelectedState = state;
+        if (!firstSelectedState)
+        {
+            qWarning() << "firstSelectedState is null!";
+            return;
+        }
+        if (!secondSelectedState)
+        {
+            qWarning() << "secondSelectedState is null!";
+            return;
+        }
+        if (!firstSelectedState->getMooreState())
+        {
+            qWarning() << "MooreState in firstSelectedState is null!";
+            return;
+        }
+
+        emit createTransitionRequest(firstSelectedState->getMooreState(), "", secondSelectedState->getLabel());
         FSMTransition *transition = new FSMTransition(firstSelectedState, secondSelectedState);
         m_transitions.append(transition);
         addItem(transition);
@@ -245,4 +269,12 @@ void FSMScene::displayAutomaton(const QList<FSMState *> &states, const QList<FSM
     {
         addItem(transition);
     }
+}
+void FSMScene::addConnects()
+{
+    connect(this, &FSMScene::createStateRequested,
+            this->machine, &MooreMachine::createAndAddState);
+
+    connect(this, &FSMScene::createTransitionRequest,
+            this->machine, &MooreMachine::createTransition);
 }

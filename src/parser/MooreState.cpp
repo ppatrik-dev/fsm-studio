@@ -20,7 +20,7 @@ bool MooreState::isFinal() const
     return is_end_state;
 }
 
-void MooreState::addTransition(QString &input, QString &targetName)
+void MooreState::addTransition(const QString &input, const QString &targetName)
 {
     transitions.append(MooreTransition(input, targetName));
 }

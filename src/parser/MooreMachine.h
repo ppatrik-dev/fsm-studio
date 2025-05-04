@@ -3,11 +3,14 @@
 #include <QString>
 #include <QMap>
 #include <QVector>
+#include <QObject>
 #include <memory>
 #include "MooreState.h"
 
-class MooreMachine
+class MooreMachine : public QObject
 {
+    Q_OBJECT
+
     QString automate_name;
     QString automate_comment;
     QString start_state;
@@ -36,4 +39,7 @@ public:
 
     void addState(const QString &name, const std::shared_ptr<MooreState> &state);
     std::shared_ptr<MooreState> getState(const QString &name);
+public slots:
+    void createAndAddState(std::shared_ptr<MooreState> &state, const QString &stateName, const QString &output);
+    void createTransition(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetStateName);
 };

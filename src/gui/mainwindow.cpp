@@ -21,13 +21,15 @@ MainWindow::MainWindow(QWidget *parent)
     fsmView = ui->fsmGraphicsView;
     fsmScene = new FSMScene(this);
     fsmView->setScene(fsmScene);
+    machine = new MooreMachine();
+    fsmScene->setMachine(machine);
+    fsmScene->addConnects();
 
     // connect(ui->zoomInButton, &QPushButton::clicked, ui->fsmGraphicsView, &FSMView::zoomIn);
     // connect(ui->zoomOutButton, &QPushButton::clicked, ui->fsmGraphicsView, &FSMView::zoomOut);
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
 
-    machine = new MooreMachine();
     AutomateJsonDocument *jsonDocument = new AutomateJsonDocument(this);
 
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
