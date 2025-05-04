@@ -10,6 +10,8 @@
 #include "parser/MooreMachine.h"
 #include "ConditionRowWidget.h"
 #include <QDebug>
+#include <QFIleDialog>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -90,6 +92,14 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::onImportFile()
+{
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
+    QMessage::information(this, tr("File Name"), filename);
+    emit loadJsonRequested(filename, *machine);
+    emit createMachine(*machine);
 }
 
 // INPUTS
