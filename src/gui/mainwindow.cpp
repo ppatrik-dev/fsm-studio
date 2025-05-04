@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Control buttons
     connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
+    connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
     // FSM scale
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
@@ -86,14 +87,25 @@ MainWindow::MainWindow(QWidget *parent)
 
     // emit loadJsonRequested("automate.json", *machine);
     // emit createMachine(*machine);
-    // emit exportJsonRequested("output1.json", *machine);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::onExportFileClicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Save File", "", "JSON FIle (*.json*)");
 
+    if (!fileName.isEmpty())
+    {
+        emit exportJsonRequested(fileName, *machine);
+    }
+    else
+    {
+        qDebug() << "File saving was canceled.";
+    }
+}
 void MainWindow::onImportFileClicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
