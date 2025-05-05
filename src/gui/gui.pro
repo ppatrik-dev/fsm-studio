@@ -14,6 +14,7 @@ CONFIG += c++17 \
 
 SOURCES += \
     ConditionRowWidget.cpp \
+    FSMGui.cpp \
     FSMScene.cpp \
     FSMState.cpp \
     FSMTransition.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
 
 HEADERS += \
     ConditionRowWidget.h \
+    FSMGui.h \
     FSMScene.h \
     FSMState.h \
     FSMTransition.h \

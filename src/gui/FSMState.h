@@ -5,7 +5,7 @@
 #ifndef FSMSTATE_H
 #define FSMSTATE_H
 
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 #include <QPair>
 #include <QString>
 #include <QPainter>
@@ -16,7 +16,7 @@
 
 class FSMTransition;
 
-class FSMState : public QGraphicsItem
+class FSMState : public QGraphicsObject
 {
 private:
     bool m_hovered = false;

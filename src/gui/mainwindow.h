@@ -9,6 +9,7 @@
 #include "FSMView.h"
 #include "FSMScene.h"
 #include "parser/MooreMachine.h"
+#include "FSMGui.h"
 #include "GenericRowWidget.h"
 #include "ConditionRowWidget.h"
 
@@ -30,14 +31,19 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    FSMView *fsmView;
     FSMScene *fsmScene;
     MooreMachine *machine;
+    FSMView *fsmView;
+    FSMGui *fsmGui;
 
     QVBoxLayout *inputsLayout;
     QVBoxLayout *outputsLayout;
     QVBoxLayout *variablesLayout;
-    QList<ConditionRowWidget*> conditionWidgets;
+
+    QList<GenericRowWidget *> inputsWidgets;
+    QList<GenericRowWidget *> outputsWidgets;
+    QList<GenericRowWidget *> variablesWidgets;
+    QList<ConditionRowWidget *> conditionWidgets;
 
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -45,14 +51,17 @@ signals:
     void createMachine(MooreMachine &machine);
 
 private slots:
-    void onAddRowButtonClicked();
+    void onAddInputClicked();
     void onAddOutputClicked();
     void onAddVariableClicked();
     void onImportFileClicked();
     void onExportFileClicked();
 
     void onDeleteRow(GenericRowWidget *row);
-    void clearConditionWidgets();
+    void showDetailsPanel(QGraphicsItem *item);
+
+public:
+    void clearConditionRows();
 };
 
 #endif // MAINWINDOW_H
