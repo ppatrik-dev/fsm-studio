@@ -25,9 +25,6 @@ public:
 
     ~MooreMachine() override;
 
-    void setName(const QString &name);
-    void setComment(const QString &comment);
-    void setStartState(const QString &name);
     void addInputs(const QString &name);
     void addOutputs(const QString &name);
     void addVariable(const QString &command);
@@ -44,4 +41,10 @@ public:
 public slots:
     void createAndAddState(std::shared_ptr<MooreState> &state, const QString &stateName, const QString &output);
     void createTransition(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetStateName);
+    void setName(const QString &name);
+    void setComment(const QString &comment);
+    void setStartState(const QString &name);
+    void addGuiInput();
+    void addGuiOutput();
+    void addGuiVariable();
 };
