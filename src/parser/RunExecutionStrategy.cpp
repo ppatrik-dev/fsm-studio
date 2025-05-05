@@ -1,9 +1,10 @@
 #include "RunExecutionStrategy.h"
 #include "MooreMachine.h"
+#include "MooreJsClass.h"
 
-bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecutor &engine, MooreMachine &machine)
+bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecutor &actionExecute, MooreMachine &machine)
 {
-    auto result = engine.evaluate(state->getOutput());
+    auto result = actionExecute.evaluate(state->getOutput());
     if (result.toString() == "undefined")
         output += "";
     else
@@ -12,12 +13,12 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecuto
         << "State:" << state->getName() << "Output:" << output;
     for (const auto &transition : state->getTransitions())
     {
-        auto boolResult = engine.evaluate(transition.getInput());
+        auto boolResult = actionExecute.evaluate(transition.getInput());
         qDebug() << "Condition result:" << boolResult.toBool();
         if (boolResult.toBool())
         {
-            engine.evaluate("index++;");
-            step(machine.getState(transition.getTarget()), engine, machine);
+            actionExecute.evaluate("index++;");
+            step(machine.getState(transition.getTarget()), actionExecute, machine);
         }
         else
         {
@@ -30,24 +31,31 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecuto
 void RunExecutionStrategy::Execute(MooreMachine &machine)
 {
     std::shared_ptr<MooreState> state = machine.getState(machine.getStartState());
-    ActionExecutor engine;
+    ActionExecutor actionExecute;
 
+    MooreJs *moore = new MooreJs();
+    actionExecute.exposeObject("moore", moore);
+
+    auto result = actionExecute.evaluate("moore.print('patrik');");
+    qDebug() << "Result:" << result.toInt();
     for (const QString &input : machine.getInputs())
     {
-        engine.evaluate(input);
+        actionExecute.evaluate(input);
     }
 
     for (const QString &output : machine.getOutputs())
     {
-        engine.evaluate(output);
+        actionExecute.evaluate(output);
     }
 
     for (const QString &variable : machine.getVariables())
     {
-        engine.evaluate(variable);
+        actionExecute.evaluate(variable);
     }
-    engine.evaluate("var index = 0;");
-    auto result = engine.evaluate("input");
+    actionExecute.evaluate("var index = 0;");
+
+    result = actionExecute.evaluate("input");
+
     qDebug() << "Input value: " << result.toString();
-    step(state, engine, machine);
+    step(state, actionExecute, machine);
 }

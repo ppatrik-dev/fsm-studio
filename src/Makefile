@@ -75,7 +75,8 @@ SOURCES       = gui/ConditionRowWidget.cpp \
 		moc_MooreMachine.cpp \
 		moc_AutomateJsonDocument.cpp \
 		moc_ActionExecutor.cpp \
-		moc_GenericRowWidget.cpp
+		moc_GenericRowWidget.cpp \
+		moc_MooreJsClass.cpp
 OBJECTS       = ConditionRowWidget.o \
 		FSMScene.o \
 		FSMState.o \
@@ -100,7 +101,8 @@ OBJECTS       = ConditionRowWidget.o \
 		moc_MooreMachine.o \
 		moc_AutomateJsonDocument.o \
 		moc_ActionExecutor.o \
-		moc_GenericRowWidget.o
+		moc_GenericRowWidget.o \
+		moc_MooreJsClass.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -200,7 +202,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		parser/RunExecutionStrategy.h \
 		parser/StepExecutionStrategy.h \
 		gui/GenericRowWidget.h \
-		gui/ForceDirectedLayout.h gui/ConditionRowWidget.cpp \
+		gui/ForceDirectedLayout.h \
+		parser/MooreJsClass.h gui/ConditionRowWidget.cpp \
 		gui/FSMScene.cpp \
 		gui/FSMState.cpp \
 		gui/FSMTransition.cpp \
@@ -412,7 +415,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents gui/ConditionRowWidget.h gui/FSMScene.h gui/FSMState.h gui/FSMTransition.h gui/FSMView.h gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h parser/ActionExecutor.h parser/IExecutionStrategy.h parser/MooreMachineExecutor.h parser/RunExecutionStrategy.h parser/StepExecutionStrategy.h gui/GenericRowWidget.h gui/ForceDirectedLayout.h $(DISTDIR)/
+	$(COPY_FILE) --parents gui/ConditionRowWidget.h gui/FSMScene.h gui/FSMState.h gui/FSMTransition.h gui/FSMView.h gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h parser/ActionExecutor.h parser/IExecutionStrategy.h parser/MooreMachineExecutor.h parser/RunExecutionStrategy.h parser/StepExecutionStrategy.h gui/GenericRowWidget.h gui/ForceDirectedLayout.h parser/MooreJsClass.h $(DISTDIR)/
 	$(COPY_FILE) --parents gui/ConditionRowWidget.cpp gui/FSMScene.cpp gui/FSMState.cpp gui/FSMTransition.cpp gui/FSMView.cpp gui/GenericRowWidget.cpp gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp parser/ActionExecutor.cpp parser/MooreMachineExecutor.cpp parser/RunExecutionStrategy.cpp parser/StepExecutionStrategy.cpp gui/ForceDirectedLayout.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/mainwindow.ui $(DISTDIR)/
 
@@ -446,9 +449,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -fsanitize=address -fno-omit-frame-pointer -g -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_ConditionRowWidget.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp
+compiler_moc_header_make_all: moc_ConditionRowWidget.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp moc_MooreJsClass.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_ConditionRowWidget.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp
+	-$(DEL_FILE) moc_ConditionRowWidget.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp moc_MooreJsClass.cpp
 moc_ConditionRowWidget.cpp: gui/ConditionRowWidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -512,6 +515,7 @@ moc_AutomateJsonDocument.cpp: parser/AutomateJsonDocument.h \
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/miroslav/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/miroslav/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include parser/AutomateJsonDocument.h -o moc_AutomateJsonDocument.cpp
 
 moc_ActionExecutor.cpp: parser/ActionExecutor.h \
+		parser/MooreJsClass.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/miroslav/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/miroslav/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include parser/ActionExecutor.h -o moc_ActionExecutor.cpp
@@ -520,6 +524,11 @@ moc_GenericRowWidget.cpp: gui/GenericRowWidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/miroslav/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/miroslav/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/GenericRowWidget.h -o moc_GenericRowWidget.cpp
+
+moc_MooreJsClass.cpp: parser/MooreJsClass.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/miroslav/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/miroslav/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include parser/MooreJsClass.h -o moc_MooreJsClass.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -608,6 +617,7 @@ main.o: gui/main.cpp gui/mainwindow.h \
 		gui/GenericRowWidget.h \
 		parser/AutomateJsonDocument.h \
 		parser/ActionExecutor.h \
+		parser/MooreJsClass.h \
 		parser/MooreMachineExecutor.h \
 		parser/IExecutionStrategy.h \
 		parser/RunExecutionStrategy.h \
@@ -653,7 +663,8 @@ AutomateJsonDocument.o: parser/AutomateJsonDocument.cpp parser/AutomateJsonDocum
 		parser/MooreTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AutomateJsonDocument.o parser/AutomateJsonDocument.cpp
 
-ActionExecutor.o: parser/ActionExecutor.cpp parser/ActionExecutor.h
+ActionExecutor.o: parser/ActionExecutor.cpp parser/ActionExecutor.h \
+		parser/MooreJsClass.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ActionExecutor.o parser/ActionExecutor.cpp
 
 MooreMachineExecutor.o: parser/MooreMachineExecutor.cpp parser/MooreMachineExecutor.h \
@@ -670,7 +681,8 @@ RunExecutionStrategy.o: parser/RunExecutionStrategy.cpp parser/RunExecutionStrat
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		parser/ActionExecutor.h
+		parser/ActionExecutor.h \
+		parser/MooreJsClass.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o RunExecutionStrategy.o parser/RunExecutionStrategy.cpp
 
 StepExecutionStrategy.o: parser/StepExecutionStrategy.cpp parser/StepExecutionStrategy.h \
@@ -713,6 +725,9 @@ moc_ActionExecutor.o: moc_ActionExecutor.cpp
 
 moc_GenericRowWidget.o: moc_GenericRowWidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_GenericRowWidget.o moc_GenericRowWidget.cpp
+
+moc_MooreJsClass.o: moc_MooreJsClass.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MooreJsClass.o moc_MooreJsClass.cpp
 
 ####### Install
 

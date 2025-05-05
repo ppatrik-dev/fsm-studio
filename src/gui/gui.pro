@@ -48,7 +48,8 @@ HEADERS += \
      parser/RunExecutionStrategy.h \
      parser/StepExecutionStrategy.h \
     GenericRowWidget.h \
-    ForceDirectedLayout.h
+    ForceDirectedLayout.h \
+    parser/MooreJsClass.h
 
 FORMS += \
     mainwindow.ui

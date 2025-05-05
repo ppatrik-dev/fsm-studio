@@ -1,5 +1,10 @@
 #include "ActionExecutor.h"
 
+ActionExecutor::ActionExecutor(QObject *parent)
+    : QObject(parent)
+{
+}
+
 QJSValue ActionExecutor::evaluate(const QString &code)
 {
     QJSValue result = engine.evaluate(code);
@@ -10,4 +15,10 @@ QJSValue ActionExecutor::evaluate(const QString &code)
                    << ":" << result.toString();
     }
     return result;
+}
+
+void ActionExecutor::exposeObject(const QString &name, QObject *object)
+{
+    QJSValue objValue = engine.newQObject(object);
+    engine.globalObject().setProperty(name, objValue);
 }
