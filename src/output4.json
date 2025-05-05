@@ -1,0 +1,27 @@
+{
+    "automate_comment": "",
+    "automate_name": "",
+    "inputs": [
+    ],
+    "outputs": [
+    ],
+    "start_state": "",
+    "states": {
+        "A": {
+            "action": "Output1",
+            "transitions": [
+                {
+                    "condition": "",
+                    "to": "B"
+                }
+            ]
+        },
+        "B": {
+            "action": "Output1",
+            "transitions": [
+            ]
+        }
+    },
+    "variables": [
+    ]
+}

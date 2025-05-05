@@ -44,7 +44,7 @@ public slots:
     void setName(const QString &name);
     void setComment(const QString &comment);
     void setStartState(const QString &name);
-    void addGuiInput();
-    void addGuiOutput();
-    void addGuiVariable();
+    // void addGuiInput();
+    // void addGuiOutput();
+    // void addGuiVariable();
 };
