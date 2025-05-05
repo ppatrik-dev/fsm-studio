@@ -82,7 +82,7 @@ void FSMScene::deleteTransition(FSMTransition *transition) {
 
     removeItem(transition);
     m_transitions.removeAll(transition);
-    delete transition;
+    transition->deleteLater();
 }
 
 void FSMScene::deleteState(FSMState *state) {
@@ -95,7 +95,7 @@ void FSMScene::deleteState(FSMState *state) {
 
     removeItem(state);
     m_states.remove(state->getLabel());
-    delete state;
+    state->deleteLater();
 }
 
 void FSMScene::clear() {

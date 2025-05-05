@@ -7,7 +7,7 @@
 
 #include "FSMState.h"
 
-class FSMTransition : public QGraphicsItem {
+class FSMTransition : public QGraphicsObject {
 private:
     FSMState *m_firstState;
     FSMState *m_secondState;
