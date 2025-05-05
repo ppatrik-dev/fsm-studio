@@ -28,6 +28,8 @@ ConditionRowWidget::ConditionRowWidget(QWidget *parent)
     frameLayout->setContentsMargins(10, 10, 10, 10);
     frameLayout->setSpacing(2);
 
+    QFont font("Fira Code", 12);
+
     // IF label
     auto *ifLabel = new QLabel("IF", frame);
     ifLabel->setStyleSheet("background: transparent; border: none; font-weight: bold; font-size: 12pt;");
@@ -36,23 +38,25 @@ ConditionRowWidget::ConditionRowWidget(QWidget *parent)
 
     // IF input
     ifEdit = new QTextEdit(frame);
-    ifEdit->setFixedHeight(100);
+    ifEdit->setFont(font);
     frameLayout->addWidget(ifEdit);
 
     // THEN label
     auto *thenLabel = new QLabel("Then", frame);
     thenLabel->setStyleSheet("background: transparent; border: none; font-weight: bold; font-size: 12pt;");
-    thenLabel->setFixedHeight(30);
+    thenLabel->setFixedHeight(30);;
     frameLayout->addWidget(thenLabel);
 
     // THEN input
     thenEdit = new QTextEdit(frame);
     thenEdit->setFixedHeight(100);
+    thenEdit->setFont(font);
     frameLayout->addWidget(thenEdit);
 
     // delete button aligned right
     deleteButton = new QPushButton("Delete", frame);
     auto *bottomLayout = new QHBoxLayout();
+    bottomLayout->setContentsMargins(0, 10, 0, 0);
     bottomLayout->addStretch();
     bottomLayout->addWidget(deleteButton);
     frameLayout->addLayout(bottomLayout);

@@ -21,24 +21,17 @@ GenericRowWidget::GenericRowWidget(RowType type, QWidget *parent)
     layout->addWidget(deleteButton);
 
     // switch for data depending on type
-    switch (type) {
-    case Input:
-        keyEdit->setText("InputKey");
-        valueEdit->setText("1");
-        break;
-    case Output:
-        keyEdit->setText("OutputKey");
-        valueEdit->setText("0");
-        break;
-    case Variable:
-        keyEdit->setText("VarKey");
-        valueEdit->setText("100");
-        break;
-    }
+    keyEdit->setPlaceholderText("name");
+    valueEdit->setPlaceholderText("value");
 
     connect(deleteButton, &QPushButton::clicked, this, [=]() {
         emit requestDelete(this);
     });
+}
+
+void GenericRowWidget::setGenericTexts(const QString &keyText, const QString &valueText) {
+    keyEdit->setText(keyText);
+    valueEdit->setText(valueText);
 }
 
 QString GenericRowWidget::key() const {

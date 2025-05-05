@@ -51,7 +51,7 @@
     QPushButton:pressed {
         background-color: #707070;
     }
-    QFrame#rightPanel {
+    QFrame#detailsPanel {
         background-color: #2b2b2b;
         border-radius: 12px;
         padding: 12px;
@@ -104,7 +104,7 @@
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
            <item>
             <widget class="QPushButton" name="importButton">
              <property name="sizePolicy">
@@ -215,7 +215,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QStackedWidget" name="rightPanel">
+     <widget class="QStackedWidget" name="detailsPanel">
       <property name="font">
        <font>
         <bold>true</bold>
@@ -270,7 +270,8 @@
            <widget class="QLineEdit" name="automataNameLineEdit">
             <property name="font">
              <font>
-              <italic>true</italic>
+              <pointsize>10</pointsize>
+              <italic>false</italic>
              </font>
             </property>
             <property name="styleSheet">
@@ -311,9 +312,22 @@ QLineEdit::placeholder {
         </item>
         <item>
          <widget class="QTextEdit" name="descriptionEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>150</height>
+           </size>
+          </property>
           <property name="font">
            <font>
-            <italic>true</italic>
+            <pointsize>10</pointsize>
+            <italic>false</italic>
            </font>
           </property>
           <property name="styleSheet">
@@ -332,7 +346,7 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:italic;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="plainText">
@@ -360,7 +374,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <x>0</x>
                 <y>0</y>
                 <width>234</width>
-                <height>137</height>
+                <height>153</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="scrollInputsLayout">
@@ -376,11 +390,22 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="addInput">
-             <property name="text">
-              <string>+ Add row</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QPushButton" name="saveInputsButton">
+               <property name="text">
+                <string>Save</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="addInputButton">
+               <property name="text">
+                <string>Add</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -402,7 +427,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <x>0</x>
                 <y>0</y>
                 <width>234</width>
-                <height>138</height>
+                <height>154</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="scrollOutputsLayout">
@@ -414,11 +439,22 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="addOutput">
-             <property name="text">
-              <string>+ Add row</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QPushButton" name="saveOutputsbutton">
+               <property name="text">
+                <string>Save</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="addOutputButton">
+               <property name="text">
+                <string>Add</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -440,7 +476,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <x>0</x>
                 <y>0</y>
                 <width>234</width>
-                <height>137</height>
+                <height>153</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="scrollVariablesLayout">
@@ -452,11 +488,25 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="addVariable">
-             <property name="text">
-              <string>+ Add row</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QPushButton" name="saveVariablesButton">
+               <property name="font">
+                <font/>
+               </property>
+               <property name="text">
+                <string>Save</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="addVariableButton">
+               <property name="text">
+                <string>Add</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -510,7 +560,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <widget class="QLineEdit" name="stateNameLineEdit">
             <property name="font">
              <font>
-              <italic>true</italic>
+              <pointsize>10</pointsize>
+              <italic>false</italic>
              </font>
             </property>
             <property name="styleSheet">
