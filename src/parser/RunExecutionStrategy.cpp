@@ -36,6 +36,8 @@ void RunExecutionStrategy::Execute(MooreMachine &machine)
     MooreJs *moore = new MooreJs();
     actionExecute.exposeObject("moore", moore);
 
+    auto result = actionExecute.evaluate("moore.print('patrik');");
+    qDebug() << "Result:" << result.toInt();
     for (const QString &input : machine.getInputs())
     {
         actionExecute.evaluate(input);
@@ -52,7 +54,7 @@ void RunExecutionStrategy::Execute(MooreMachine &machine)
     }
     actionExecute.evaluate("var index = 0;");
 
-    auto result = actionExecute.evaluate("input");
+    result = actionExecute.evaluate("input");
 
     qDebug() << "Input value: " << result.toString();
     step(state, actionExecute, machine);
