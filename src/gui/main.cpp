@@ -20,30 +20,30 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    MainWindow w;
+
+    QFile styleFile(":/darkstyle.qss");
+    if (styleFile.open(QFile::ReadOnly | QFile::Text))
+    {
+        QTextStream ts(&styleFile);
+        QString styleSheet = ts.readAll();
+        w.setStyleSheet(styleSheet);
+    }
+
+    w.show();
     // MainWindow w;
-
-    // QFile styleFile(":/darkstyle.qss");
-    // if (styleFile.open(QFile::ReadOnly | QFile::Text))
-    // {
-    //     QTextStream ts(&styleFile);
-    //     QString styleSheet = ts.readAll();
-    //     w.setStyleSheet(styleSheet);
-    // }
-
     // w.show();
-    // MainWindow w;
-    // w.show();
-    MooreMachine mooreMachine;
-    AutomateJsonDocument jsonDocument;
-    jsonDocument.loadAutomateFromJsonFile("automate.json", mooreMachine);
+    // MooreMachine mooreMachine;
+    // AutomateJsonDocument jsonDocument;
+    // jsonDocument.loadAutomateFromJsonFile("automate.json", mooreMachine);
 
-    MachineExecutor executor(&mooreMachine);
+    // MachineExecutor executor(&mooreMachine);
 
-    RunExecutionStrategy runStrategy;
-    StepExecutionStrategy stepStrategy;
+    // RunExecutionStrategy runStrategy;
+    // StepExecutionStrategy stepStrategy;
 
-    executor.SetStrategy(&runStrategy);
-    executor.Execute(mooreMachine);
+    // executor.SetStrategy(&runStrategy);
+    // executor.Execute(mooreMachine);
 
     return a.exec();
 }

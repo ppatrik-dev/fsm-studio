@@ -28,40 +28,50 @@ private:
     QMap<QString, QString> m_variables;
 
 public:
-    FSMScene *getGraph() const {
+    FSMScene *getGraph() const
+    {
         return m_graph;
     }
 
-    QMap<QString, QString> getInputs() const {
+    QMap<QString, QString> getInputs() const
+    {
         return m_inputs;
     }
 
-    QMap<QString, QString> getOutputs() const {
+    QMap<QString, QString> getOutputs() const
+    {
         return m_outputs;
     }
 
-    QMap<QString, QString> getVariables() const {
+    QMap<QString, QString> getVariables() const
+    {
         return m_variables;
     }
 
 public:
-    void saveName(QString name) {
+    void saveName(QString name)
+    {
         m_name = name;
     }
 
-    void saveDescription(QString info) {
+    void saveDescription(QString info)
+    {
         m_description = info;
     }
 
-    void saveInputs(const QList<GenericRowWidget*> rows);
-    void saveOutputs(const QList<GenericRowWidget*> rows);
-    void saveVariables(const QList<GenericRowWidget*> rows);
+    void saveInputs(const QList<GenericRowWidget *> rows);
+    void saveOutputs(const QList<GenericRowWidget *> rows);
+    void saveVariables(const QList<GenericRowWidget *> rows);
 
     void deleteInput(const QString &key);
     void deleteOutput(const QString &key);
     void deleteVariable(const QString &key);
 
     void runSimulation(Ui::MainWindow *ui);
+signals:
+    void inputAddValue(const QString key, const QString value);
+    void inputValueChanged(const QString key, const QString value);
+    void inputDeleteValue(const QString key, const QString value);
 };
 
 #endif // FSMGUI_H
