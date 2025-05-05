@@ -41,6 +41,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
+    connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
+    connect(fsmGui, &FSMGui::inputDeleteValue, machine, &MooreMachine::deleteGuiInput);
+    connect(fsmGui, &FSMGui::outputAddValue, machine, &MooreMachine::addGuiOutput);
+    connect(fsmGui, &FSMGui::outputDeleteValue, machine, &MooreMachine::deleteGuiOutput);
+    connect(fsmGui, &FSMGui::variableAddValue, machine, &MooreMachine::addGuiVariable);
+    connect(fsmGui, &FSMGui::variableDeleteValue, machine, &MooreMachine::deleteGuiVariable);
+
+    connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
+    connect(fsmGui, &FSMGui::saveDescriptionValue, machine, &MooreMachine::setComment);
 
     // Control buttons
 
@@ -81,14 +90,14 @@ MainWindow::MainWindow(QWidget *parent)
                 {
             ui->conditionsLayout->removeWidget(row);
             conditionWidgets.removeAll(row);
-            row->deleteLater();
-        });
+            row->deleteLater(); });
 
         conditionWidgets.append(row); });
 
     // FSM name
     connect(ui->automataNameLineEdit, &QLineEdit::editingFinished, this, [=]()
             { fsmGui->saveName(ui->automataNameLineEdit->text()); });
+
     // Inputs
     connect(ui->saveInputsButton, &QPushButton::clicked, this, [=]()
             { fsmGui->saveInputs(inputsWidgets); });

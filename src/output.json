@@ -7,21 +7,8 @@
     ],
     "start_state": "",
     "states": {
-        "A": {
-            "action": "Output1",
-            "transitions": [
-                {
-                    "condition": "",
-                    "to": "B"
-                }
-            ]
-        },
-        "B": {
-            "action": "Output1",
-            "transitions": [
-            ]
-        }
     },
     "variables": [
+        "var abcd = '1';"
     ]
 }

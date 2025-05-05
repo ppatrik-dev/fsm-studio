@@ -52,11 +52,13 @@ public:
     void saveName(QString name)
     {
         m_name = name;
+        emit saveNameValue(name);
     }
 
     void saveDescription(QString info)
     {
         m_description = info;
+        emit saveDescriptionValue(info);
     }
 
     void saveInputs(const QList<GenericRowWidget *> rows);
@@ -70,8 +72,13 @@ public:
     void runSimulation(Ui::MainWindow *ui);
 signals:
     void inputAddValue(const QString key, const QString value);
-    void inputValueChanged(const QString key, const QString value);
-    void inputDeleteValue(const QString key, const QString value);
+    void inputDeleteValue(const QString key);
+    void outputAddValue(const QString key, const QString value);
+    void outputDeleteValue(const QString key);
+    void variableAddValue(const QString key, const QString value);
+    void variableDeleteValue(const QString key);
+    void saveNameValue(const QString &name);
+    void saveDescriptionValue(const QString &comment);
 };
 
 #endif // FSMGUI_H

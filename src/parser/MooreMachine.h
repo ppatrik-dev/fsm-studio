@@ -6,6 +6,7 @@
 #include <QObject>
 #include <memory>
 #include "MooreState.h"
+#include <QRegularExpression>
 
 class MooreMachine : public QObject
 {
@@ -14,9 +15,9 @@ class MooreMachine : public QObject
     QString automate_name;
     QString automate_comment;
     QString start_state;
-    QVector<QString> automate_inputs;
-    QVector<QString> automate_outputs;
-    QVector<QString> variables;
+    QMap<QString, QString> automate_inputs;
+    QMap<QString, QString> automate_outputs;
+    QMap<QString, QString> variables;
 
 public:
     QMap<QString, std::shared_ptr<MooreState>> states;
@@ -32,10 +33,11 @@ public:
     const QString &getName() const;
     const QString &getComment() const;
     const QString &getStartState() const;
-    const QVector<QString> &getInputs() const;
-    const QVector<QString> &getOutputs() const;
-    const QVector<QString> &getVariables() const;
-
+    QVector<QString> getInputs() const;
+    QVector<QString> getOutputs() const;
+    QVector<QString> getVariables() const;
+    QString createVarCommand(const QString &name, const QString &value);
+    QString extractVariableName(const QString &command);
     void addState(const QString &name, const std::shared_ptr<MooreState> &state);
     std::shared_ptr<MooreState> getState(const QString &name);
 public slots:
@@ -44,7 +46,10 @@ public slots:
     void setName(const QString &name);
     void setComment(const QString &comment);
     void setStartState(const QString &name);
-    // void addGuiInput();
-    // void addGuiOutput();
-    // void addGuiVariable();
+    void addGuiInput(const QString &name, const QString &value);
+    void deleteGuiInput(const QString &name);
+    void addGuiOutput(const QString &name, const QString &value);
+    void deleteGuiOutput(const QString &name);
+    void addGuiVariable(const QString &name, const QString &value);
+    void deleteGuiVariable(const QString &name);
 };

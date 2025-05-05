@@ -33,15 +33,13 @@ void FSMGui::saveInputs(const QList<GenericRowWidget *> rows)
             if (m_inputs.value(key) != value)
             {
                 m_inputs[key] = value;
-                // TODO: Emit input value change signal to Mirek
-                // Setter
+                emit inputAddValue(key, value);
             }
         }
         else
         {
             m_inputs.insert(key, value);
-            // TODO: Emit input add signal to Mirek
-            // add
+            emit inputAddValue(key, value);
         }
 
         used_id.append(key);
@@ -52,7 +50,7 @@ void FSMGui::saveInputs(const QList<GenericRowWidget *> rows)
 void FSMGui::deleteInput(const QString &key)
 {
     m_inputs.remove(key);
-    // TODO: Emit input delete signal to Mirek
+    emit inputDeleteValue(key);
 }
 
 void FSMGui::saveOutputs(const QList<GenericRowWidget *> rows)
@@ -82,13 +80,13 @@ void FSMGui::saveOutputs(const QList<GenericRowWidget *> rows)
             if (m_outputs.value(key) != value)
             {
                 m_outputs[key] = value;
-                // TODO: Emit output value change signal to Mirek
+                emit outputAddValue(key, value);
             }
         }
         else
         {
             m_outputs.insert(key, value);
-            // TODO: Emit output add signal to Mirek
+            emit outputAddValue(key, value);
         }
 
         used_id.append(key);
@@ -99,7 +97,7 @@ void FSMGui::saveOutputs(const QList<GenericRowWidget *> rows)
 void FSMGui::deleteOutput(const QString &key)
 {
     m_outputs.remove(key);
-    // TODO: Emit output delete signal to Mirek
+    emit outputDeleteValue(key);
 }
 
 void FSMGui::saveVariables(const QList<GenericRowWidget *> rows)
@@ -129,13 +127,14 @@ void FSMGui::saveVariables(const QList<GenericRowWidget *> rows)
             if (m_variables.value(key) != value)
             {
                 m_variables[key] = value;
-                // TODO: Emit variable value change signal to Mirek
+                qDebug() << key << value;
+                emit variableAddValue(key, value);
             }
         }
         else
         {
             m_variables.insert(key, value);
-            // TODO: Emit variable add signal to Mirek
+            emit variableAddValue(key, value);
         }
 
         used_id.append(key);
@@ -146,5 +145,5 @@ void FSMGui::saveVariables(const QList<GenericRowWidget *> rows)
 void FSMGui::deleteVariable(const QString &key)
 {
     m_inputs.remove(key);
-    // TODO: Emit variable delete signal to Mirek
+    emit variableDeleteValue(key);
 }

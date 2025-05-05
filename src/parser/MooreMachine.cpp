@@ -1,5 +1,5 @@
 #include "MooreMachine.h"
-
+#include <QDebug>
 MooreMachine::MooreMachine(QObject *parent)
     : QObject(parent) {}
 
@@ -10,7 +10,21 @@ MooreMachine::~MooreMachine()
 {
     states.clear(); // not strictly needed, smart pointers will destruct
 }
+QString MooreMachine::extractVariableName(const QString &command)
+{
+    QRegularExpression regex(R"(\bvar\s+(\w+))");
+    QRegularExpressionMatch match = regex.match(command);
 
+    if (match.hasMatch())
+    {
+        return match.captured(1);
+    }
+    return {};
+}
+QString MooreMachine::createVarCommand(const QString &name, const QString &value)
+{
+    return QString("var %1 = '%2';").arg(name, value);
+}
 void MooreMachine::setName(const QString &name)
 {
     automate_name = name;
@@ -26,15 +40,18 @@ void MooreMachine::setStartState(const QString &name)
 }
 void MooreMachine::addInputs(const QString &name)
 {
-    automate_inputs.append(name);
+    QString key = extractVariableName(name);
+    automate_inputs.insert(key, name);
 }
 void MooreMachine::addOutputs(const QString &name)
 {
-    automate_outputs.append(name);
+    QString key = extractVariableName(name);
+    automate_outputs.insert(key, name);
 }
 void MooreMachine::addVariable(const QString &command)
 {
-    variables.append(command);
+    QString key = extractVariableName(command);
+    variables.insert(key, command);
 }
 const QString &MooreMachine::getName() const
 {
@@ -69,17 +86,52 @@ std::shared_ptr<MooreState> MooreMachine::getState(const QString &name)
     return states.value(name, nullptr);
 }
 
-const QVector<QString> &MooreMachine::getInputs() const
+QVector<QString> MooreMachine::getInputs() const
 {
-    return automate_inputs;
+    return QVector<QString>::fromList(automate_inputs.values());
 }
 
-const QVector<QString> &MooreMachine::getOutputs() const
+QVector<QString> MooreMachine::getOutputs() const
 {
-    return automate_outputs;
+    return QVector<QString>::fromList(automate_outputs.values());
 }
 
-const QVector<QString> &MooreMachine::getVariables() const
+QVector<QString> MooreMachine::getVariables() const
 {
-    return variables;
+    return QVector<QString>::fromList(variables.values());
+}
+
+void MooreMachine::addGuiInput(const QString &name, const QString &value)
+{
+    automate_inputs.insert(name, createVarCommand(name, value));
+}
+void MooreMachine::deleteGuiInput(const QString &name)
+{
+    if (automate_inputs.contains(name))
+    {
+        automate_inputs.remove(name);
+    }
+}
+void MooreMachine::addGuiOutput(const QString &name, const QString &value)
+{
+    automate_outputs.insert(name, createVarCommand(name, value));
+}
+void MooreMachine::deleteGuiOutput(const QString &name)
+{
+    if (automate_outputs.contains(name))
+    {
+        automate_outputs.remove(name);
+    }
+}
+void MooreMachine::addGuiVariable(const QString &name, const QString &value)
+{
+    qDebug() << "ahoj";
+    variables.insert(name, createVarCommand(name, value));
+}
+void MooreMachine::deleteGuiVariable(const QString &name)
+{
+    if (variables.contains(name))
+    {
+        variables.remove(name);
+    }
 }
