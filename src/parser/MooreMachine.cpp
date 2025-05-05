@@ -125,7 +125,6 @@ void MooreMachine::deleteGuiOutput(const QString &name)
 }
 void MooreMachine::addGuiVariable(const QString &name, const QString &value)
 {
-    qDebug() << "ahoj";
     variables.insert(name, createVarCommand(name, value));
 }
 void MooreMachine::deleteGuiVariable(const QString &name)

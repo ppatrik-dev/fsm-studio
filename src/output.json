@@ -1,14 +1,47 @@
 {
     "automate_comment": "",
-    "automate_name": "",
+    "automate_name": "hviezdica",
     "inputs": [
+        "var dd = '0';"
     ],
     "outputs": [
+        "var krivka = '1';"
     ],
     "start_state": "",
     "states": {
+        "A": {
+            "action": "Output1",
+            "transitions": [
+                {
+                    "condition": "",
+                    "to": "B"
+                },
+                {
+                    "condition": "",
+                    "to": "C"
+                }
+            ]
+        },
+        "B": {
+            "action": "Output1",
+            "transitions": [
+            ]
+        },
+        "C": {
+            "action": "Output1",
+            "transitions": [
+                {
+                    "condition": "",
+                    "to": "B"
+                },
+                {
+                    "condition": "",
+                    "to": "B"
+                }
+            ]
+        }
     },
     "variables": [
-        "var abcd = '1';"
+        "var zboril = '1';"
     ]
 }
