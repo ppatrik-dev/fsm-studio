@@ -299,7 +299,7 @@ QLineEdit::placeholder {
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="automataDescription">
           <property name="font">
            <font>
             <bold>true</bold>
@@ -311,7 +311,7 @@ QLineEdit::placeholder {
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="descriptionEdit">
+         <widget class="QTextEdit" name="automataDescriptionTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -605,8 +605,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>254</width>
-             <height>774</height>
+             <width>66</width>
+             <height>18</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="conditionsLayout"/>

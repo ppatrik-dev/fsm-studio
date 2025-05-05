@@ -29,6 +29,10 @@ GenericRowWidget::GenericRowWidget(RowType type, QWidget *parent)
     });
 }
 
+void GenericRowWidget::disableKeyEdit() {
+    keyEdit->setReadOnly(true);
+}
+
 void GenericRowWidget::setGenericTexts(const QString &keyText, const QString &valueText) {
     keyEdit->setText(keyText);
     valueEdit->setText(valueText);

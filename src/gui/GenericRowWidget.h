@@ -19,6 +19,7 @@ public:
 
     explicit GenericRowWidget(RowType type, QWidget *parent = nullptr);
     void setGenericTexts(const QString &keyText, const QString &valueText);
+    void disableKeyEdit();
     QString key() const;
     QString value() const;
 

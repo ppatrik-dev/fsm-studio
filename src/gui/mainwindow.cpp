@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     fsmGui = new FSMGui(fsmScene);
 
     // Control buttons
-    connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);    
+    // CLEAR
+    connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
 
     // FSM scale
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent) {
@@ -51,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->addOutputButton, &QPushButton::clicked, this, &MainWindow::onAddOutputClicked);
     connect(ui->addVariableButton, &QPushButton::clicked, this, &MainWindow::onAddVariableClicked);
 
+    // Add condition
     connect(ui->addConditionButton, &QPushButton::clicked, this, [=]() {
         auto *row = new ConditionRowWidget();
         ui->conditionsLayout->addWidget(row);
@@ -64,19 +66,19 @@ MainWindow::MainWindow(QWidget *parent)
         conditionWidgets.append(row);
     });
 
-    // FSM details saving
+    // FSM name
     connect(ui->automataNameLineEdit, &QLineEdit::editingFinished, this, [=]() {
         fsmGui->saveName(ui->automataNameLineEdit->text());
     });
-
+    //Inputs
     connect(ui->saveInputsButton, &QPushButton::clicked, this, [=]() {
         fsmGui->saveInputs(inputsWidgets);
     });
-
+    // Outputs
     connect(ui->saveOutputsbutton, &QPushButton::clicked, this, [=]() {
         fsmGui->saveOutputs(outputsWidgets);
     });
-
+    // Variables
     connect(ui->saveVariablesButton, &QPushButton::clicked, this, [=]() {
         fsmGui->saveVariables(variablesWidgets);
     });
@@ -90,35 +92,7 @@ MainWindow::~MainWindow()
 // MENU
 void MainWindow::showDetailsPanel(QGraphicsItem *item) {
     if (!item || item->type() != FSMState::Type) {
-        clearGenericRows();
         ui->detailsPanel->setCurrentWidget(ui->automataPropertiesPanel);
-
-        // Display FSM inputs
-        auto inputs = fsmGui->getInputs();
-        for (const QString &key : inputs.keys()) {
-            QString value = inputs.value(key);
-
-            auto row = createGenericRow(inputsLayout, inputsWidgets, GenericRowWidget::Input);
-            row->setGenericTexts(key, value);
-        }
-
-        // Display FSM outputs
-        auto outputs = fsmGui->getOutputs();
-        for (const QString &key : outputs.keys()) {
-            QString value = outputs.value(key);
-
-            auto row = createGenericRow(outputsLayout, outputsWidgets, GenericRowWidget::Output);
-            row->setGenericTexts(key, value);
-        }
-
-        // Display FSM variables
-        auto variables = fsmGui->getVariables();
-        for (const QString &key : variables.keys()) {
-            QString value = variables.value(key);
-
-            auto row = createGenericRow(variablesLayout, variablesWidgets, GenericRowWidget::Variable);
-            row->setGenericTexts(key, value);
-        }
     }
 
     else if (item->type() == FSMState::Type) {
@@ -149,18 +123,6 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item) {
             state->saveConditions(conditionWidgets);
         });
     }
-}
-
-GenericRowWidget* MainWindow::createGenericRow(QVBoxLayout *layout, QList<GenericRowWidget*> &rows, GenericRowWidget::RowType type) {
-    GenericRowWidget *row = new GenericRowWidget(type);
-
-    layout->addWidget(row);
-
-    connect(row, &GenericRowWidget::requestDelete, this, &MainWindow::onDeleteRow);
-
-    rows.append(row);
-
-    return row;
 }
 
 // INPUTS
@@ -201,30 +163,25 @@ void MainWindow::onDeleteRow(GenericRowWidget *row) {
     if (inputsLayout->indexOf(row) != -1) {
         inputsLayout->removeWidget(row);
         inputsWidgets.removeAll(row);
+        fsmGui->deleteInput(row->key());
+
     } else if (outputsLayout->indexOf(row) != -1) {
         outputsLayout->removeWidget(row);
         outputsWidgets.removeAll(row);
+        fsmGui->deleteOutput(row->key());
+
     } else if (variablesLayout->indexOf(row) != -1) {
         variablesLayout->removeWidget(row);
         variablesWidgets.removeAll(row);
+        fsmGui->deleteVariable(row->key());
     }
 
     row->deleteLater();
 }
 
 void MainWindow::clearConditionRows() {
-    clearWidgetsRows(conditionWidgets);
-}
-
-void MainWindow::clearGenericRows() {
-    clearWidgetsRows(inputsWidgets);
-    clearWidgetsRows(outputsWidgets);
-    clearWidgetsRows(variablesWidgets);
-}
-
-void MainWindow::displayGenericRow(QList<GenericRowWidget*> rows) {
-    for (auto row : rows) {
-
+    for (auto row : conditionWidgets) {
+        if (row) row->deleteLater();
     }
+    conditionWidgets.clear();
 }
-

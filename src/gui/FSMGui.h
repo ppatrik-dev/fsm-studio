@@ -1,6 +1,7 @@
 #ifndef FSMGUI_H
 #define FSMGUI_H
 
+#include "ui_mainwindow.h"
 #include <QObject>
 #include <QMap>
 #include <QString>
@@ -14,9 +15,11 @@ class FSMGui : public QObject
     Q_OBJECT
 public:
     explicit FSMGui(QObject *parent = nullptr, FSMScene *fsmScene = nullptr)
-        : m_graph(fsmScene) {}
+        : simulationMode(false), m_graph(fsmScene) {}
 
 private:
+    bool simulationMode;
+
     FSMScene *m_graph;
     QString m_name;
     QString m_description;
@@ -46,11 +49,19 @@ public:
         m_name = name;
     }
 
-    void saveInputs(const QList<GenericRowWidget*> &rows);
-    void saveOutputs(const QList<GenericRowWidget*> &rows);
-    void saveVariables(const QList<GenericRowWidget*> &rows);
+    void saveDescription(QString info) {
+        m_description = info;
+    }
 
-signals:
+    void saveInputs(const QList<GenericRowWidget*> rows);
+    void saveOutputs(const QList<GenericRowWidget*> rows);
+    void saveVariables(const QList<GenericRowWidget*> rows);
+
+    void deleteInput(const QString &key);
+    void deleteOutput(const QString &key);
+    void deleteVariable(const QString &key);
+
+    void runSimulation(Ui::MainWindow *ui);
 };
 
 #endif // FSMGUI_H

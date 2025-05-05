@@ -52,18 +52,6 @@ private slots:
 
 public:
     void clearConditionRows();
-    void clearGenericRows();
-
-    template <typename T>
-    void clearWidgetsRows(QList<T*> &widgetRows) {
-        for (T *row : widgetRows) {
-            if (row) row->deleteLater();
-        }
-        widgetRows.clear();
-    }
-
-    GenericRowWidget* createGenericRow(QVBoxLayout *layout, QList<GenericRowWidget*> &rows, GenericRowWidget::RowType type);
-    void displayGenericRow(QList<GenericRowWidget*> rows);
 };
 
 #endif // MAINWINDOW_H
