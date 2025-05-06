@@ -13,13 +13,13 @@ CONFIG += c++17 \
         debug
 
 SOURCES += \
-    ConditionRowWidget.cpp \
     FSMGui.cpp \
     FSMScene.cpp \
     FSMState.cpp \
     FSMTransition.cpp \
     FSMView.cpp \
     GenericRowWidget.cpp \
+    TransitionRowWidget.cpp \
     main.cpp \
     mainwindow.cpp \
     ../parser/MooreMachine.cpp \
@@ -33,12 +33,12 @@ SOURCES += \
     ForceDirectedLayout.cpp
 
 HEADERS += \
-    ConditionRowWidget.h \
     FSMGui.h \
     FSMScene.h \
     FSMState.h \
     FSMTransition.h \
     FSMView.h \
+    TransitionRowWidget.h \
     mainwindow.h \
     ../parser/MooreMachine.h \
     ../parser/MooreState.h \

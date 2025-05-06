@@ -90,11 +90,11 @@ void FSMScene::addTransition(FSMState *state)
 {
     if (!firstSelectedState)
     {
+        state->setSelected(true);
         firstSelectedState = state;
     }
     else
     {
-
         FSMState *secondSelectedState = state;
         if (!firstSelectedState)
         {
@@ -113,6 +113,7 @@ void FSMScene::addTransition(FSMState *state)
         }
 
         emit createTransitionRequest(firstSelectedState->getMooreState(), "", secondSelectedState->getLabel());
+
         FSMTransition *transition = new FSMTransition(firstSelectedState, secondSelectedState);
         m_transitions.append(transition);
         addItem(transition);
@@ -120,11 +121,10 @@ void FSMScene::addTransition(FSMState *state)
         firstSelectedState->appendTransition(transition);
         secondSelectedState->appendTransition(transition);
 
+        emit itemSelected(firstSelectedState);
+        emit addNewTransition(transition);
         sceneMode = SELECT_MODE;
         firstSelectedState = nullptr;
-
-        transition->setSelected(true);
-        emit itemSelected(transition);
     }
 }
 
@@ -172,13 +172,11 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
         if (FSMState *state = qgraphicsitem_cast<FSMState *>(item))
         {
-            state->setSelected(true);
             addTransition(state);
         }
         else
         {
             sceneMode = SELECT_MODE;
-            ;
             firstSelectedState = nullptr;
         }
     }
@@ -187,6 +185,7 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (FSMState *state = qgraphicsitem_cast<FSMState *>(item))
         {
             state->setSelected(true);
+            if (state->isInitial()) emit initialStateDeleted(nullptr);
             deleteState(state);
         }
         else
@@ -195,7 +194,6 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
 
         sceneMode = SELECT_MODE;
-        ;
     }
     else if (sceneMode == DELETE_TRANSITION_MODE)
     {

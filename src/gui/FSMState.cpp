@@ -4,7 +4,7 @@
 
 #include "FSMState.h"
 #include "FSMTransition.h"
-#include "ConditionRowWidget.h"
+#include "TransitionRowWidget.h"
 #include <QMenu>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QDebug>
@@ -65,11 +65,11 @@ QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value) 
     return QGraphicsItem::itemChange(change, value);
 }
 
-void FSMState::saveConditions(QList<ConditionRowWidget*> conditionsRows) {
+void FSMState::saveConditions(QList<TransitionRowWidget*> conditionsRows) {
     m_conditions.clear();
 
     for (auto row : conditionsRows) {
-        m_conditions.append({row->getIfText(), row->getThenText()});
+        m_conditions.append({row->getConditionText(), row->getToStateText()});
     }
 }
 

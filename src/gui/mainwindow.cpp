@@ -8,7 +8,7 @@
 #include "FSMScene.h"
 #include "../parser/AutomateJsonDocument.h"
 #include "../parser/MooreMachine.h"
-#include "ConditionRowWidget.h"
+#include "TransitionRowWidget.h"
 #include "FSMState.h"
 #include <QDebug>
 #include <QFileDialog>
@@ -54,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
 
+    connect(fsmScene, &FSMScene::initialStateDeleted, fsmGui, &FSMGui::setInitialState);
+
     // FSM editing
     connect(fsmView, &FSMView::addStateRequested, fsmScene, &FSMScene::onAddState);
     connect(fsmView, &FSMView::addTransitionRequested, fsmScene, &FSMScene::onAddTransition);
@@ -81,18 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->addVariableButton, &QPushButton::clicked, this, &MainWindow::onAddVariableClicked);
 
     // Add condition
-    connect(ui->addConditionButton, &QPushButton::clicked, this, [=]() {
-        auto *row = new ConditionRowWidget();
-        ui->conditionsLayout->addWidget(row);
-
-        connect(row, &ConditionRowWidget::requestDelete, this, [=]() {
-            ui->conditionsLayout->removeWidget(row);
-            conditionWidgets.removeAll(row);
-            row->deleteLater(); 
-        });
-
-        conditionWidgets.append(row); 
-    });
+    connect(ui->addConditionButton, &QPushButton::clicked, this, &MainWindow::onAddConditionClicked);
 
     // FSM name
     connect(ui->automataNameLineEdit, &QLineEdit::editingFinished, this, [=]()
@@ -168,18 +159,18 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
 
     // Display conditions
     for (auto condition : state->getConditions()){
-        auto row = new ConditionRowWidget();
-        row->setConditionTexts(condition.first, condition.second);
-
-        conditionWidgets.append(row);
-        ui->conditionsLayout->addWidget(row);
-
-        connect(row, &ConditionRowWidget::requestDelete, this, [=]() {
-            ui->conditionsLayout->removeWidget(row);
-            conditionWidgets.removeAll(row);
-            row->deleteLater(); 
-        });
+        auto row = onAddConditionClicked();
+        row->setTransitionTexts(condition.first, condition.second);
     }
+
+    // Add new condition to new transition
+    disconnect(fsmScene, &FSMScene::addNewTransition, nullptr, nullptr);
+    connect(fsmScene, &FSMScene::addNewTransition, this, [=](FSMTransition *transition) {
+        auto row = onAddConditionClicked();
+        auto edit = row->getToStateEdit();
+        edit->setText(transition->getSecondState()->getLabel());;
+        edit->setReadOnly(true);
+    });
 
     // Save conditions
     disconnect(ui->saveConditionsButton, nullptr, nullptr, nullptr);
@@ -188,6 +179,26 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     });
 }
 
+// CONDITIONS
+TransitionRowWidget* MainWindow::onAddConditionClicked()
+{
+    auto *row = new TransitionRowWidget();
+
+    ui->conditionsLayout->addWidget(row);
+
+    connect(row, &TransitionRowWidget::requestDelete, this, &MainWindow::onDeleteCondition);
+
+    conditionWidgets.append(row);
+
+    return row;
+}
+
+void MainWindow::onDeleteCondition(TransitionRowWidget *row)
+{
+    ui->conditionsLayout->removeWidget(row);
+    conditionWidgets.removeAll(row);
+    row->deleteLater();
+}
 
 // INPUTS
 void MainWindow::onAddInputClicked()

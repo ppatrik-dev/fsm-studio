@@ -11,7 +11,7 @@
 #include "../parser/MooreMachine.h"
 #include "FSMGui.h"
 #include "GenericRowWidget.h"
-#include "ConditionRowWidget.h"
+#include "TransitionRowWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -43,7 +43,7 @@ private:
     QList<GenericRowWidget *> inputsWidgets;
     QList<GenericRowWidget *> outputsWidgets;
     QList<GenericRowWidget *> variablesWidgets;
-    QList<ConditionRowWidget *> conditionWidgets;
+    QList<TransitionRowWidget *> conditionWidgets;
 
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -51,13 +51,14 @@ signals:
     void createMachine(MooreMachine &machine);
 
 private slots:
+    TransitionRowWidget* onAddConditionClicked();
+    void onDeleteCondition(TransitionRowWidget *row);
     void onAddInputClicked();
     void onAddOutputClicked();
     void onAddVariableClicked();
+    void onDeleteRow(GenericRowWidget *row);
     void onImportFileClicked();
     void onExportFileClicked();
-
-    void onDeleteRow(GenericRowWidget *row);
     void showDetailsPanel(QGraphicsItem *item);
 
 public:

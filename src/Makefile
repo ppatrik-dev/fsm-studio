@@ -471,7 +471,7 @@ moc_ConditionRowWidget.cpp: gui/ConditionRowWidget.h \
 
 moc_FSMGui.cpp: gui/FSMGui.h \
 		ui_mainwindow.h \
-		gui/GenericRowWidget.h \
+		gui/FSMView.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
 		parser/MooreState.h \
@@ -480,6 +480,7 @@ moc_FSMGui.cpp: gui/FSMGui.h \
 		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
+		gui/GenericRowWidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMGui.h -o moc_FSMGui.cpp
@@ -594,7 +595,7 @@ ConditionRowWidget.o: gui/ConditionRowWidget.cpp gui/ConditionRowWidget.h
 
 FSMGui.o: gui/FSMGui.cpp gui/FSMGui.h \
 		ui_mainwindow.h \
-		gui/GenericRowWidget.h \
+		gui/FSMView.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
 		parser/MooreState.h \
@@ -602,7 +603,8 @@ FSMGui.o: gui/FSMGui.cpp gui/FSMGui.h \
 		parser/MooreTransition.h \
 		gui/ConditionRowWidget.h \
 		gui/FSMTransition.h \
-		parser/MooreMachine.h
+		parser/MooreMachine.h \
+		gui/GenericRowWidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMGui.o gui/FSMGui.cpp
 
 FSMScene.o: gui/FSMScene.cpp gui/FSMScene.h \

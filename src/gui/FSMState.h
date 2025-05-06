@@ -11,7 +11,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include "../parser/MooreState.h"
-#include <ConditionRowWidget.h>
+#include <TransitionRowWidget.h>
 #include <QVBoxLayout>
 
 class FSMTransition;
@@ -20,6 +20,7 @@ class FSMState : public QGraphicsObject
 {
 private:
     bool m_initial;
+    // bool m_new_transition;
     bool m_hovered;
     int m_radius;
     QString m_label;
@@ -51,7 +52,7 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-    void saveConditions(QList<ConditionRowWidget *> conditionsRows);
+    void saveConditions(QList<TransitionRowWidget *> conditionsRows);
 
     inline bool isInitial() const {
         return m_initial;
@@ -61,6 +62,14 @@ public:
         m_initial = value;
         update();
     }
+
+    // inline bool isNewTransition() const {
+    //     return m_new_transition;
+    // }
+
+    // inline void setNewTransition(bool value) {
+    //     m_new_transition = value;
+    // }
 
     inline QString getLabel() const
     {
