@@ -10,12 +10,12 @@
 #include <QApplication>
 #include <iostream>
 #include <vector>
-#include "parser/AutomateJsonDocument.h"
-#include "parser/MooreMachine.h"
-#include "parser/ActionExecutor.h"
-#include "parser/MooreMachineExecutor.h"
-#include "parser/RunExecutionStrategy.h"
-#include "parser/StepExecutionStrategy.h"
+#include "../parser/AutomateJsonDocument.h"
+#include "../parser/MooreMachine.h"
+#include "../parser/ActionExecutor.h"
+#include "../parser/MooreMachineExecutor.h"
+#include "../parser/RunExecutionStrategy.h"
+#include "../parser/StepExecutionStrategy.h"
 
 int main(int argc, char *argv[])
 {

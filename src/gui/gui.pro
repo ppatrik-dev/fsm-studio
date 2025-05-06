@@ -22,15 +22,15 @@ SOURCES += \
     GenericRowWidget.cpp \
     main.cpp \
     mainwindow.cpp \
-    parser/MooreMachine.cpp \
-    parser/MooreState.cpp \
-    parser/MooreStateFactory.cpp \
-    parser/AutomateJsonDocument.cpp \
-    parser/ActionExecutor.cpp \
-     parser/MooreMachineExecutor.cpp\
-     parser/RunExecutionStrategy.cpp \
-     parser/StepExecutionStrategy.cpp \
-     ForceDirectedLayout.cpp
+    ../parser/MooreMachine.cpp \
+    ../parser/MooreState.cpp \
+    ../parser/MooreStateFactory.cpp \
+    ../parser/AutomateJsonDocument.cpp \
+    ../parser/ActionExecutor.cpp \
+    ../parser/MooreMachineExecutor.cpp\
+    ../parser/RunExecutionStrategy.cpp \
+    ../parser/StepExecutionStrategy.cpp \
+    ForceDirectedLayout.cpp
 
 HEADERS += \
     ConditionRowWidget.h \
@@ -40,18 +40,18 @@ HEADERS += \
     FSMTransition.h \
     FSMView.h \
     mainwindow.h \
-    parser/MooreMachine.h \
-    parser/MooreState.h \
-    parser/MooreStateFactory.h \
-    parser/AutomateJsonDocument.h \
-    parser/ActionExecutor.h \
-    parser/IExecutionStrategy.h \
-    parser/MooreMachineExecutor.h\
-     parser/RunExecutionStrategy.h \
-     parser/StepExecutionStrategy.h \
+    ../parser/MooreMachine.h \
+    ../parser/MooreState.h \
+    ../parser/MooreStateFactory.h \
+    ../parser/AutomateJsonDocument.h \
+    ../parser/ActionExecutor.h \
+    ../parser/IExecutionStrategy.h \
+    ../parser/MooreMachineExecutor.h\
+    ../parser/RunExecutionStrategy.h \
+    ../parser/StepExecutionStrategy.h \
     GenericRowWidget.h \
     ForceDirectedLayout.h \
-    parser/MooreJsClass.h
+    ../parser/MooreJsClass.h
 
 FORMS += \
     mainwindow.ui

@@ -14,20 +14,24 @@ class FSMGui : public QObject
 {
     Q_OBJECT
 public:
-    explicit FSMGui(QObject *parent = nullptr, FSMScene *fsmScene = nullptr)
-        : simulationMode(false), m_graph(fsmScene) {}
+    explicit FSMGui(FSMScene *fsmScene)
+        : simulationMode(false), m_graph(fsmScene), m_initialState(nullptr) {}
 
 private:
     bool simulationMode;
-
     FSMScene *m_graph;
     QString m_name;
     QString m_description;
+    FSMState *m_initialState;
     QMap<QString, QString> m_inputs;
     QMap<QString, QString> m_outputs;
     QMap<QString, QString> m_variables;
 
 public:
+    FSMState *getInitialState() const {
+        return m_initialState;
+    }
+
     FSMScene *getGraph() const
     {
         return m_graph;
@@ -49,6 +53,21 @@ public:
     }
 
 public:
+    void setInitialState(FSMState *state) {
+        if (m_initialState == state)
+            return;
+
+        if (m_initialState)
+            m_initialState->setInitial(false);
+
+        m_initialState = state;
+
+        if (m_initialState)
+            m_initialState->setInitial(true);
+
+        // emit Initial State Changed to Mirek
+    }
+
     void saveName(QString name)
     {
         m_name = name;
@@ -71,6 +90,7 @@ public:
 
     void runSimulation(Ui::MainWindow *ui);
 signals:
+    void initialStateChanged(FSMState *state);
     void inputAddValue(const QString key, const QString value);
     void inputDeleteValue(const QString key);
     void outputAddValue(const QString key, const QString value);

@@ -9,18 +9,17 @@
 #include <QList>
 #include <QMap>
 #include <QGraphicsLineItem>
+#include <climits>
 #include "FSMState.h"
 #include "FSMTransition.h"
-#include "parser/MooreMachine.h"
-#include "parser/MooreState.h"
+#include "../parser/MooreMachine.h"
+#include "../parser/MooreState.h"
 
 class FSMScene : public QGraphicsScene
 {
     Q_OBJECT
 
 private:
-    int m_labelCount;
-    QList<QString> m_labelList;
     FSMState *firstSelectedState;
     QMap<QString, FSMState *> m_states;
     QList<FSMTransition *> m_transitions;
@@ -36,6 +35,7 @@ private:
 
 public:
     explicit FSMScene(QObject *parent = nullptr);
+    void clearScene();
     void setMachine(MooreMachine *machine);
     void addConnects();
     inline QMap<QString, FSMState *> getFSMStates() const
@@ -50,43 +50,25 @@ public:
 
     inline QString getStateLabel()
     {
-        QString label;
-
-        if (m_states.count() == 0)
-        {
-            m_labelCount = 0;
-            m_labelList.clear();
-        }
-
-        if (m_labelList.count() > 1 && m_labelCount < 26)
-        {
-            std::sort(m_labelList.begin(), m_labelList.end());
-        }
-
-        if (m_states.count() < m_labelCount)
-        {
-            label = m_labelList.takeFirst();
-        }
-        else
-        {
-            int count = m_states.count();
-            QChar letter = QChar('A' + (count % 26));
-
-            if (count < 26)
-            {
-                label = QString(letter);
+        for (char c = 'A'; c <= 'Z'; ++c) {
+            QString label(c);
+            if (!m_states.contains(label)) {
+                return label;
             }
-            else
-            {
-                int number = count / 26;
-                label = QString("%1%2").arg(letter).arg(number);
-            }
-
-            m_labelCount++;
         }
 
-        return label;
+        for (int n = 0; n < INT_MAX; ++n) {
+            for (char c = 'A'; c <= 'Z'; ++c) {
+                QString label = QString(c) + QString::number(n);
+                if (!m_states.contains(label)) {
+                    return label;
+                }
+            }
+        }
     }
+
+public:
+    void drawInitialArrow(FSMState *state);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -98,8 +80,6 @@ protected:
     void addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState);
     void displayAutomaton(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions);
     FSMState *getStateByName(const QString &name) const;
-
-    void clear();
 
 public slots:
     void

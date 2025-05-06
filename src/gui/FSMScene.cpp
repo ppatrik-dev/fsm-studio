@@ -10,11 +10,11 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsSceneMouseEvent>
 #include "ForceDirectedLayout.h"
-#include "parser/MooreMachine.h"
+#include "../parser/MooreMachine.h"
 
 FSMScene::FSMScene(QObject *parent)
-    : QGraphicsScene{parent},
-      m_labelCount(0), sceneMode(SELECT_MODE)
+    : QGraphicsScene{parent}, sceneMode(SELECT_MODE),
+    firstSelectedState(nullptr)
 {
 }
 void FSMScene::setMachine(MooreMachine *machine)
@@ -83,7 +83,7 @@ FSMState *FSMScene::getStateByName(const QString &name) const
 
 void FSMScene::onClearScene()
 {
-    clear();
+    clearScene();
 }
 
 void FSMScene::addTransition(FSMState *state)
@@ -145,8 +145,6 @@ void FSMScene::deleteTransition(FSMTransition *transition)
 
 void FSMScene::deleteState(FSMState *state)
 {
-    m_labelList.append(state->getLabel());
-
     auto transitions = state->getTransitions();
     for (FSMTransition *transition : transitions)
     {
@@ -158,7 +156,7 @@ void FSMScene::deleteState(FSMState *state)
     state->deleteLater();
 }
 
-void FSMScene::clear()
+void FSMScene::clearScene()
 {
     auto states = m_states.values();
     for (FSMState *state : states)
@@ -237,7 +235,9 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 void FSMScene::createMachineFile(MooreMachine &machine)
-{
+{   
+    clearScene();
+    // machine->clearMachine();
     for (auto it = machine.states.cbegin(); it != machine.states.cend(); ++it)
     {
         const std::shared_ptr<MooreState> &state = it.value();

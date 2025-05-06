@@ -8,7 +8,7 @@
 #include <QMainWindow>
 #include "FSMView.h"
 #include "FSMScene.h"
-#include "parser/MooreMachine.h"
+#include "../parser/MooreMachine.h"
 #include "FSMGui.h"
 #include "GenericRowWidget.h"
 #include "ConditionRowWidget.h"

@@ -6,8 +6,8 @@
 #include "ui_mainwindow.h"
 #include "FSMView.h"
 #include "FSMScene.h"
-#include "parser/AutomateJsonDocument.h"
-#include "parser/MooreMachine.h"
+#include "../parser/AutomateJsonDocument.h"
+#include "../parser/MooreMachine.h"
 #include "ConditionRowWidget.h"
 #include "FSMState.h"
 #include <QDebug>
@@ -27,8 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     fsmScene->addConnects();
     fsmGui = new FSMGui(fsmScene);
 
-    // connect(ui->zoomInButton, &QPushButton::clicked, ui->fsmGraphicsView, &FSMView::zoomIn);
-    // connect(ui->zoomOutButton, &QPushButton::clicked, ui->fsmGraphicsView, &FSMView::zoomOut);
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
 
@@ -98,6 +96,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->automataNameLineEdit, &QLineEdit::editingFinished, this, [=]()
             { fsmGui->saveName(ui->automataNameLineEdit->text()); });
 
+    // FSM description
+    connect(ui->automataDescriptionTextEdit, &QTextEdit::textChanged, this, [=]()
+            { fsmGui->saveDescription(ui->automataDescriptionTextEdit->toPlainText());} );
+
     // Inputs
     connect(ui->saveInputsButton, &QPushButton::clicked, this, [=]()
             { fsmGui->saveInputs(inputsWidgets); });
@@ -131,6 +133,12 @@ void MainWindow::onImportFileClicked()
     QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
     emit loadJsonRequested(filename, *machine);
     emit createMachine(*machine);
+
+    /*
+     * fsmGui->displayName(QString name);
+     * fsmGui->displayDescription(QString description);
+     * fsmGui()->displayInputs(list(string, string);
+     */
 }
 
 // MENU
@@ -139,37 +147,23 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     if (!item || item->type() != FSMState::Type)
     {
         ui->detailsPanel->setCurrentWidget(ui->automataPropertiesPanel);
+        return;
     }
 
-    else if (item->type() == FSMState::Type)
-    {
-        clearConditionRows();
-        ui->detailsPanel->setCurrentWidget(ui->statePropertiesPanel);
+    clearConditionRows();
+    ui->detailsPanel->setCurrentWidget(ui->statePropertiesPanel);
 
-        FSMState *state = qgraphicsitem_cast<FSMState *>(item);
-        ui->stateNameLineEdit->setText(state->getLabel());
+    FSMState *state = qgraphicsitem_cast<FSMState *>(item);
 
-        // Display conditions
-        for (auto condition : state->getConditions())
-        {
-            auto row = new ConditionRowWidget();
-            row->setConditionTexts(condition.first, condition.second);
+    // State name
+    ui->stateNameLineEdit->setText(state->getLabel());
+    ui->stateNameLineEdit->setReadOnly(true);
 
-            conditionWidgets.append(row);
-            ui->conditionsLayout->addWidget(row);
+    disconnect(ui->initialStatePushButton, nullptr, nullptr, nullptr);
+    connect(ui->initialStatePushButton, &QPushButton::clicked, this, [this, state]() {
+        fsmGui->setInitialState(state);
+    });
 
-            connect(row, &ConditionRowWidget::requestDelete, this, [=]()
-                    {
-                ui->conditionsLayout->removeWidget(row);
-                conditionWidgets.removeAll(row);
-                row->deleteLater(); });
-        }
-
-        // Save conditions
-        disconnect(ui->saveConditionsButton, nullptr, nullptr, nullptr);
-        connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]()
-                { state->saveConditions(conditionWidgets); });
-    }
 }
 
 // INPUTS
