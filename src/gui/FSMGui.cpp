@@ -6,6 +6,21 @@ void FSMGui::runSimulation(Ui::MainWindow *ui)
     ui->runButton->setStyleSheet("background-color: rgb(51, 153, 102);");
 }
 
+void FSMGui::setInitialState(FSMState *state) {
+    if (m_initialState == state)
+        return;
+
+    if (m_initialState)
+        m_initialState->setInitial(false);
+
+    m_initialState = state;
+
+    if (m_initialState)
+        m_initialState->setInitial(true);
+
+    // emit initialStateChanged(state);
+}
+
 void FSMGui::saveInputs(const QList<GenericRowWidget *> rows)
 {
     QList<QString> used_id;

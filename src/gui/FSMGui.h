@@ -53,20 +53,7 @@ public:
     }
 
 public:
-    void setInitialState(FSMState *state) {
-        if (m_initialState == state)
-            return;
-
-        if (m_initialState)
-            m_initialState->setInitial(false);
-
-        m_initialState = state;
-
-        if (m_initialState)
-            m_initialState->setInitial(true);
-
-        // emit Initial State Changed to Mirek
-    }
+    void setInitialState(FSMState *state);
 
     void saveName(QString name)
     {

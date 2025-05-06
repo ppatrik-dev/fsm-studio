@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
     connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
+
     // Control buttons
     connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
@@ -49,8 +50,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
     connect(fsmGui, &FSMGui::saveDescriptionValue, machine, &MooreMachine::setComment);
 
-    // Control buttons
-
     // FSM scale
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
@@ -63,6 +62,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Details panel
     connect(fsmScene, &FSMScene::itemSelected, this, &MainWindow::showDetailsPanel);
+
+    // Initial state changed
+    // connect(fsmGui, &FSMGui::initialStateChanged, ) TODO: Connect signal to Mirek slot
 
     // Init layouts
     inputsLayout = new QVBoxLayout();
@@ -79,18 +81,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->addVariableButton, &QPushButton::clicked, this, &MainWindow::onAddVariableClicked);
 
     // Add condition
-    connect(ui->addConditionButton, &QPushButton::clicked, this, [=]()
-            {
+    connect(ui->addConditionButton, &QPushButton::clicked, this, [=]() {
         auto *row = new ConditionRowWidget();
         ui->conditionsLayout->addWidget(row);
 
-        connect(row, &ConditionRowWidget::requestDelete, this, [=]()
-                {
+        connect(row, &ConditionRowWidget::requestDelete, this, [=]() {
             ui->conditionsLayout->removeWidget(row);
             conditionWidgets.removeAll(row);
-            row->deleteLater(); });
+            row->deleteLater(); 
+        });
 
-        conditionWidgets.append(row); });
+        conditionWidgets.append(row); 
+    });
 
     // FSM name
     connect(ui->automataNameLineEdit, &QLineEdit::editingFinished, this, [=]()
@@ -153,7 +155,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     clearConditionRows();
     ui->detailsPanel->setCurrentWidget(ui->statePropertiesPanel);
 
-    FSMState *state = qgraphicsitem_cast<FSMState *>(item);
+    FSMState *state = qgraphicsitem_cast<FSMState*>(item);
 
     // State name
     ui->stateNameLineEdit->setText(state->getLabel());
@@ -164,7 +166,28 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         fsmGui->setInitialState(state);
     });
 
+    // Display conditions
+    for (auto condition : state->getConditions()){
+        auto row = new ConditionRowWidget();
+        row->setConditionTexts(condition.first, condition.second);
+
+        conditionWidgets.append(row);
+        ui->conditionsLayout->addWidget(row);
+
+        connect(row, &ConditionRowWidget::requestDelete, this, [=]() {
+            ui->conditionsLayout->removeWidget(row);
+            conditionWidgets.removeAll(row);
+            row->deleteLater(); 
+        });
+    }
+
+    // Save conditions
+    disconnect(ui->saveConditionsButton, nullptr, nullptr, nullptr);
+    connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]() {
+        state->saveConditions(conditionWidgets);
+    });
 }
+
 
 // INPUTS
 void MainWindow::onAddInputClicked()

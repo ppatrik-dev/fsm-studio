@@ -385,7 +385,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
+                <width>308</width>
                 <height>153</height>
                </rect>
               </property>
@@ -438,7 +438,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
+                <width>308</width>
                 <height>154</height>
                </rect>
               </property>
@@ -487,7 +487,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
+                <width>308</width>
                 <height>153</height>
                </rect>
               </property>
@@ -620,10 +620,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <item>
            <widget class="QPushButton" name="initialStatePushButton">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
             </property>
             <property name="maximumSize">
              <size>
@@ -637,7 +643,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              </font>
             </property>
             <property name="text">
-             <string>IInitial state</string>
+             <string>Set Initial</string>
             </property>
            </widget>
           </item>
@@ -665,7 +671,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>328</width>
+             <width>331</width>
              <height>774</height>
             </rect>
            </property>
