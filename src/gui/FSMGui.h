@@ -79,6 +79,10 @@ signals:
     void variableDeleteValue(const QString key);
     void saveNameValue(const QString &name);
     void saveDescriptionValue(const QString &comment);
+    void getVarValue(QMap<QString, QString> &automate_backup, const QString &mode); // input output variable
+    void getNameValue(QString &name);
+    void getDescriptionValue(QString &comment);
+    void getStartStateValue(QString &startState);
 };
 
 #endif // FSMGUI_H

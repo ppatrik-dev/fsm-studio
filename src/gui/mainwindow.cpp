@@ -51,6 +51,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
     connect(fsmGui, &FSMGui::saveDescriptionValue, machine, &MooreMachine::setComment);
 
+    connect(fsmGui, &FSMGui::getVarValue, machine, &MooreMachine::getGuiMap);
+    connect(fsmGui, &FSMGui::getNameValue, machine, &MooreMachine::getGuiName);
+    connect(fsmGui, &FSMGui::getDescriptionValue, machine, &MooreMachine::getGuiComment);
+    connect(fsmGui, &FSMGui::getStartStateValue, machine, &MooreMachine::getGuiStartState);
+
     // Control buttons
 
     // FSM scale

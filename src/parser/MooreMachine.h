@@ -38,8 +38,10 @@ public:
     QVector<QString> getVariables() const;
     QString createVarCommand(const QString &name, const QString &value);
     QString extractVariableName(const QString &command);
+    QString extractVariableValue(const QString &command);
     void addState(const QString &name, const std::shared_ptr<MooreState> &state);
     std::shared_ptr<MooreState> getState(const QString &name);
+
 public slots:
     void createAndAddState(std::shared_ptr<MooreState> &state, const QString &stateName, const QString &output);
     void createTransition(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetStateName);
@@ -52,4 +54,8 @@ public slots:
     void deleteGuiOutput(const QString &name);
     void addGuiVariable(const QString &name, const QString &value);
     void deleteGuiVariable(const QString &name);
+    void getGuiMap(QMap<QString, QString> &automate_backup, const QString &mode);
+    void getGuiName(QString &name);
+    void getGuiComment(QString &comment);
+    void getGuiStartState(QString &startState);
 };
