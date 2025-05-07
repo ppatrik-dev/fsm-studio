@@ -8,10 +8,10 @@
 #include <QMainWindow>
 #include "FSMView.h"
 #include "FSMScene.h"
-#include "parser/MooreMachine.h"
+#include "../parser/MooreMachine.h"
 #include "FSMGui.h"
 #include "GenericRowWidget.h"
-#include "ConditionRowWidget.h"
+#include "TransitionRowWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -36,6 +36,8 @@ private:
     FSMView *fsmView;
     FSMGui *fsmGui;
 
+    FSMState *selectedState = nullptr;
+
     QVBoxLayout *inputsLayout;
     QVBoxLayout *outputsLayout;
     QVBoxLayout *variablesLayout;
@@ -43,7 +45,7 @@ private:
     QList<GenericRowWidget *> inputsWidgets;
     QList<GenericRowWidget *> outputsWidgets;
     QList<GenericRowWidget *> variablesWidgets;
-    QList<ConditionRowWidget *> conditionWidgets;
+    QList<TransitionRowWidget *> conditionWidgets;
 
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -51,17 +53,20 @@ signals:
     void createMachine(MooreMachine &machine);
 
 private slots:
+    TransitionRowWidget* onAddTransitionClicked();
+    void onCreateTransition(TransitionRowWidget *row);
+    void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();
     void onAddOutputClicked();
     void onAddVariableClicked();
+    void onDeleteRow(GenericRowWidget *row);
     void onImportFileClicked();
     void onExportFileClicked();
-
-    void onDeleteRow(GenericRowWidget *row);
     void showDetailsPanel(QGraphicsItem *item);
 
 public:
-    void clearConditionRows();
+    void clearTransitionRows();
+    void detachWidgetsFromLayout(QLayout *layout);
 };
 
 #endif // MAINWINDOW_H

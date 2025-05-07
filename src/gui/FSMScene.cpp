@@ -10,11 +10,11 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsSceneMouseEvent>
 #include "ForceDirectedLayout.h"
-#include "parser/MooreMachine.h"
+#include "../parser/MooreMachine.h"
 
 FSMScene::FSMScene(QObject *parent)
-    : QGraphicsScene{parent},
-      m_labelCount(0), sceneMode(SELECT_MODE)
+    : QGraphicsScene{parent}, sceneMode(SELECT_MODE),
+    firstSelectedState(nullptr)
 {
 }
 void FSMScene::setMachine(MooreMachine *machine)
@@ -83,18 +83,18 @@ FSMState *FSMScene::getStateByName(const QString &name) const
 
 void FSMScene::onClearScene()
 {
-    clear();
+    clearScene();
 }
 
 void FSMScene::addTransition(FSMState *state)
 {
     if (!firstSelectedState)
     {
+        state->setSelected(true);
         firstSelectedState = state;
     }
     else
     {
-
         FSMState *secondSelectedState = state;
         if (!firstSelectedState)
         {
@@ -113,6 +113,7 @@ void FSMScene::addTransition(FSMState *state)
         }
 
         emit createTransitionRequest(firstSelectedState->getMooreState(), "", secondSelectedState->getLabel());
+
         FSMTransition *transition = new FSMTransition(firstSelectedState, secondSelectedState);
         m_transitions.append(transition);
         addItem(transition);
@@ -120,11 +121,10 @@ void FSMScene::addTransition(FSMState *state)
         firstSelectedState->appendTransition(transition);
         secondSelectedState->appendTransition(transition);
 
+        emit itemSelected(firstSelectedState);
+        emit addNewTransition(transition);
         sceneMode = SELECT_MODE;
         firstSelectedState = nullptr;
-
-        transition->setSelected(true);
-        emit itemSelected(transition);
     }
 }
 
@@ -145,12 +145,11 @@ void FSMScene::deleteTransition(FSMTransition *transition)
 
 void FSMScene::deleteState(FSMState *state)
 {
-    m_labelList.append(state->getLabel());
-
     auto transitions = state->getTransitions();
     for (FSMTransition *transition : transitions)
     {
         deleteTransition(transition);
+        transition->other(state)->removeCondition(state->getLabel());
     }
 
     removeItem(state);
@@ -158,7 +157,7 @@ void FSMScene::deleteState(FSMState *state)
     state->deleteLater();
 }
 
-void FSMScene::clear()
+void FSMScene::clearScene()
 {
     auto states = m_states.values();
     for (FSMState *state : states)
@@ -174,13 +173,11 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
         if (FSMState *state = qgraphicsitem_cast<FSMState *>(item))
         {
-            state->setSelected(true);
             addTransition(state);
         }
         else
         {
             sceneMode = SELECT_MODE;
-            ;
             firstSelectedState = nullptr;
         }
     }
@@ -189,6 +186,7 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (FSMState *state = qgraphicsitem_cast<FSMState *>(item))
         {
             state->setSelected(true);
+            if (state->isInitial()) emit initialStateDeleted(nullptr);
             deleteState(state);
         }
         else
@@ -197,7 +195,6 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
 
         sceneMode = SELECT_MODE;
-        ;
     }
     else if (sceneMode == DELETE_TRANSITION_MODE)
     {
@@ -237,7 +234,9 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 void FSMScene::createMachineFile(MooreMachine &machine)
-{
+{   
+    clearScene();
+    // machine->clearMachine();
     for (auto it = machine.states.cbegin(); it != machine.states.cend(); ++it)
     {
         const std::shared_ptr<MooreState> &state = it.value();
@@ -277,4 +276,15 @@ void FSMScene::addConnects()
 
     connect(this, &FSMScene::createTransitionRequest,
             this->machine, &MooreMachine::createTransition);
+}
+
+FSMTransition* FSMScene::createTransition(FSMState *firstState, FSMState *secondState) {
+    FSMTransition *transition = new FSMTransition(firstState, secondState);
+
+    m_transitions.append(transition);
+    firstState->appendTransition(transition);
+    secondState->appendTransition(transition);
+    addItem(transition);
+
+    return transition;
 }

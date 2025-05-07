@@ -6,9 +6,9 @@
 #include "ui_mainwindow.h"
 #include "FSMView.h"
 #include "FSMScene.h"
-#include "parser/AutomateJsonDocument.h"
-#include "parser/MooreMachine.h"
-#include "ConditionRowWidget.h"
+#include "../parser/AutomateJsonDocument.h"
+#include "../parser/MooreMachine.h"
+#include "TransitionRowWidget.h"
 #include "FSMState.h"
 #include <QDebug>
 #include <QFileDialog>
@@ -27,8 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     fsmScene->addConnects();
     fsmGui = new FSMGui(fsmScene);
 
-    // connect(ui->zoomInButton, &QPushButton::clicked, ui->fsmGraphicsView, &FSMView::zoomIn);
-    // connect(ui->zoomOutButton, &QPushButton::clicked, ui->fsmGraphicsView, &FSMView::zoomOut);
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
 
@@ -37,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
     connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
+
     // Control buttons
     connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
@@ -62,14 +61,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
 
+    connect(fsmScene, &FSMScene::initialStateDeleted, fsmGui, &FSMGui::setInitialState);
+
     // FSM editing
     connect(fsmView, &FSMView::addStateRequested, fsmScene, &FSMScene::onAddState);
     connect(fsmView, &FSMView::addTransitionRequested, fsmScene, &FSMScene::onAddTransition);
     connect(fsmView, &FSMView::deleteStateRequested, fsmScene, &FSMScene::onDeleteState);
-    connect(fsmView, &FSMView::deleteTransitionRequested, fsmScene, &FSMScene::onDeleteTransition);
+    // connect(fsmView, &FSMView::deleteTransitionRequested, fsmScene, &FSMScene::onDeleteTransition);
 
     // Details panel
     connect(fsmScene, &FSMScene::itemSelected, this, &MainWindow::showDetailsPanel);
+
+    // Initial state changed
+    // connect(fsmGui, &FSMGui::initialStateChanged, ) TODO: Connect signal to Mirek slot
 
     // Init layouts
     inputsLayout = new QVBoxLayout();
@@ -86,22 +90,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->addVariableButton, &QPushButton::clicked, this, &MainWindow::onAddVariableClicked);
 
     // Add condition
-    connect(ui->addConditionButton, &QPushButton::clicked, this, [=]()
-            {
-        auto *row = new ConditionRowWidget();
-        ui->conditionsLayout->addWidget(row);
-
-        connect(row, &ConditionRowWidget::requestDelete, this, [=]()
-                {
-            ui->conditionsLayout->removeWidget(row);
-            conditionWidgets.removeAll(row);
-            row->deleteLater(); });
-
-        conditionWidgets.append(row); });
+    connect(ui->addConditionButton, &QPushButton::clicked, this, &MainWindow::onAddTransitionClicked);
 
     // FSM name
     connect(ui->automataNameLineEdit, &QLineEdit::editingFinished, this, [=]()
             { fsmGui->saveName(ui->automataNameLineEdit->text()); });
+
+    // FSM description
+    connect(ui->automataDescriptionTextEdit, &QTextEdit::textChanged, this, [=]()
+            { fsmGui->saveDescription(ui->automataDescriptionTextEdit->toPlainText()); });
 
     // Inputs
     connect(ui->saveInputsButton, &QPushButton::clicked, this, [=]()
@@ -136,6 +133,12 @@ void MainWindow::onImportFileClicked()
     QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
     emit loadJsonRequested(filename, *machine);
     emit createMachine(*machine);
+
+    /*
+     * fsmGui->displayName(QString name);
+     * fsmGui->displayDescription(QString description);
+     * fsmGui()->displayInputs(list(string, string);
+     */
 }
 
 // MENU
@@ -144,37 +147,114 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     if (!item || item->type() != FSMState::Type)
     {
         ui->detailsPanel->setCurrentWidget(ui->automataPropertiesPanel);
+        selectedState = nullptr;
+        return;
     }
 
-    else if (item->type() == FSMState::Type)
+    detachWidgetsFromLayout(ui->conditionsLayout);
+    ui->detailsPanel->setCurrentWidget(ui->statePropertiesPanel);
+
+    FSMState *state = qgraphicsitem_cast<FSMState *>(item);
+    selectedState = state;
+
+    // State name
+    ui->stateNameLineEdit->setText(state->getLabel());
+    ui->stateNameLineEdit->setReadOnly(true);
+
+    // Initial state
+    disconnect(ui->initialStatePushButton, &QPushButton::clicked, nullptr, nullptr);
+    connect(ui->initialStatePushButton, &QPushButton::clicked, this, [this, state]()
+            { fsmGui->setInitialState(state); });
+
+    // State output
+    ui->stateOutputLineEdit->setText(state->getOutput());
+
+    disconnect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, nullptr, nullptr);
+    connect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, this, [=]()
+            {
+        state->setOutput(ui->stateOutputLineEdit->text());
+        qDebug() << state->getOutput(); });
+
+    // Display conditions
+    for (auto *row : selectedState->getTransitionsRows())
     {
-        clearConditionRows();
-        ui->detailsPanel->setCurrentWidget(ui->statePropertiesPanel);
+        ui->conditionsLayout->addWidget(row);
+        row->show(); // make visible again
+    }
 
-        FSMState *state = qgraphicsitem_cast<FSMState *>(item);
-        ui->stateNameLineEdit->setText(state->getLabel());
+    // Add new condition to new transition
+    disconnect(fsmScene, &FSMScene::addNewTransition, nullptr, nullptr);
+    connect(fsmScene, &FSMScene::addNewTransition, this, [=](FSMTransition *transition)
+            {
+        auto row = onAddTransitionClicked();
+        auto edit = row->getToStateEdit();
+        edit->setText(transition->getSecondState()->getLabel());;
+        edit->setReadOnly(true);
+        row->setTransitionItem(transition); });
 
-        // Display conditions
-        for (auto condition : state->getConditions())
+    // Save conditions
+    // disconnect(ui->saveConditionsButton, &QPushButton::clicked, nullptr, nullptr);
+    // connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]() {
+    //     state->saveConditions(selectedState->getTransitionsRows());
+    // });
+}
+
+// CONDITIONS
+TransitionRowWidget *MainWindow::onAddTransitionClicked()
+{
+    auto *row = new TransitionRowWidget();
+
+    ui->conditionsLayout->addWidget(row);
+
+    connect(row, &TransitionRowWidget::requestCreate, this, &MainWindow::onCreateTransition);
+    connect(row, &TransitionRowWidget::requestRemove, this, &MainWindow::onRemoveTransition);
+
+    selectedState->getTransitionsRows().append(row);
+
+    return row;
+}
+
+void MainWindow::onCreateTransition(TransitionRowWidget *row)
+{
+    if (row->getConditionText().isEmpty() || row->getToStateText().isEmpty())
+    {
+        qDebug() << "Please provide transition details";
+        return;
+    }
+
+    QString toStateLabel = row->getToStateText();
+
+    if (!fsmScene->getFSMStates().contains(toStateLabel))
+    {
+        qDebug() << "State " << toStateLabel << "does not exist";
+        row->getToStateEdit()->clear();
+    }
+    else
+    {
+        if (!row->getTransitionItem())
         {
-            auto row = new ConditionRowWidget();
-            row->setConditionTexts(condition.first, condition.second);
-
-            conditionWidgets.append(row);
-            ui->conditionsLayout->addWidget(row);
-
-            connect(row, &ConditionRowWidget::requestDelete, this, [=]()
-                    {
-                ui->conditionsLayout->removeWidget(row);
-                conditionWidgets.removeAll(row);
-                row->deleteLater(); });
+            FSMState *toState = fsmScene->getFSMStates().value(toStateLabel);
+            auto transition = fsmScene->createTransition(selectedState, toState);
+            row->setTransitionItem(transition);
         }
 
-        // Save conditions
-        disconnect(ui->saveConditionsButton, nullptr, nullptr, nullptr);
-        connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]()
-                { state->saveConditions(conditionWidgets); });
+        // selectedState->saveConditions(selectedState->getTransitionsRows());
     }
+}
+
+void MainWindow::onRemoveTransition(TransitionRowWidget *row)
+{
+    auto transition = row->getTransitionItem();
+    if (transition)
+    {
+        fsmScene->deleteTransition(transition);
+    }
+
+    ui->conditionsLayout->removeWidget(row);
+    selectedState->getTransitionsRows().removeAll(row);
+    row->deleteLater();
+
+    // selectedState->saveConditions(selectedState->getTransitionsRows());
 }
 
 // INPUTS
@@ -239,12 +319,20 @@ void MainWindow::onDeleteRow(GenericRowWidget *row)
     row->deleteLater();
 }
 
-void MainWindow::clearConditionRows()
+void MainWindow::detachWidgetsFromLayout(QLayout *layout)
 {
-    for (auto row : conditionWidgets)
+    while (QLayoutItem *item = layout->takeAt(0))
     {
-        if (row)
-            row->deleteLater();
+        if (QWidget *widget = item->widget())
+        {
+            widget->setParent(nullptr); // safely detach from layout
+            widget->hide();             // hide so it's not visible until needed
+        }
+        delete item; // delete the QLayoutItem, not the widget
     }
-    conditionWidgets.clear();
+}
+
+void MainWindow::clearTransitionRows()
+{
+    selectedState->getTransitionsRows().clear();
 }

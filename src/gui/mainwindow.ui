@@ -12,50 +12,50 @@
   </property>
   <property name="styleSheet">
    <string notr="true">
-    QWidget {
-        background-color: #1e1e1e;
-        color: #ffffff;
-    }
-    QLineEdit, QTextEdit, QLabel, QPushButton {
-        background-color: #2e2e2e;
-        color: #ffffff;
-        border: 1px solid #444444;
-        border-radius: 6px;
-        padding: 6px;
-    }
-    QGroupBox {
-        border: 1px solid #444444;
-        margin-top: 10px;
-        background-color: #2e2e2e;
-        color: #ffffff;
-        border-radius: 8px;
-    }
-    QGroupBox::title {
-        subcontrol-origin: margin;
-        subcontrol-position: top left;
-        padding: 4px 6px;
-    }
-    QGraphicsView {
-        background-color: #1e1e1e;
-    }
-    QPushButton {
-        background-color: #3a3a3a;
-        color: white;
-        border: 1px solid #5a5a5a;
-        border-radius: 6px;
-        padding: 6px 12px;
-    }
-    QPushButton:hover {
-        background-color: #505050;
-    }
-    QPushButton:pressed {
-        background-color: #707070;
-    }
-    QFrame#detailsPanel {
-        background-color: #2b2b2b;
-        border-radius: 12px;
-        padding: 12px;
-    }
+        QWidget {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        QLineEdit, QTextEdit, QLabel, QPushButton, QCheckBox {
+            background-color: #2e2e2e;
+            color: #ffffff;
+            border: 1px solid #444444;
+            border-radius: 6px;
+            padding: 6px;
+        }
+        QGroupBox {
+            border: 1px solid #444444;
+            margin-top: 10px;
+            background-color: #2e2e2e;
+            color: #ffffff;
+            border-radius: 8px;
+        }
+        QGroupBox::title {
+            subcontrol-origin: margin;
+            subcontrol-position: top left;
+            padding: 4px 6px;
+        }
+        QGraphicsView {
+            background-color: #1e1e1e;
+        }
+        QPushButton {
+            background-color: #3a3a3a;
+            color: white;
+            border: 1px solid #5a5a5a;
+            border-radius: 6px;
+            padding: 6px 12px;
+        }
+        QPushButton:hover {
+            background-color: #505050;
+        }
+        QPushButton:pressed {
+            background-color: #707070;
+        }
+        QFrame#detailsPanel {
+            background-color: #2b2b2b;
+            border-radius: 12px;
+            padding: 12px;
+        }
    </string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -93,10 +93,10 @@
           </property>
           <property name="styleSheet">
            <string notr="true">QFrame#toolbarFrame{
-    border: 2px solid #666;
-    border-radius: 12px;
-    background-color: #2b2b2b;
-}</string>
+                border: 2px solid #666;
+                border-radius: 12px;
+                background-color: #2b2b2b;
+            }</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -104,7 +104,7 @@
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
            <item>
             <widget class="QPushButton" name="importButton">
              <property name="sizePolicy">
@@ -247,6 +247,18 @@
             <property name="enabled">
              <bool>true</bool>
             </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <bold>true</bold>
@@ -276,17 +288,17 @@
             </property>
             <property name="styleSheet">
              <string notr="true">QLineEdit {
-	background-color: #202020;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 1px;
-    padding: 4px 8px;
-}
+                background-color: #202020;
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 1px;
+                padding: 4px 8px;
+            }
 
-QLineEdit::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-    font-style: italic;
-}</string>
+            QLineEdit::placeholder {
+                color: rgba(255, 255, 255, 0.4);
+                font-style: italic;
+            }</string>
             </property>
             <property name="text">
              <string/>
@@ -332,12 +344,12 @@ QLineEdit::placeholder {
           </property>
           <property name="styleSheet">
            <string notr="true">QTextEdit {
-	background-color: #202020;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 1px;
-    padding: 4px 8px;
-}</string>
+                background-color: #202020;
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 1px;
+                padding: 4px 8px;
+            }</string>
           </property>
           <property name="html">
            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -373,7 +385,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
+                <width>311</width>
                 <height>153</height>
                </rect>
               </property>
@@ -426,7 +438,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
+                <width>311</width>
                 <height>154</height>
                </rect>
               </property>
@@ -475,7 +487,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
+                <width>311</width>
                 <height>153</height>
                </rect>
               </property>
@@ -533,10 +545,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <item>
            <widget class="QLabel" name="stateLabel">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
             </property>
             <property name="font">
              <font>
@@ -558,6 +576,24 @@ li.checked::marker { content: &quot;\2612&quot;; }
           </item>
           <item>
            <widget class="QLineEdit" name="stateNameLineEdit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <pointsize>10</pointsize>
@@ -566,18 +602,80 @@ li.checked::marker { content: &quot;\2612&quot;; }
             </property>
             <property name="styleSheet">
              <string notr="true">QLineEdit {
-	background-color: #202020;
-    color: white;
-	border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 1px;
-    padding: 4px 8px;
-}</string>
+                background-color: #202020;
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 1px;
+                padding: 4px 8px;
+            }</string>
             </property>
             <property name="text">
              <string/>
             </property>
             <property name="placeholderText">
-             <string>Enter name...</string>
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="initialStatePushButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Set Initial</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="stateOutputLabel">
+            <property name="font">
+             <font>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Output</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="stateOutputLineEdit">
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
+                background-color: #202020;
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 1px;
+                padding: 4px 8px;
+            }</string>
+            </property>
+            <property name="placeholderText">
+             <string>Enter output...</string>
             </property>
            </widget>
           </item>
@@ -591,7 +689,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
            </font>
           </property>
           <property name="text">
-           <string>Conditions</string>
+           <string>Transitions</string>
           </property>
          </widget>
         </item>
@@ -605,8 +703,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>18</height>
+             <width>331</width>
+             <height>738</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="conditionsLayout"/>
@@ -623,10 +721,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
           </property>
           <property name="styleSheet">
            <string notr="true">QFrame#StateButtonFrame{
-    border: 2px solid #666;
-    border-radius: 12px;
-    background-color: #2b2b2b;
-}</string>
+                border: 2px solid #666;
+                border-radius: 12px;
+                background-color: #2b2b2b;
+            }</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>

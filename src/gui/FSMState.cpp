@@ -4,14 +4,21 @@
 
 #include "FSMState.h"
 #include "FSMTransition.h"
-#include "ConditionRowWidget.h"
+#include "TransitionRowWidget.h"
 #include <QMenu>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QDebug>
 
 FSMState::FSMState(const QString &label)
-    : m_label(label)
+    : m_initial(false), m_hovered(false),
+      m_radius(0), m_label(label)
 {
+    QFont font;
+    font.setPointSize(16);
+    QFontMetrics metrics(font);
+    int textWidth = metrics.horizontalAdvance(label);
+    m_radius = std::max(30, textWidth / 2 + 10);
+
     setFlag(ItemIsMovable);
     setFlag(ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -20,19 +27,26 @@ FSMState::FSMState(const QString &label)
 }
 
 QRectF FSMState::boundingRect() const {
-    return QRectF(-30, -30, 60, 60);
+    return QRectF(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
 }
 
 void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
     QRectF rect = boundingRect();
-    QColor outlineColor = isSelected() ? QColor(0, 204, 153) : QColor(51, 153, 102);
+
+    QColor outlineColor = isInitial() ? QColor(0, 204, 153) : QColor(51, 153, 102);
+    outlineColor = isSelected() ? QColor(161, 221, 192) : outlineColor;
 
     QColor baseColor(40, 40, 40);
     QColor fillColor = m_hovered ? baseColor.lighter(130) : baseColor;
     painter->setBrush(fillColor);
-    painter->setPen(QPen(outlineColor, 2));
+
+    int outlineWidth = isInitial() ? 3 : 2;
+    QPen pen(outlineColor, outlineWidth);
+    pen.setCapStyle(Qt::RoundCap);
+    pen.setJoinStyle(Qt::RoundJoin);
+    painter->setPen(pen);
     painter->drawEllipse(rect);
 
     painter->setPen(Qt::white);
@@ -51,12 +65,35 @@ QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value) 
     return QGraphicsItem::itemChange(change, value);
 }
 
-void FSMState::saveConditions(QList<ConditionRowWidget*> conditionsRows) {
-    m_conditions.clear();
+void FSMState::setOutput(QString value) {
+    m_output = value;
+
+    // emit outputChanged(value);
+}
+
+void FSMState::saveConditions(QList<TransitionRowWidget*> conditionsRows) {
+    m_transitionsConditions.clear();
 
     for (auto row : conditionsRows) {
-        m_conditions.append({row->getIfText(), row->getThenText()});
+        QString conditionText = row->getConditionText();
+        QString toStateText = row->getToStateText();
+
+        if (conditionText.isEmpty() || toStateText.isEmpty()) {
+            continue;
+        }
+
+        m_transitionsConditions.append({conditionText, toStateText});
     }
+}
+
+void FSMState::removeCondition(QString toState) {
+    m_transitionsConditions.erase(
+        std::remove_if(m_transitionsConditions.begin(), m_transitionsConditions.end(),
+            [toState](const QPair<QString, QString> &pair) {
+                return pair.second == toState;
+            }),
+        m_transitionsConditions.end()
+    );
 }
 
 void FSMState::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
