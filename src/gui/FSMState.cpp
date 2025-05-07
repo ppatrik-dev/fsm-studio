@@ -86,14 +86,27 @@ void FSMState::saveConditions(QList<TransitionRowWidget*> conditionsRows) {
     }
 }
 
-void FSMState::removeCondition(QString toState) {
-    m_transitionsConditions.erase(
-        std::remove_if(m_transitionsConditions.begin(), m_transitionsConditions.end(),
-            [toState](const QPair<QString, QString> &pair) {
-                return pair.second == toState;
-            }),
-        m_transitionsConditions.end()
-    );
+void FSMState::removeTransitionRow(QString toState) {
+    auto rows = m_transitionsRows;
+    for (auto row : rows) {
+        if (row->getToStateText() == toState) {
+            FSMState::m_layout->removeWidget(row);
+            m_transitionsRows.removeAll(row);
+            row->deleteLater();
+        }
+    }
+}
+
+void FSMState::clearTransitionsRows() {
+    for (auto row : m_transitionsRows)
+    {
+        if (row) {
+            FSMState::m_layout->removeWidget(row);
+            row->deleteLater();
+        }
+    }
+
+    m_transitionsRows.clear();
 }
 
 void FSMState::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {

@@ -29,7 +29,11 @@ private:
     QList<FSMTransition *> m_transitions;
     std::shared_ptr<MooreState> m_state;
     QList<QPair<QString, QString>> m_transitionsConditions;
+public:
     QList<TransitionRowWidget*> m_transitionsRows;
+
+public:
+    inline static QVBoxLayout *m_layout = nullptr;
 
 public:
     QPointF m_displacement;
@@ -57,6 +61,8 @@ public:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void saveConditions(QList<TransitionRowWidget *> conditionsRows);
     void setOutput(QString output);
+
+    void clearTransitionsRows();
 
     QString getOutput() const {
         return m_output;
@@ -91,7 +97,7 @@ public:
         return m_transitions;
     }
 
-    void removeCondition(QString toState);
+    void removeTransitionRow(QString toState);
 
     inline void appendTransition(FSMTransition *transition)
     {

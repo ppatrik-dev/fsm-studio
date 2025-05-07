@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     fsmScene->addConnects();
     fsmGui = new FSMGui(fsmScene);
 
+    FSMState::m_layout = ui->conditionsLayout;
+
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
 
@@ -183,6 +185,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         edit->setText(transition->getSecondState()->getLabel());;
         edit->setReadOnly(true);
         row->setTransitionItem(transition);
+        transition->setRow(row);
     });
 
     // Save conditions
@@ -224,6 +227,7 @@ void MainWindow::onCreateTransition(TransitionRowWidget *row) {
             FSMState *toState = fsmScene->getFSMStates().value(toStateLabel);
             auto transition = fsmScene->createTransition(selectedState, toState);
             row->setTransitionItem(transition);
+            transition->setRow(row);
         }
 
         // selectedState->saveConditions(selectedState->getTransitionsRows());
@@ -233,15 +237,12 @@ void MainWindow::onCreateTransition(TransitionRowWidget *row) {
 void MainWindow::onRemoveTransition(TransitionRowWidget *row)
 {
     auto transition = row->getTransitionItem();
-    if (transition) {
+    if (transition && fsmScene->getTransitions().contains(transition)) {
         fsmScene->deleteTransition(transition);
     }
-
     ui->conditionsLayout->removeWidget(row);
-    selectedState->getTransitionsRows().removeAll(row);
+    selectedState->m_transitionsRows.removeAll(row);
     row->deleteLater();
-
-    // selectedState->saveConditions(selectedState->getTransitionsRows());
 }
 
 // INPUTS
