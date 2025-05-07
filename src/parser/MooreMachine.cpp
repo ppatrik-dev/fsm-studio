@@ -8,7 +8,7 @@ MooreMachine::MooreMachine(const QString &name, const QString &comment, QObject 
 
 MooreMachine::~MooreMachine()
 {
-    states.clear(); // not strictly needed, smart pointers will destruct
+    states.clear();
 }
 QString MooreMachine::extractVariableName(const QString &command)
 {
@@ -21,6 +21,18 @@ QString MooreMachine::extractVariableName(const QString &command)
     }
     return {};
 }
+QString MooreMachine::extractVariableValue(const QString &command)
+{
+    QRegularExpression regex(R"(\bvar\s+\w+\s*=\s*(.+?))\s*;?\s*$)");
+    QRegularExpressionMatch match = regex.match(command);
+
+    if (match.hasMatch())
+    {
+        return match.captured(1).trimmed();
+    }
+    return {};
+}
+
 QString MooreMachine::createVarCommand(const QString &name, const QString &value)
 {
     return QString("var %1 = '%2';").arg(name, value);
@@ -100,6 +112,32 @@ QVector<QString> MooreMachine::getVariables() const
 {
     return QVector<QString>::fromList(variables.values());
 }
+void MooreMachine::getGuiMap(QMap<QString, QString> &automate_backup, const QString &mode)
+{
+    ;
+    if (mode == "input")
+    {
+        automate_backup = automate_inputs;
+    }
+    else if (mode == "output")
+    {
+        automate_backup = automate_outputs;
+    }
+    else if (mode == "variable")
+    {
+        automate_backup = variables;
+    }
+    else
+    {
+        automate_backup = QMap<QString, QString>();
+    }
+
+    for (auto it = automate_backup.begin(); it != automate_backup.end(); ++it)
+    {
+        QString backupValue = it.value();
+        it.value() = extractVariableValue(backupValue);
+    }
+}
 
 void MooreMachine::addGuiInput(const QString &name, const QString &value)
 {
@@ -133,4 +171,16 @@ void MooreMachine::deleteGuiVariable(const QString &name)
     {
         variables.remove(name);
     }
+}
+void MooreMachine::getGuiName(QString &name)
+{
+    name = automate_name;
+}
+void MooreMachine::getGuiComment(QString &comment)
+{
+    comment = automate_comment;
+}
+void MooreMachine::getGuiStartState(QString &startState)
+{
+    startState = start_state;
 }

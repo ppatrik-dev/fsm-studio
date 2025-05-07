@@ -52,6 +52,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
     connect(fsmGui, &FSMGui::saveDescriptionValue, machine, &MooreMachine::setComment);
 
+    connect(fsmGui, &FSMGui::getVarValue, machine, &MooreMachine::getGuiMap);
+    connect(fsmGui, &FSMGui::getNameValue, machine, &MooreMachine::getGuiName);
+    connect(fsmGui, &FSMGui::getDescriptionValue, machine, &MooreMachine::getGuiComment);
+    connect(fsmGui, &FSMGui::getStartStateValue, machine, &MooreMachine::getGuiStartState);
+
+    // Control buttons
+
     // FSM scale
     connect(ui->fsmGraphicsView, &FSMView::zoomChanged, this, [=](int percent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
@@ -93,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // FSM description
     connect(ui->automataDescriptionTextEdit, &QTextEdit::textChanged, this, [=]()
-            { fsmGui->saveDescription(ui->automataDescriptionTextEdit->toPlainText());} );
+            { fsmGui->saveDescription(ui->automataDescriptionTextEdit->toPlainText()); });
 
     // Inputs
     connect(ui->saveInputsButton, &QPushButton::clicked, this, [=]()
@@ -149,7 +156,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     detachWidgetsFromLayout(ui->conditionsLayout);
     ui->detailsPanel->setCurrentWidget(ui->statePropertiesPanel);
 
-    FSMState *state = qgraphicsitem_cast<FSMState*>(item);
+    FSMState *state = qgraphicsitem_cast<FSMState *>(item);
     selectedState = state;
 
     // State name
@@ -157,29 +164,30 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     ui->stateNameLineEdit->setReadOnly(true);
 
     // Initial state
-    disconnect(ui->initialStatePushButton,&QPushButton::clicked, nullptr, nullptr);
-    connect(ui->initialStatePushButton, &QPushButton::clicked, this, [this, state]() {
-        fsmGui->setInitialState(state);
-    });
+    disconnect(ui->initialStatePushButton, &QPushButton::clicked, nullptr, nullptr);
+    connect(ui->initialStatePushButton, &QPushButton::clicked, this, [this, state]()
+            { fsmGui->setInitialState(state); });
 
     // State output
     ui->stateOutputLineEdit->setText(state->getOutput());
 
     disconnect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, nullptr, nullptr);
-    connect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, this, [=]() {
+    connect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, this, [=]()
+            {
         state->setOutput(ui->stateOutputLineEdit->text());
-        qDebug() << state->getOutput();
-    });
+        qDebug() << state->getOutput(); });
 
     // Display conditions
-    for (auto *row : selectedState->getTransitionsRows()) {
+    for (auto *row : selectedState->getTransitionsRows())
+    {
         ui->conditionsLayout->addWidget(row);
-        row->show();  // make visible again
+        row->show(); // make visible again
     }
 
     // Add new condition to new transition
     disconnect(fsmScene, &FSMScene::addNewTransition, nullptr, nullptr);
-    connect(fsmScene, &FSMScene::addNewTransition, this, [=](FSMTransition *transition) {
+    connect(fsmScene, &FSMScene::addNewTransition, this, [=](FSMTransition *transition)
+            {
         auto row = onAddTransitionClicked();
         auto edit = row->getToStateEdit();
         edit->setText(transition->getSecondState()->getLabel());;
@@ -187,6 +195,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         row->setTransitionItem(transition);
         transition->setRow(row);
     });
+        row->setTransitionItem(transition); });
 
     // Save conditions
     // disconnect(ui->saveConditionsButton, &QPushButton::clicked, nullptr, nullptr);
@@ -196,7 +205,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
 }
 
 // CONDITIONS
-TransitionRowWidget* MainWindow::onAddTransitionClicked()
+TransitionRowWidget *MainWindow::onAddTransitionClicked()
 {
     auto *row = new TransitionRowWidget();
 
@@ -210,20 +219,25 @@ TransitionRowWidget* MainWindow::onAddTransitionClicked()
     return row;
 }
 
-void MainWindow::onCreateTransition(TransitionRowWidget *row) {
-    if (row->getConditionText().isEmpty() || row->getToStateText().isEmpty()) {
+void MainWindow::onCreateTransition(TransitionRowWidget *row)
+{
+    if (row->getConditionText().isEmpty() || row->getToStateText().isEmpty())
+    {
         qDebug() << "Please provide transition details";
         return;
     }
 
     QString toStateLabel = row->getToStateText();
 
-    if (!fsmScene->getFSMStates().contains(toStateLabel)) {
+    if (!fsmScene->getFSMStates().contains(toStateLabel))
+    {
         qDebug() << "State " << toStateLabel << "does not exist";
         row->getToStateEdit()->clear();
     }
-    else {
-        if (!row->getTransitionItem()) {
+    else
+    {
+        if (!row->getTransitionItem())
+        {
             FSMState *toState = fsmScene->getFSMStates().value(toStateLabel);
             auto transition = fsmScene->createTransition(selectedState, toState);
             row->setTransitionItem(transition);
@@ -237,7 +251,8 @@ void MainWindow::onCreateTransition(TransitionRowWidget *row) {
 void MainWindow::onRemoveTransition(TransitionRowWidget *row)
 {
     auto transition = row->getTransitionItem();
-    if (transition && fsmScene->getTransitions().contains(transition)) {
+    if (transition && fsmScene->getTransitions().contains(transition))
+    {
         fsmScene->deleteTransition(transition);
     }
     ui->conditionsLayout->removeWidget(row);
@@ -307,13 +322,16 @@ void MainWindow::onDeleteRow(GenericRowWidget *row)
     row->deleteLater();
 }
 
-void MainWindow::detachWidgetsFromLayout(QLayout *layout) {
-    while (QLayoutItem *item = layout->takeAt(0)) {
-        if (QWidget *widget = item->widget()) {
-            widget->setParent(nullptr);  // safely detach from layout
-            widget->hide();              // hide so it's not visible until needed
+void MainWindow::detachWidgetsFromLayout(QLayout *layout)
+{
+    while (QLayoutItem *item = layout->takeAt(0))
+    {
+        if (QWidget *widget = item->widget())
+        {
+            widget->setParent(nullptr); // safely detach from layout
+            widget->hide();             // hide so it's not visible until needed
         }
-        delete item;  // delete the QLayoutItem, not the widget
+        delete item; // delete the QLayoutItem, not the widget
     }
 }
 
