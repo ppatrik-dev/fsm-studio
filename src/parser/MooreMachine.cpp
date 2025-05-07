@@ -184,3 +184,7 @@ void MooreMachine::getGuiStartState(QString &startState)
 {
     startState = start_state;
 }
+void MooreMachine::clearMachine()
+{
+    states.clear();
+}

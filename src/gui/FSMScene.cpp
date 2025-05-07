@@ -14,7 +14,7 @@
 
 FSMScene::FSMScene(QObject *parent)
     : QGraphicsScene{parent}, sceneMode(SELECT_MODE),
-    firstSelectedState(nullptr)
+      firstSelectedState(nullptr)
 {
 }
 void FSMScene::setMachine(MooreMachine *machine)
@@ -189,7 +189,8 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (FSMState *state = qgraphicsitem_cast<FSMState *>(item))
         {
             state->setSelected(true);
-            if (state->isInitial()) emit initialStateDeleted(nullptr);
+            if (state->isInitial())
+                emit initialStateDeleted(nullptr);
             deleteState(state);
         }
         else
@@ -237,9 +238,8 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 void FSMScene::createMachineFile(MooreMachine &machine)
-{   
+{
     clearScene();
-    // machine->clearMachine();
     for (auto it = machine.states.cbegin(); it != machine.states.cend(); ++it)
     {
         const std::shared_ptr<MooreState> &state = it.value();
@@ -281,7 +281,8 @@ void FSMScene::addConnects()
             this->machine, &MooreMachine::createTransition);
 }
 
-FSMTransition* FSMScene::createTransition(FSMState *firstState, FSMState *secondState) {
+FSMTransition *FSMScene::createTransition(FSMState *firstState, FSMState *secondState)
+{
     FSMTransition *transition = new FSMTransition(firstState, secondState);
 
     m_transitions.append(transition);

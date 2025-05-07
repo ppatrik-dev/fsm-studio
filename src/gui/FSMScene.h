@@ -51,24 +51,29 @@ public:
 
     inline QString getStateLabel()
     {
-        for (char c = 'A'; c <= 'Z'; ++c) {
+        for (char c = 'A'; c <= 'Z'; ++c)
+        {
             QString label(c);
-            if (!m_states.contains(label)) {
+            if (!m_states.contains(label))
+            {
                 return label;
             }
         }
 
-        for (int n = 0; n < INT_MAX; ++n) {
-            for (char c = 'A'; c <= 'Z'; ++c) {
+        for (int n = 0; n < INT_MAX; ++n)
+        {
+            for (char c = 'A'; c <= 'Z'; ++c)
+            {
                 QString label = QString(c) + QString::number(n);
-                if (!m_states.contains(label)) {
+                if (!m_states.contains(label))
+                {
                     return label;
                 }
             }
         }
     }
 
-    FSMTransition* createTransition(FSMState *firstState, FSMState *secondState);
+    FSMTransition *createTransition(FSMState *firstState, FSMState *secondState);
 
 public:
     void drawInitialArrow(FSMState *state);
