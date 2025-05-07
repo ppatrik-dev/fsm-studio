@@ -28,7 +28,8 @@ private:
     QMap<QString, QString> m_variables;
 
 public:
-    FSMState *getInitialState() const {
+    FSMState *getInitialState() const
+    {
         return m_initialState;
     }
 
@@ -77,7 +78,7 @@ public:
 
     void runSimulation(Ui::MainWindow *ui);
 signals:
-    void initialStateChanged(FSMState *state);
+    void initialStateChanged(QString stateLabel);
     void inputAddValue(const QString key, const QString value);
     void inputDeleteValue(const QString key);
     void outputAddValue(const QString key, const QString value);

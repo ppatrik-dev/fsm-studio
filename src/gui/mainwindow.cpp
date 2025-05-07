@@ -40,7 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::clearMachine, machine, &MooreMachine::clearMachine);
 
     // Control buttons
-    connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
+    connect(ui->clearButton, &QPushButton::clicked, this, [=]()
+            { fsmScene->clearScene();   emit clearMachine(); });
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
     connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
@@ -76,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmScene, &FSMScene::itemSelected, this, &MainWindow::showDetailsPanel);
 
     // Initial state changed
-    // connect(fsmGui, &FSMGui::initialStateChanged, ) TODO: Connect signal to Mirek slot
+    connect(fsmGui, &FSMGui::initialStateChanged, machine, &MooreMachine::setStartState);
 
     // Init layouts
     inputsLayout = new QVBoxLayout();
@@ -137,12 +138,6 @@ void MainWindow::onImportFileClicked()
     emit clearMachine();
     emit loadJsonRequested(filename, *machine);
     emit createMachine(*machine);
-
-    /*
-     * fsmGui->displayName(QString name);
-     * fsmGui->displayDescription(QString description);
-     * fsmGui()->displayInputs(list(string, string);
-     */
 }
 
 // MENU
@@ -196,8 +191,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         edit->setReadOnly(true);
         row->setTransitionItem(transition);
         transition->setRow(row);
-        row->setTransitionItem(transition);
-    });
+        row->setTransitionItem(transition); });
 
     // Save conditions
     // disconnect(ui->saveConditionsButton, &QPushButton::clicked, nullptr, nullptr);

@@ -46,7 +46,7 @@ void MooreMachine::setComment(const QString &comment)
 {
     automate_comment = comment;
 }
-void MooreMachine::setStartState(const QString &name)
+void MooreMachine::setStartState(QString &name)
 {
     start_state = name;
 }

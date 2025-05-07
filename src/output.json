@@ -1,25 +1,17 @@
 {
-    "automate_comment": "",
-    "automate_name": "hviezdica",
+    "automate_comment": "Timer to off, rozšířená verze na testovanie",
+    "automate_name": "TOF5s",
     "inputs": [
-        "var dd = '0';"
+        "var input = '1101001';"
     ],
     "outputs": [
-        "var krivka = '1';"
+        "var output;"
     ],
-    "start_state": "",
+    "start_state": "A",
     "states": {
         "A": {
             "action": "Output1",
             "transitions": [
-                {
-                    "condition": "",
-                    "to": "B"
-                },
-                {
-                    "condition": "",
-                    "to": "C"
-                }
             ]
         },
         "B": {
@@ -28,20 +20,51 @@
             ]
         },
         "C": {
-            "action": "Output1",
+            "action": "",
             "transitions": [
                 {
-                    "condition": "",
-                    "to": "B"
+                    "condition": "input[index] == '0'",
+                    "to": "A"
                 },
                 {
-                    "condition": "",
+                    "condition": "@timeout",
                     "to": "B"
+                }
+            ]
+        },
+        "D": {
+            "action": "x = x - 1;",
+            "transitions": [
+                {
+                    "condition": "x <= 5",
+                    "to": "E"
+                },
+                {
+                    "condition": "input[index] == '1'",
+                    "to": "A"
+                }
+            ]
+        },
+        "E": {
+            "action": "out = '1';",
+            "transitions": [
+                {
+                    "condition": "@timeout",
+                    "to": "F"
+                }
+            ]
+        },
+        "F": {
+            "action": "out = '0';",
+            "transitions": [
+                {
+                    "condition": "true",
+                    "to": "A"
                 }
             ]
         }
     },
     "variables": [
-        "var zboril = '1';"
+        "var x = 10;"
     ]
 }
