@@ -19,6 +19,7 @@ SOURCES += \
     FSMTransition.cpp \
     FSMView.cpp \
     GenericRowWidget.cpp \
+    TerminalWidget.cpp \
     TransitionRowWidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     FSMState.h \
     FSMTransition.h \
     FSMView.h \
+    TerminalWidget.h \
     TransitionRowWidget.h \
     mainwindow.h \
     ../parser/MooreMachine.h \

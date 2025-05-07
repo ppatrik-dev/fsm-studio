@@ -32,6 +32,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     AutomateJsonDocument *jsonDocument = new AutomateJsonDocument(this);
 
+    // terminal creation
+
+    ui->TerminalScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->TerminalScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    terminal = new TerminalWidget();
+    ui->TerminalScrollArea->setWidget(terminal);
+    ui->TerminalScrollArea->setWidgetResizable(true);
+
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
     connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
@@ -47,6 +56,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmGui, &FSMGui::outputDeleteValue, machine, &MooreMachine::deleteGuiOutput);
     connect(fsmGui, &FSMGui::variableAddValue, machine, &MooreMachine::addGuiVariable);
     connect(fsmGui, &FSMGui::variableDeleteValue, machine, &MooreMachine::deleteGuiVariable);
+
+    connect(ui->TerminalClear, &QPushButton::clicked, this, [=]() {
+        terminal->clearTerminal();
+    });
 
     connect(ui->TerminalCancel, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
 
@@ -276,11 +289,27 @@ void MainWindow::clearConditionRows()
     conditionWidgets.clear();
 }
 
+//function for diseabling delete buttons in genericRow
+void MainWindow::setDeleteButtonsEnabled(bool enabled)
+{
+    for (GenericRowWidget* row : inputsWidgets) {
+        row->setDeleteButtonEnabled(enabled);
+    }
+    for (GenericRowWidget* row : outputsWidgets) {
+        row->setDeleteButtonEnabled(enabled);
+    }
+    for (GenericRowWidget* row : variablesWidgets) {
+        row->setDeleteButtonEnabled(enabled);
+    }
+}
+
+// function for terminal set up
 void MainWindow::toggleTerminal() {
 
-    if (!isGreen){
+    // diseabling buttons and changing colors for button run
+    if (!TerminalActive){
 
-        isGreen = true;
+        TerminalActive = true;
 
         ui->runButton->setEnabled(false);
         ui->importButton->setEnabled(false);
@@ -289,6 +318,9 @@ void MainWindow::toggleTerminal() {
         ui->addInputButton->setEnabled(false);
         ui->addOutputButton->setEnabled(false);
         ui->addVariableButton->setEnabled(false);
+        setDeleteButtonsEnabled(false);
+
+        ui->fsmGraphicsView->setEnabled(false);
 
         ui->runButton->setStyleSheet(
             "QPushButton {"
@@ -305,11 +337,25 @@ void MainWindow::toggleTerminal() {
             " background-color: #1e6821;"   // tmavá na klik
             " }"
         );
+
+        terminal->appendLine("Started simulation...", 7);
+        terminal->appendLine("Test 1");
+        terminal->appendLine("Test 2", 1);
+        terminal->appendLine("Test 3", 2);
+        terminal->appendLine("Test 4", 3);
+        terminal->appendLine("Test 5", 4);
+        terminal->appendLine("Test 5", 4);
+        terminal->appendLine("Test 5", 4);
+        terminal->appendLine("Test 5", 4);
+        terminal->appendLine("Test 5", 4);
+        terminal->appendLine("Test 5", 4);
+        terminal->appendLine("Test 5", 4);
+        terminal->appendLine("Test 5", 4);
     }
 
     else {
 
-        isGreen = false;
+        TerminalActive = false;
 
         ui->runButton->setEnabled(true);
         ui->importButton->setEnabled(true);
@@ -318,11 +364,16 @@ void MainWindow::toggleTerminal() {
         ui->addInputButton->setEnabled(true);
         ui->addOutputButton->setEnabled(true);
         ui->addVariableButton->setEnabled(true);
+        setDeleteButtonsEnabled(true);
 
+        ui->fsmGraphicsView->setEnabled(true);
+
+        terminal->clearTerminal();
         ui->runButton->setStyleSheet("");
+
     }
 
-
+    // get height, set new and animate
     int currentHeight = ui->TerminalFrame->maximumHeight();
     int targetHeight = currentHeight == 0 ? 300 : 0;
 

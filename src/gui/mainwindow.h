@@ -13,6 +13,7 @@
 #include "FSMGui.h"
 #include "GenericRowWidget.h"
 #include "TransitionRowWidget.h"
+#include "TerminalWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -46,7 +47,8 @@ private:
     QList<GenericRowWidget *> variablesWidgets;
     QList<TransitionRowWidget *> conditionWidgets;
 
-    bool isGreen = false;
+    TerminalWidget* terminal;
+    bool TerminalActive = false;
 
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -64,6 +66,7 @@ private slots:
     void onExportFileClicked();
     void showDetailsPanel(QGraphicsItem *item);
     void toggleTerminal();
+    void setDeleteButtonsEnabled(bool enabled);
 
 public:
     void clearConditionRows();
