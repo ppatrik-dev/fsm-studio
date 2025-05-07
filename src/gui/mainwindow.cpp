@@ -40,12 +40,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
+    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
     connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
     connect(fsmGui, &FSMGui::inputDeleteValue, machine, &MooreMachine::deleteGuiInput);
     connect(fsmGui, &FSMGui::outputAddValue, machine, &MooreMachine::addGuiOutput);
     connect(fsmGui, &FSMGui::outputDeleteValue, machine, &MooreMachine::deleteGuiOutput);
     connect(fsmGui, &FSMGui::variableAddValue, machine, &MooreMachine::addGuiVariable);
     connect(fsmGui, &FSMGui::variableDeleteValue, machine, &MooreMachine::deleteGuiVariable);
+
+    connect(ui->TerminalCancel, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
 
     connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
     connect(fsmGui, &FSMGui::saveDescriptionValue, machine, &MooreMachine::setComment);
@@ -271,4 +274,62 @@ void MainWindow::clearConditionRows()
             row->deleteLater();
     }
     conditionWidgets.clear();
+}
+
+void MainWindow::toggleTerminal() {
+
+    if (!isGreen){
+
+        isGreen = true;
+
+        ui->runButton->setEnabled(false);
+        ui->importButton->setEnabled(false);
+        ui->exportButton->setEnabled(false);
+        ui->clearButton->setEnabled(false);
+        ui->addInputButton->setEnabled(false);
+        ui->addOutputButton->setEnabled(false);
+        ui->addVariableButton->setEnabled(false);
+
+        ui->runButton->setStyleSheet(
+            "QPushButton {"
+            " background-color: #228B22;"   // ForestGreen
+            " color: white;"
+            " border: 1px solid #1e7b1e;"
+            " border-radius: 6px;"
+            " padding: 6px 12px;"
+            " }"
+            "QPushButton:hover {"
+            " background-color: #2ecc71;"   // svetlejšia zelená na hover
+            " }"
+            "QPushButton:pressed {"
+            " background-color: #1e6821;"   // tmavá na klik
+            " }"
+        );
+    }
+
+    else {
+
+        isGreen = false;
+
+        ui->runButton->setEnabled(true);
+        ui->importButton->setEnabled(true);
+        ui->exportButton->setEnabled(true);
+        ui->clearButton->setEnabled(true);
+        ui->addInputButton->setEnabled(true);
+        ui->addOutputButton->setEnabled(true);
+        ui->addVariableButton->setEnabled(true);
+
+        ui->runButton->setStyleSheet("");
+    }
+
+
+    int currentHeight = ui->TerminalFrame->maximumHeight();
+    int targetHeight = currentHeight == 0 ? 300 : 0;
+
+    QPropertyAnimation *animation = new QPropertyAnimation(ui->TerminalFrame, "maximumHeight");
+    animation->setDuration(300);
+    animation->setStartValue(currentHeight);
+    animation->setEndValue(targetHeight);
+    animation->setEasingCurve(QEasingCurve::InOutQuad);
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
 }

@@ -6,6 +6,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPropertyAnimation>
 #include "FSMView.h"
 #include "FSMScene.h"
 #include "../parser/MooreMachine.h"
@@ -45,6 +46,8 @@ private:
     QList<GenericRowWidget *> variablesWidgets;
     QList<TransitionRowWidget *> conditionWidgets;
 
+    bool isGreen = false;
+
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
     void exportJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -60,6 +63,7 @@ private slots:
     void onImportFileClicked();
     void onExportFileClicked();
     void showDetailsPanel(QGraphicsItem *item);
+    void toggleTerminal();
 
 public:
     void clearConditionRows();
