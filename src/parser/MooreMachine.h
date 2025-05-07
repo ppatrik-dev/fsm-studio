@@ -58,4 +58,5 @@ public slots:
     void getGuiName(QString &name);
     void getGuiComment(QString &comment);
     void getGuiStartState(QString &startState);
+    void clearMachine();
 };

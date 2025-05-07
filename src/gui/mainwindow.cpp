@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
     connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
+    connect(this, &MainWindow::clearMachine, machine, &MooreMachine::clearMachine);
 
     // Control buttons
     connect(ui->clearButton, &QPushButton::clicked, fsmScene, &FSMScene::onClearScene);
@@ -131,6 +132,7 @@ void MainWindow::onExportFileClicked()
 void MainWindow::onImportFileClicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
+    emit clearMachine();
     emit loadJsonRequested(filename, *machine);
     emit createMachine(*machine);
 

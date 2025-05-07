@@ -51,9 +51,10 @@ signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
     void exportJsonRequested(const QString &fileName, MooreMachine &machine);
     void createMachine(MooreMachine &machine);
+    void clearMachine();
 
 private slots:
-    TransitionRowWidget* onAddTransitionClicked();
+    TransitionRowWidget *onAddTransitionClicked();
     void onCreateTransition(TransitionRowWidget *row);
     void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();
