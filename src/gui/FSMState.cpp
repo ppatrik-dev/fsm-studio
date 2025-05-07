@@ -65,21 +65,34 @@ QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value) 
     return QGraphicsItem::itemChange(change, value);
 }
 
+void FSMState::setOutput(QString value) {
+    m_output = value;
+
+    // emit outputChanged(value);
+}
+
 void FSMState::saveConditions(QList<TransitionRowWidget*> conditionsRows) {
-    m_conditions.clear();
+    m_transitionsConditions.clear();
 
     for (auto row : conditionsRows) {
-        m_conditions.append({row->getConditionText(), row->getToStateText()});
+        QString conditionText = row->getConditionText();
+        QString toStateText = row->getToStateText();
+
+        if (conditionText.isEmpty() || toStateText.isEmpty()) {
+            continue;
+        }
+
+        m_transitionsConditions.append({conditionText, toStateText});
     }
 }
 
 void FSMState::removeCondition(QString toState) {
-    m_conditions.erase(
-        std::remove_if(m_conditions.begin(), m_conditions.end(),
+    m_transitionsConditions.erase(
+        std::remove_if(m_transitionsConditions.begin(), m_transitionsConditions.end(),
             [toState](const QPair<QString, QString> &pair) {
                 return pair.second == toState;
             }),
-        m_conditions.end()
+        m_transitionsConditions.end()
     );
 }
 

@@ -52,13 +52,13 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = gui/ConditionRowWidget.cpp \
-		gui/FSMGui.cpp \
+SOURCES       = gui/FSMGui.cpp \
 		gui/FSMScene.cpp \
 		gui/FSMState.cpp \
 		gui/FSMTransition.cpp \
 		gui/FSMView.cpp \
 		gui/GenericRowWidget.cpp \
+		gui/TransitionRowWidget.cpp \
 		gui/main.cpp \
 		gui/mainwindow.cpp \
 		parser/MooreMachine.cpp \
@@ -69,23 +69,24 @@ SOURCES       = gui/ConditionRowWidget.cpp \
 		parser/MooreMachineExecutor.cpp \
 		parser/RunExecutionStrategy.cpp \
 		parser/StepExecutionStrategy.cpp \
-		gui/ForceDirectedLayout.cpp moc_ConditionRowWidget.cpp \
+		gui/ForceDirectedLayout.cpp qrc_resource.cpp \
 		moc_FSMGui.cpp \
 		moc_FSMScene.cpp \
 		moc_FSMView.cpp \
+		moc_TransitionRowWidget.cpp \
 		moc_mainwindow.cpp \
 		moc_MooreMachine.cpp \
 		moc_AutomateJsonDocument.cpp \
 		moc_ActionExecutor.cpp \
 		moc_GenericRowWidget.cpp \
 		moc_MooreJsClass.cpp
-OBJECTS       = ConditionRowWidget.o \
-		FSMGui.o \
+OBJECTS       = FSMGui.o \
 		FSMScene.o \
 		FSMState.o \
 		FSMTransition.o \
 		FSMView.o \
 		GenericRowWidget.o \
+		TransitionRowWidget.o \
 		main.o \
 		mainwindow.o \
 		MooreMachine.o \
@@ -97,10 +98,11 @@ OBJECTS       = ConditionRowWidget.o \
 		RunExecutionStrategy.o \
 		StepExecutionStrategy.o \
 		ForceDirectedLayout.o \
-		moc_ConditionRowWidget.o \
+		qrc_resource.o \
 		moc_FSMGui.o \
 		moc_FSMScene.o \
 		moc_FSMView.o \
+		moc_TransitionRowWidget.o \
 		moc_mainwindow.o \
 		moc_MooreMachine.o \
 		moc_AutomateJsonDocument.o \
@@ -192,12 +194,12 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		gui/gui/gui.pro gui/ConditionRowWidget.h \
-		gui/FSMGui.h \
+		gui/gui/gui.pro gui/FSMGui.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
 		gui/FSMTransition.h \
 		gui/FSMView.h \
+		gui/TransitionRowWidget.h \
 		gui/mainwindow.h \
 		parser/MooreMachine.h \
 		parser/MooreState.h \
@@ -210,13 +212,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		parser/StepExecutionStrategy.h \
 		gui/GenericRowWidget.h \
 		gui/ForceDirectedLayout.h \
-		parser/MooreJsClass.h gui/ConditionRowWidget.cpp \
-		gui/FSMGui.cpp \
+		parser/MooreJsClass.h gui/FSMGui.cpp \
 		gui/FSMScene.cpp \
 		gui/FSMState.cpp \
 		gui/FSMTransition.cpp \
 		gui/FSMView.cpp \
 		gui/GenericRowWidget.cpp \
+		gui/TransitionRowWidget.cpp \
 		gui/main.cpp \
 		gui/mainwindow.cpp \
 		parser/MooreMachine.cpp \
@@ -324,7 +326,8 @@ Makefile: gui/gui.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		gui/gui.pro
+		gui/gui.pro \
+		gui/resource.qrc
 	$(QMAKE) -o Makefile gui/gui.pro
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf:
@@ -412,6 +415,7 @@ Makefile: gui/gui.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 gui/gui.pro:
+gui/resource.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile gui/gui.pro
 
@@ -426,9 +430,10 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents gui/resource.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents gui/ConditionRowWidget.h gui/FSMGui.h gui/FSMScene.h gui/FSMState.h gui/FSMTransition.h gui/FSMView.h gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h parser/ActionExecutor.h parser/IExecutionStrategy.h parser/MooreMachineExecutor.h parser/RunExecutionStrategy.h parser/StepExecutionStrategy.h gui/GenericRowWidget.h gui/ForceDirectedLayout.h parser/MooreJsClass.h $(DISTDIR)/
-	$(COPY_FILE) --parents gui/ConditionRowWidget.cpp gui/FSMGui.cpp gui/FSMScene.cpp gui/FSMState.cpp gui/FSMTransition.cpp gui/FSMView.cpp gui/GenericRowWidget.cpp gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp parser/ActionExecutor.cpp parser/MooreMachineExecutor.cpp parser/RunExecutionStrategy.cpp parser/StepExecutionStrategy.cpp gui/ForceDirectedLayout.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents gui/FSMGui.h gui/FSMScene.h gui/FSMState.h gui/FSMTransition.h gui/FSMView.h gui/TransitionRowWidget.h gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h parser/ActionExecutor.h parser/IExecutionStrategy.h parser/MooreMachineExecutor.h parser/RunExecutionStrategy.h parser/StepExecutionStrategy.h gui/GenericRowWidget.h gui/ForceDirectedLayout.h parser/MooreJsClass.h $(DISTDIR)/
+	$(COPY_FILE) --parents gui/FSMGui.cpp gui/FSMScene.cpp gui/FSMState.cpp gui/FSMTransition.cpp gui/FSMView.cpp gui/GenericRowWidget.cpp gui/TransitionRowWidget.cpp gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp parser/ActionExecutor.cpp parser/MooreMachineExecutor.cpp parser/RunExecutionStrategy.cpp parser/StepExecutionStrategy.cpp gui/ForceDirectedLayout.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/mainwindow.ui $(DISTDIR)/
 
 
@@ -453,34 +458,34 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_resource.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_resource.cpp
+qrc_resource.cpp: gui/resource.qrc \
+		/usr/lib/qt5/bin/rcc \
+		gui/app-icon.png
+	/usr/lib/qt5/bin/rcc -name resource gui/resource.qrc -o qrc_resource.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -fsanitize=address -fno-omit-frame-pointer -g -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_ConditionRowWidget.cpp moc_FSMGui.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp moc_MooreJsClass.cpp
+compiler_moc_header_make_all: moc_FSMGui.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_TransitionRowWidget.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp moc_MooreJsClass.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_ConditionRowWidget.cpp moc_FSMGui.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp moc_MooreJsClass.cpp
-moc_ConditionRowWidget.cpp: gui/ConditionRowWidget.h \
-		moc_predefs.h \
-		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/ConditionRowWidget.h -o moc_ConditionRowWidget.cpp
-
+	-$(DEL_FILE) moc_FSMGui.cpp moc_FSMScene.cpp moc_FSMView.cpp moc_TransitionRowWidget.cpp moc_mainwindow.cpp moc_MooreMachine.cpp moc_AutomateJsonDocument.cpp moc_ActionExecutor.cpp moc_GenericRowWidget.cpp moc_MooreJsClass.cpp
 moc_FSMGui.cpp: gui/FSMGui.h \
 		ui_mainwindow.h \
-		gui/FSMView.h \
+		gui/GenericRowWidget.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
-		gui/GenericRowWidget.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMGui.h -o moc_FSMGui.cpp
@@ -490,7 +495,7 @@ moc_FSMScene.cpp: gui/FSMScene.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
 		moc_predefs.h \
@@ -503,12 +508,17 @@ moc_FSMView.cpp: gui/FSMView.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/FSMView.h -o moc_FSMView.cpp
+
+moc_TransitionRowWidget.cpp: gui/TransitionRowWidget.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/xprochp00/2bit/letny/icp/ICP-Project/src/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/xprochp00/2bit/letny/icp/ICP-Project/src/gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtQml -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include gui/TransitionRowWidget.h -o moc_TransitionRowWidget.cpp
 
 moc_mainwindow.cpp: gui/mainwindow.h \
 		gui/FSMView.h \
@@ -517,7 +527,7 @@ moc_mainwindow.cpp: gui/mainwindow.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
 		gui/FSMGui.h \
@@ -575,7 +585,7 @@ ui_mainwindow.h: gui/mainwindow.ui \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h
 	/usr/lib/qt5/bin/uic gui/mainwindow.ui -o ui_mainwindow.h
@@ -586,25 +596,21 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
-ConditionRowWidget.o: gui/ConditionRowWidget.cpp gui/ConditionRowWidget.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ConditionRowWidget.o gui/ConditionRowWidget.cpp
-
 FSMGui.o: gui/FSMGui.cpp gui/FSMGui.h \
 		ui_mainwindow.h \
-		gui/FSMView.h \
+		gui/GenericRowWidget.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
-		parser/MooreMachine.h \
-		gui/GenericRowWidget.h
+		parser/MooreMachine.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMGui.o gui/FSMGui.cpp
 
 FSMScene.o: gui/FSMScene.cpp gui/FSMScene.h \
@@ -612,7 +618,7 @@ FSMScene.o: gui/FSMScene.cpp gui/FSMScene.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
 		gui/ForceDirectedLayout.h
@@ -622,7 +628,7 @@ FSMState.o: gui/FSMState.cpp gui/FSMState.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMState.o gui/FSMState.cpp
 
@@ -631,7 +637,7 @@ FSMTransition.o: gui/FSMTransition.cpp gui/FSMTransition.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h
+		gui/TransitionRowWidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMTransition.o gui/FSMTransition.cpp
 
 FSMView.o: gui/FSMView.cpp gui/FSMView.h \
@@ -640,13 +646,16 @@ FSMView.o: gui/FSMView.cpp gui/FSMView.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMView.o gui/FSMView.cpp
 
 GenericRowWidget.o: gui/GenericRowWidget.cpp gui/GenericRowWidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GenericRowWidget.o gui/GenericRowWidget.cpp
+
+TransitionRowWidget.o: gui/TransitionRowWidget.cpp gui/TransitionRowWidget.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TransitionRowWidget.o gui/TransitionRowWidget.cpp
 
 main.o: gui/main.cpp gui/mainwindow.h \
 		gui/FSMView.h \
@@ -655,7 +664,7 @@ main.o: gui/main.cpp gui/mainwindow.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
 		gui/FSMGui.h \
@@ -677,7 +686,7 @@ mainwindow.o: gui/mainwindow.cpp gui/mainwindow.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
 		gui/FSMGui.h \
@@ -745,12 +754,12 @@ ForceDirectedLayout.o: gui/ForceDirectedLayout.cpp gui/ForceDirectedLayout.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
-		gui/ConditionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ForceDirectedLayout.o gui/ForceDirectedLayout.cpp
 
-moc_ConditionRowWidget.o: moc_ConditionRowWidget.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ConditionRowWidget.o moc_ConditionRowWidget.cpp
+qrc_resource.o: qrc_resource.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resource.o qrc_resource.cpp
 
 moc_FSMGui.o: moc_FSMGui.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_FSMGui.o moc_FSMGui.cpp
@@ -760,6 +769,9 @@ moc_FSMScene.o: moc_FSMScene.cpp
 
 moc_FSMView.o: moc_FSMView.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_FSMView.o moc_FSMView.cpp
+
+moc_TransitionRowWidget.o: moc_TransitionRowWidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_TransitionRowWidget.o moc_TransitionRowWidget.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

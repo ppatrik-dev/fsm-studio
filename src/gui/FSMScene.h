@@ -38,6 +38,7 @@ public:
     void clearScene();
     void setMachine(MooreMachine *machine);
     void addConnects();
+
     inline QMap<QString, FSMState *> getFSMStates() const
     {
         return m_states;
@@ -67,15 +68,17 @@ public:
         }
     }
 
+    FSMTransition* createTransition(FSMState *firstState, FSMState *secondState);
+
 public:
     void drawInitialArrow(FSMState *state);
+    void deleteTransition(FSMTransition *transition);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void addState(QPointF pos);
     void addImportState(QString name, const std::shared_ptr<MooreState> &state);
     void addTransition(FSMState *state);
-    void deleteTransition(FSMTransition *transition);
     void deleteState(FSMState *state);
     void addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState);
     void displayAutomaton(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions);

@@ -22,6 +22,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
 
+    a.setWindowIcon(QIcon(":/icons/app-icon.png"));
+    w.setWindowIcon(QIcon(":/icons/app-icon.png"));
+
     QFile styleFile(":/darkstyle.qss");
     if (styleFile.open(QFile::ReadOnly | QFile::Text))
     {

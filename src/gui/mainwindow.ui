@@ -674,6 +674,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 padding: 4px 8px;
             }</string>
             </property>
+            <property name="placeholderText">
+             <string>Enter output...</string>
+            </property>
            </widget>
           </item>
          </layout>

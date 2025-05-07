@@ -14,6 +14,8 @@
 #include <TransitionRowWidget.h>
 #include <QVBoxLayout>
 
+class TransitionRowWidget;
+
 class FSMTransition;
 
 class FSMState : public QGraphicsObject
@@ -23,9 +25,11 @@ private:
     bool m_hovered;
     int m_radius;
     QString m_label;
+    QString m_output;
     QList<FSMTransition *> m_transitions;
     std::shared_ptr<MooreState> m_state;
-    QList<QPair<QString, QString>> m_conditions;
+    QList<QPair<QString, QString>> m_transitionsConditions;
+    QList<TransitionRowWidget*> m_transitionsRows;
 
 public:
     QPointF m_displacement;
@@ -52,6 +56,11 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void saveConditions(QList<TransitionRowWidget *> conditionsRows);
+    void setOutput(QString output);
+
+    QString getOutput() const {
+        return m_output;
+    }
 
     inline bool isInitial() const {
         return m_initial;
@@ -67,9 +76,14 @@ public:
         return m_label;
     }
 
-    inline QList<QPair<QString, QString>> getConditions() const
+    inline QList<TransitionRowWidget*>& getTransitionsRows()
     {
-        return m_conditions;
+        return m_transitionsRows;
+    }
+
+    inline QList<QPair<QString, QString>> getTransitionsConditions() const
+    {
+        return m_transitionsConditions;
     }
 
     inline QList<FSMTransition *> getTransitions() const
@@ -92,6 +106,9 @@ public:
 protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
+
+signals:
+    // void outputChanged(QString value);
 };
 
 #endif // FSMSTATE_H

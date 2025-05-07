@@ -2,13 +2,25 @@
 #define TRANSITIONROWWIDGET_H
 
 #include <QWidget>
+#include <QPushButton>
+#include "FSMTransition.h"
 
 class QTextEdit;
 class QPushButton;
 
+class FSMTransition;
+
 class TransitionRowWidget : public QWidget
 {
     Q_OBJECT
+
+private:
+    QTextEdit *conditionEdit;
+    QTextEdit *toStateEdit;
+    QPushButton *createButton;
+    QPushButton *removeButton;
+
+    FSMTransition *transitionItem;
 
 public:
     explicit TransitionRowWidget(QWidget *parent = nullptr);
@@ -18,13 +30,21 @@ public:
     QTextEdit* getConditionEdit();
     QTextEdit* getToStateEdit();
 
-signals:
-    void requestDelete(TransitionRowWidget *self);
+    void setTransitionItem(FSMTransition *transition) {
+        transitionItem = transition;
+    }
 
-private:
-    QTextEdit *conditionEdit;
-    QTextEdit *toStateEdit;
-    QPushButton *deleteButton;
+    FSMTransition* getTransitionItem() const {
+        return transitionItem;
+    }
+
+    void disableCreateButton() const {
+        createButton->setDisabled(true);
+    }
+
+signals:
+    void requestCreate(TransitionRowWidget *self);
+    void requestRemove(TransitionRowWidget *self);
 };
 
 #endif // TRANSITIONROWWIDGET_H

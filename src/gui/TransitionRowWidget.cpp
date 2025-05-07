@@ -7,7 +7,7 @@
 #include <QFrame>
 
 TransitionRowWidget::TransitionRowWidget(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), transitionItem(nullptr)
 {
     setFixedHeight(380);
 
@@ -53,16 +53,26 @@ TransitionRowWidget::TransitionRowWidget(QWidget *parent)
     toStateEdit->setFont(font);
     frameLayout->addWidget(toStateEdit);
 
-    // delete button aligned right
-    deleteButton = new QPushButton("Delete", frame);
     auto *bottomLayout = new QHBoxLayout();
     bottomLayout->setContentsMargins(0, 10, 0, 0);
-    bottomLayout->addStretch();
-    bottomLayout->addWidget(deleteButton);
+    bottomLayout->setSpacing(10);
+
+    // Create button
+    createButton = new QPushButton("Create", frame);
+    bottomLayout->addWidget(createButton);
+
+    connect(createButton, &QPushButton::clicked, this, [=](){
+        emit requestCreate(this);
+    });
+
+    // Remove button
+    removeButton = new QPushButton("Remove", frame);
+    bottomLayout->addWidget(removeButton);
+
     frameLayout->addLayout(bottomLayout);
 
-    connect(deleteButton, &QPushButton::clicked, this, [=]() {
-        emit requestDelete(this);
+    connect(removeButton, &QPushButton::clicked, this, [=]() {
+        emit requestRemove(this);
     });
 
     // put in frame

@@ -8,13 +8,15 @@
 #include "FSMState.h"
 #include "TransitionRowWidget.h"
 
+class FSMState;
+
 class FSMTransition : public QGraphicsObject
 {
 private:
     FSMState *m_firstState = nullptr;
     FSMState *m_secondState = nullptr;
     QLineF m_line;
-    TransitionRowWidget *m_row = nullptr;
+    // TransitionRowWidget *m_row = nullptr;
 
 public:
     enum
@@ -46,13 +48,13 @@ public:
         return (state == m_firstState) ? m_secondState : m_firstState;
     }
 
-    TransitionRowWidget* getRow() const {
-        return m_row;
-    }
+    // TransitionRowWidget* getRow() const {
+    //     return m_row;
+    // }
 
-    void setRow(TransitionRowWidget *row) {
-        m_row = row;
-    }
+    // void setRow(TransitionRowWidget *row) {
+    //     m_row = row;
+    // }
 };
 
 #endif // FSMTRANSITION_H

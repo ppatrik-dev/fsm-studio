@@ -277,3 +277,14 @@ void FSMScene::addConnects()
     connect(this, &FSMScene::createTransitionRequest,
             this->machine, &MooreMachine::createTransition);
 }
+
+FSMTransition* FSMScene::createTransition(FSMState *firstState, FSMState *secondState) {
+    FSMTransition *transition = new FSMTransition(firstState, secondState);
+
+    m_transitions.append(transition);
+    firstState->appendTransition(transition);
+    secondState->appendTransition(transition);
+    addItem(transition);
+
+    return transition;
+}

@@ -36,6 +36,8 @@ private:
     FSMView *fsmView;
     FSMGui *fsmGui;
 
+    FSMState *selectedState = nullptr;
+
     QVBoxLayout *inputsLayout;
     QVBoxLayout *outputsLayout;
     QVBoxLayout *variablesLayout;
@@ -51,8 +53,9 @@ signals:
     void createMachine(MooreMachine &machine);
 
 private slots:
-    TransitionRowWidget* onAddConditionClicked();
-    void onDeleteCondition(TransitionRowWidget *row);
+    TransitionRowWidget* onAddTransitionClicked();
+    void onCreateTransition(TransitionRowWidget *row);
+    void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();
     void onAddOutputClicked();
     void onAddVariableClicked();
@@ -62,7 +65,8 @@ private slots:
     void showDetailsPanel(QGraphicsItem *item);
 
 public:
-    void clearConditionRows();
+    void clearTransitionRows();
+    void detachWidgetsFromLayout(QLayout *layout);
 };
 
 #endif // MAINWINDOW_H

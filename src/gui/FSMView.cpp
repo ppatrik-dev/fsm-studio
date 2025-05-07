@@ -62,7 +62,7 @@ void FSMView::contextMenuEvent(QContextMenuEvent *event) {
     QAction *addStateAction = menu.addAction("Add State");
     QAction *addTransitionAction = menu.addAction("Add Transition");
     QAction *deleteStateAction = menu.addAction("Delete State");
-    QAction *deleteTransitionAction = menu.addAction("Delete Transition");
+    // QAction *deleteTransitionAction = menu.addAction("Delete Transition");
 
     QAction *selected = menu.exec(event->globalPos());
 
@@ -72,7 +72,8 @@ void FSMView::contextMenuEvent(QContextMenuEvent *event) {
         emit addTransitionRequested();
     } else if (selected == deleteStateAction) {
         emit deleteStateRequested();
-    } else if (selected == deleteTransitionAction) {
-        emit deleteTransitionRequested();
     }
+    // else if (selected == deleteTransitionAction) {
+    //     emit deleteTransitionRequested();
+    // }
 }
