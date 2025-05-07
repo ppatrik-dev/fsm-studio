@@ -170,6 +170,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         auto edit = row->getToStateEdit();
         edit->setText(transition->getSecondState()->getLabel());;
         edit->setReadOnly(true);
+        transition->setRow(row);
     });
 
     // Save conditions

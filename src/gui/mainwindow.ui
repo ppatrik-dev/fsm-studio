@@ -104,7 +104,7 @@
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
            <item>
             <widget class="QPushButton" name="importButton">
              <property name="sizePolicy">
@@ -650,6 +650,35 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </layout>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="stateOutputLabel">
+            <property name="font">
+             <font>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Output</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="stateOutputLineEdit">
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
+                background-color: #202020;
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                border-radius: 1px;
+                padding: 4px 8px;
+            }</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QLabel" name="ifThenLabel">
           <property name="font">
            <font>
@@ -672,7 +701,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
              <x>0</x>
              <y>0</y>
              <width>331</width>
-             <height>774</height>
+             <height>738</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="conditionsLayout"/>

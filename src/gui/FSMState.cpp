@@ -73,6 +73,16 @@ void FSMState::saveConditions(QList<TransitionRowWidget*> conditionsRows) {
     }
 }
 
+void FSMState::removeCondition(QString toState) {
+    m_conditions.erase(
+        std::remove_if(m_conditions.begin(), m_conditions.end(),
+            [toState](const QPair<QString, QString> &pair) {
+                return pair.second == toState;
+            }),
+        m_conditions.end()
+    );
+}
+
 void FSMState::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
     m_hovered = true;
     update();  // triggers repaint

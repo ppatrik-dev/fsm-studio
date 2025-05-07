@@ -20,7 +20,6 @@ class FSMState : public QGraphicsObject
 {
 private:
     bool m_initial;
-    // bool m_new_transition;
     bool m_hovered;
     int m_radius;
     QString m_label;
@@ -63,14 +62,6 @@ public:
         update();
     }
 
-    // inline bool isNewTransition() const {
-    //     return m_new_transition;
-    // }
-
-    // inline void setNewTransition(bool value) {
-    //     m_new_transition = value;
-    // }
-
     inline QString getLabel() const
     {
         return m_label;
@@ -85,6 +76,8 @@ public:
     {
         return m_transitions;
     }
+
+    void removeCondition(QString toState);
 
     inline void appendTransition(FSMTransition *transition)
     {
