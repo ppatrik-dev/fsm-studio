@@ -194,8 +194,8 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         edit->setReadOnly(true);
         row->setTransitionItem(transition);
         transition->setRow(row);
+        row->setTransitionItem(transition);
     });
-        row->setTransitionItem(transition); });
 
     // Save conditions
     // disconnect(ui->saveConditionsButton, &QPushButton::clicked, nullptr, nullptr);
