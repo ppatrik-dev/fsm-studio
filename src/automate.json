@@ -8,7 +8,8 @@
         "var output;"
     ],
     "variables": [
-        "var x = 10;"
+        "var x = 10;",
+        "var timeout = 5000;"
     ],
     "start_state": "A",
     "states": {

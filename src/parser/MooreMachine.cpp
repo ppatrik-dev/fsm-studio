@@ -37,6 +37,10 @@ QString MooreMachine::createVarCommand(const QString &name, const QString &value
 {
     return QString("var %1 = '%2';").arg(name, value);
 }
+QString MooreMachine::createDynamicVarCommand(const QString &name, const QString &value)
+{
+    return QString("var %1 = %2;").arg(name, value);
+}
 void MooreMachine::setName(QString name)
 {
     automate_name = name;
@@ -163,7 +167,7 @@ void MooreMachine::deleteGuiOutput(const QString &name)
 }
 void MooreMachine::addGuiVariable(const QString &name, const QString &value)
 {
-    variables.insert(name, createVarCommand(name, value));
+    variables.insert(name, createDynamicVarCommand(name, value));
 }
 void MooreMachine::deleteGuiVariable(const QString &name)
 {

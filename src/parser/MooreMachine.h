@@ -37,6 +37,7 @@ public:
     QVector<QString> getOutputs() const;
     QVector<QString> getVariables() const;
     QString createVarCommand(const QString &name, const QString &value);
+    QString createDynamicVarCommand(const QString &name, const QString &value);
     QString extractVariableName(const QString &command);
     QString extractVariableValue(const QString &command);
     void addState(const QString &name, const std::shared_ptr<MooreState> &state);
