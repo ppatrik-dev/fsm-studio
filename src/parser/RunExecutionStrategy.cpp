@@ -18,6 +18,7 @@ void RunExecutionStrategy::terminalLog(QString message, MessageType type)
 }
 bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state)
 {
+
     auto result = actionExecutor.evaluate(state->getOutput());
     if (result.toString() == "undefined")
         output = "";
@@ -30,8 +31,10 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state)
         terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), MessageType::TransitionResult);
         if (boolResult.toBool())
         {
+            state->unsetCurrent();
             actionExecutor.evaluate("index++;");
             currentState = mooreMachine.getState(transition.getTarget());
+            currentState->setCurrent();
             step(currentState);
         }
         else
@@ -45,6 +48,7 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state)
 void RunExecutionStrategy::Execute()
 {
     currentState = mooreMachine.getState(mooreMachine.getStartState());
+    currentState->setCurrent();
 
     if (currentState == nullptr)
     {
