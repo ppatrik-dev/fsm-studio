@@ -1,6 +1,7 @@
 #include "TerminalWidget.h"
 #include <QFont>
 #include <QScrollBar>
+#include <QScrollArea>
 
 TerminalWidget::TerminalWidget(QWidget *parent)
     : QWidget(parent)
@@ -55,6 +56,8 @@ void TerminalWidget::appendLine(const QString &text, int color)
 
     if (buffer.size() > maxLines)
         removeOldest();
+
+    emit lineAppended();
 }
 
 void TerminalWidget::removeOldest()

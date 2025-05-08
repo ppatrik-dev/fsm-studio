@@ -6,6 +6,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QScrollBar>
 #include <QPropertyAnimation>
 #include "FSMView.h"
 #include "FSMScene.h"

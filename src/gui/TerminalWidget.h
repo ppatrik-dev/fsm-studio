@@ -24,6 +24,9 @@ private:
     const unsigned int maxLines = 150;
 
     void removeOldest();
+
+signals:
+    void lineAppended();
 };
 
 #endif // TERMINALWIDGET_H

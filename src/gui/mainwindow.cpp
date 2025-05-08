@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -43,6 +44,14 @@ MainWindow::MainWindow(QWidget *parent)
     terminal = new TerminalWidget();
     ui->TerminalScrollArea->setWidget(terminal);
     ui->TerminalScrollArea->setWidgetResizable(true);
+
+    connect(terminal, &TerminalWidget::lineAppended, this, [=]() {
+        QTimer::singleShot(0, this, [=]() {
+            ui->TerminalScrollArea->verticalScrollBar()->setValue(
+                ui->TerminalScrollArea->verticalScrollBar()->maximum()
+                );
+        });
+    });
 
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
@@ -342,18 +351,6 @@ void MainWindow::toggleTerminal() {
         );
 
         terminal->appendLine("Started simulation...", 7);
-        terminal->appendLine("Test 1");
-        terminal->appendLine("Test 2", 1);
-        terminal->appendLine("Test 3", 2);
-        terminal->appendLine("Test 4", 3);
-        terminal->appendLine("Test 5", 4);
-        terminal->appendLine("Test 5", 4);
-        terminal->appendLine("Test 5", 4);
-        terminal->appendLine("Test 5", 4);
-        terminal->appendLine("Test 5", 4);
-        terminal->appendLine("Test 5", 4);
-        terminal->appendLine("Test 5", 4);
-        terminal->appendLine("Test 5", 4);
     }
 
     else {
