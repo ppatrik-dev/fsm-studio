@@ -73,8 +73,13 @@ void FSMScene::addImportTransition(FSMState *firstSelectedState, FSMState *secon
 {
     FSMTransition *transition = new FSMTransition(firstSelectedState, secondSelectedState);
     m_transitions.append(transition);
-    firstSelectedState->appendTransition(transition);
-    secondSelectedState->appendTransition(transition);
+    if (firstSelectedState == secondSelectedState) {
+        firstSelectedState->appendTransition(transition);
+    }
+    else {
+        firstSelectedState->appendTransition(transition);
+        secondSelectedState->appendTransition(transition);
+    }
 }
 FSMState *FSMScene::getStateByName(const QString &name) const
 {
@@ -118,8 +123,13 @@ void FSMScene::addTransition(FSMState *state)
         m_transitions.append(transition);
         addItem(transition);
 
-        firstSelectedState->appendTransition(transition);
-        secondSelectedState->appendTransition(transition);
+        if (firstSelectedState == secondSelectedState) {
+            firstSelectedState->appendTransition(transition);
+        }
+        else {
+            firstSelectedState->appendTransition(transition);
+            secondSelectedState->appendTransition(transition);
+        }
 
         emit itemSelected(firstSelectedState);
         emit addNewTransition(transition);
@@ -302,8 +312,14 @@ FSMTransition *FSMScene::createTransition(FSMState *firstState, FSMState *second
     FSMTransition *transition = new FSMTransition(firstState, secondState);
 
     m_transitions.append(transition);
-    firstState->appendTransition(transition);
-    secondState->appendTransition(transition);
+
+    if (firstState == secondState) {
+        firstState->appendTransition(transition);
+    }
+    else {
+        firstState->appendTransition(transition);
+        secondState->appendTransition(transition);
+    }
     addItem(transition);
 
     return transition;

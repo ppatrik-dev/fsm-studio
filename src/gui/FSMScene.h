@@ -107,8 +107,7 @@ protected:
     FSMState *getStateByName(const QString &name) const;
 
 public slots:
-    void
-    onAddState(const QPointF &pos);
+    void onAddState(const QPointF &pos);
     void onAddTransition();
     void onDeleteState();
     void onDeleteTransition();
