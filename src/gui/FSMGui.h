@@ -38,6 +38,14 @@ public:
         return m_graph;
     }
 
+    QString getName() const {
+        return m_name;
+    }
+
+    QString getDescription() const {
+        return m_description;
+    }
+
     QMap<QString, QString> getInputs() const
     {
         return m_inputs;
@@ -78,6 +86,7 @@ public:
 
     void runSimulation(Ui::MainWindow *ui);
 signals:
+    // FSM detials changes within GUI
     void initialStateChanged(QString stateLabel);
     void inputAddValue(const QString key, const QString value);
     void inputDeleteValue(const QString key);
@@ -85,12 +94,19 @@ signals:
     void outputDeleteValue(const QString key);
     void variableAddValue(const QString key, const QString value);
     void variableDeleteValue(const QString key);
+
+    // FSM details imports within file
     void saveNameValue(QString name);
     void saveDescriptionValue(QString comment);
     void getVarValue(QMap<QString, QString> &automate_backup, const QString &mode); // input output variable
     void getNameValue(QString &name);
     void getDescriptionValue(QString &comment);
     void getStartStateValue(QString &startState);
+
+    void displayDetailsRequested();
+
+public slots:
+    void importDetails();
 };
 
 #endif // FSMGUI_H

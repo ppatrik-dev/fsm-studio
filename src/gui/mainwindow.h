@@ -26,19 +26,20 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow() {
-        // fsmScene->clearScene();
-        // machine->clearMachine();
-        // clearFSMDetails();
+        fsmScene->clearScene();
+        machine->clearMachine();
+        clearFSMDetails();
 
-        // delete ui;
-        // delete fsmScene;
-        // delete fsmView;
-        // delete fsmGui;
+        delete ui;
+        delete fsmScene;
+        delete fsmView;
+        delete fsmGui;
 
-        // delete inputsLayout;
-        // delete outputsLayout;
-        // delete variablesLayout;
+        delete inputsLayout;
+        delete outputsLayout;
+        delete variablesLayout;
     }
 
 private:
@@ -65,6 +66,7 @@ signals:
     void exportJsonRequested(const QString &fileName, MooreMachine &machine);
     void createMachine(MooreMachine &machine);
     void clearMachine();
+    void importDetailsRequested();
 
 private slots:
     TransitionRowWidget *onAddTransitionClicked();
@@ -78,10 +80,14 @@ private slots:
     void onExportFileClicked();
     void showDetailsPanel(QGraphicsItem *item);
 
+    void displayFSMDetais();
+
 public:
     void clearFSMDetails();
     void clearTransitionRows();
     void detachWidgetsFromLayout(QLayout *layout);
+
+    GenericRowWidget* createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget*> &widgets, GenericRowWidget::RowType type);
 };
 
 #endif // MAINWINDOW_H

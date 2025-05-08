@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QList>
 #include <QMap>
+#include <QDebug>
 #include <QGraphicsLineItem>
 #include <climits>
 #include "FSMState.h"
@@ -78,6 +79,22 @@ public:
 public:
     void drawInitialArrow(FSMState *state);
     void deleteTransition(FSMTransition *transition);
+
+    void debug(QGraphicsItem *item) {
+        if (item) {
+            qDebug() << "Removing item:" << item
+                     << "scene() =" << item->scene()
+                     << "type =" << item->type();
+
+            if (FSMTransition *t = qgraphicsitem_cast<FSMTransition *>(item)) {
+                qDebug() << "It's an FSMTransition from"
+                         << t->getFirstState()->getLabel()
+                         << "to" << t->getSecondState()->getLabel();
+            } else if (FSMState *s = qgraphicsitem_cast<FSMState *>(item)) {
+                qDebug() << "It's an FSMState named" << s->getLabel();
+            }
+        }
+    }
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

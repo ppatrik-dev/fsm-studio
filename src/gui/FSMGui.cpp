@@ -163,3 +163,15 @@ void FSMGui::deleteVariable(const QString &key)
     m_inputs.remove(key);
     emit variableDeleteValue(key);
 }
+
+void FSMGui::importDetails() {
+    emit getNameValue(m_name);
+    emit getDescriptionValue(m_description);
+    emit getVarValue(m_inputs, "input");
+    emit getVarValue(m_outputs, "output");
+    emit getVarValue(m_variables, "variable");
+
+    qDebug() << m_inputs.value("input");
+
+    emit displayDetailsRequested();
+}

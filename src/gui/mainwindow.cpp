@@ -38,10 +38,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
     connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
     connect(this, &MainWindow::clearMachine, machine, &MooreMachine::clearMachine);
+    connect(this, &MainWindow::importDetailsRequested, fsmGui, &FSMGui::importDetails);
+    connect(fsmGui, &FSMGui::displayDetailsRequested, this, &MainWindow::displayFSMDetais);
 
     // Control buttons
-    connect(ui->clearButton, &QPushButton::clicked, this, [=]()
-            { fsmScene->clearScene();   emit clearMachine(); });
+    connect(ui->clearButton, &QPushButton::clicked, this, [=](){
+        fsmScene->clearScene();   emit clearMachine();
+    });
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
     connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
@@ -136,6 +139,40 @@ void MainWindow::onImportFileClicked()
     emit clearMachine();
     emit loadJsonRequested(filename, *machine);
     emit createMachine(*machine);
+    emit importDetailsRequested();
+}
+
+GenericRowWidget* MainWindow::createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget*> &widgets, GenericRowWidget::RowType type)
+{
+    GenericRowWidget *row = new GenericRowWidget(type, this);
+    layout->addWidget(row);
+
+    connect(row, &GenericRowWidget::requestDelete, this, &MainWindow::onDeleteRow);
+
+    widgets.append(row);
+
+    return row;
+}
+
+void MainWindow::displayFSMDetais() {
+    ui->automataNameLineEdit->setText(fsmGui->getName());
+    ui->automataDescriptionTextEdit->setText(fsmGui->getDescription());
+
+    for (const QString key : fsmGui->getInputs().keys()) {
+        GenericRowWidget *row = createDetailsRow(inputsLayout, inputsWidgets, GenericRowWidget::Input);
+        qDebug() << fsmGui->getInputs().value(key);
+        row->setGenericTexts(key, fsmGui->getInputs().value(key));
+    }
+
+    for (const QString key : fsmGui->getOutputs().keys()) {
+        GenericRowWidget *row = createDetailsRow(outputsLayout, outputsWidgets, GenericRowWidget::Output);
+        row->setGenericTexts(key, fsmGui->getOutputs().value(key));
+    }
+
+    for (const QString key : fsmGui->getVariables().keys()) {
+        GenericRowWidget *row = createDetailsRow(variablesLayout, variablesWidgets, GenericRowWidget::Variable);
+        row->setGenericTexts(key, fsmGui->getVariables().value(key));
+    }
 }
 
 // MENU

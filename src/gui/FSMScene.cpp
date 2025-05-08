@@ -143,8 +143,9 @@ void FSMScene::deleteTransition(FSMTransition *transition)
 
     transition->setSelected(false);
     transition->setRow(nullptr);
-    transition->setParentItem(nullptr);
+    debug(transition);
     removeItem(transition);
+    transition->setParentItem(nullptr);
 
     m_transitions.removeAll(transition);
     transition->deleteLater();
@@ -162,6 +163,13 @@ void FSMScene::deleteState(FSMState *state)
 
     state->clearTransitionsRows();
 
+    if (state->getLabel() == "A") {
+        if (state->scene() == nullptr) {
+            qDebug() << "NULLPTR";
+        }
+    }
+
+    debug(state);
     removeItem(state);
     m_states.remove(state->getLabel());
     state->deleteLater();
@@ -247,6 +255,7 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void FSMScene::createMachineFile(MooreMachine &machine)
 {
     clearScene();
+
     for (auto it = machine.states.cbegin(); it != machine.states.cend(); ++it)
     {
         const std::shared_ptr<MooreState> &state = it.value();
