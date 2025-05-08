@@ -2,23 +2,40 @@
 #include "MooreMachine.h"
 #include "MooreJsClass.h"
 
-bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecutor &actionExecute, MooreMachine &machine)
+RunExecutionStrategy::RunExecutionStrategy(ActionExecutor &actionExecutor,
+                                           MooreMachine &mooreMachine,
+                                           QObject *parent)
+    : QObject(parent),
+      actionExecutor(actionExecutor),
+      mooreMachine(mooreMachine)
 {
-    auto result = actionExecute.evaluate(state->getOutput());
+}
+
+void RunExecutionStrategy::terminalLog(QString message, MessageType type)
+{
+    qDebug() << message;
+    // emit printLog(message);
+}
+bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state)
+{
+
+    auto result = actionExecutor.evaluate(state->getOutput());
     if (result.toString() == "undefined")
-        output += "";
+        output = "";
     else
-        output += result.toString();
-    qDebug()
-        << "State:" << state->getName() << "Output:" << output;
+        output = result.toString();
+    terminalLog("State: " + state->getName() + " Output: " + output, MessageType::Info);
     for (const auto &transition : state->getTransitions())
     {
-        auto boolResult = actionExecute.evaluate(transition.getInput());
-        qDebug() << "Condition result:" << boolResult.toBool();
+        auto boolResult = actionExecutor.evaluate(transition.getInput());
+        terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), MessageType::TransitionResult);
         if (boolResult.toBool())
         {
-            actionExecute.evaluate("index++;");
-            step(machine.getState(transition.getTarget()), actionExecute, machine);
+            state->unsetCurrent();
+            actionExecutor.evaluate("index++;");
+            currentState = mooreMachine.getState(transition.getTarget());
+            currentState->setCurrent();
+            step(currentState);
         }
         else
         {
@@ -28,34 +45,37 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecuto
 
     return true;
 }
-void RunExecutionStrategy::Execute(MooreMachine &machine)
+void RunExecutionStrategy::Execute()
 {
-    std::shared_ptr<MooreState> state = machine.getState(machine.getStartState());
-    ActionExecutor actionExecute;
+    currentState = mooreMachine.getState(mooreMachine.getStartState());
+    currentState->setCurrent();
+
+    if (currentState == nullptr)
+    {
+        terminalLog("Error: Starting state is null!", MessageType::Error);
+        return;
+    }
 
     MooreJs *moore = new MooreJs();
-    actionExecute.exposeObject("moore", moore);
+    actionExecutor.exposeObject("moore", moore);
 
-    auto result = actionExecute.evaluate("moore.print('patrik');");
-    qDebug() << "Result:" << result.toInt();
-    for (const QString &input : machine.getInputs())
+    for (const QString &input : mooreMachine.getInputs())
     {
-        actionExecute.evaluate(input);
+        actionExecutor.evaluate(input);
     }
 
-    for (const QString &output : machine.getOutputs())
+    for (const QString &output : mooreMachine.getOutputs())
     {
-        actionExecute.evaluate(output);
+        actionExecutor.evaluate(output);
     }
 
-    for (const QString &variable : machine.getVariables())
+    for (const QString &variable : mooreMachine.getVariables())
     {
-        actionExecute.evaluate(variable);
+        actionExecutor.evaluate(variable);
     }
-    actionExecute.evaluate("var index = 0;");
+    actionExecutor.evaluate("var index = 0;");
 
-    result = actionExecute.evaluate("input");
-
-    qDebug() << "Input value: " << result.toString();
-    step(state, actionExecute, machine);
+    auto result = actionExecutor.evaluate("input");
+    terminalLog("Input value: " + result.toString(), MessageType::Info);
+    step(currentState);
 }

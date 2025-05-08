@@ -5,5 +5,5 @@ class IExecutionStrategy
 {
 public:
     virtual ~IExecutionStrategy() = default;
-    virtual void Execute(MooreMachine &machine) = 0;
+    virtual void Execute() = 0;
 };

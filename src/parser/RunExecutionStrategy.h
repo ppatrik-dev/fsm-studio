@@ -3,13 +3,32 @@
 #include "IExecutionStrategy.h"
 #include "MooreMachine.h"
 #include "ActionExecutor.h"
+#include <QTimer>
+#include <QObject>
 
-class RunExecutionStrategy : public IExecutionStrategy
+class RunExecutionStrategy : public QObject, public IExecutionStrategy
 {
+    Q_OBJECT
+
+    enum MessageType
+    {
+        Error,
+        Info,
+        TransitionResult,
+    };
+
 public:
-    void Execute(MooreMachine &machine) override;
-    bool step(std::shared_ptr<MooreState> state, ActionExecutor &actionExecute, MooreMachine &machine);
+    explicit RunExecutionStrategy(ActionExecutor &actionExecutor,
+                                  MooreMachine &mooreMachine,
+                                  QObject *parent = nullptr);
+
+    void Execute() override;
+    bool step(std::shared_ptr<MooreState> state);
+    void terminalLog(QString message, MessageType type);
 
 private:
     QString output;
+    std::shared_ptr<MooreState> currentState;
+    ActionExecutor &actionExecutor;
+    MooreMachine &mooreMachine;
 };

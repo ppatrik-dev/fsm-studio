@@ -1,0 +1,68 @@
+{
+    "automate_name": "EndsWith101",
+    "automate_comment": "Detekuje reťazce končiace na '101'",
+    "inputs": [
+        "var input = '110101';"
+    ],
+    "outputs": [
+        "var output;"
+    ],
+    "variables": [
+        "var state = 'A';"
+    ],
+    "start_state": "A",
+    "states": {
+        "A": {
+            "action": "output = 'NIE';",
+            "transitions": [
+                {
+                    "to": "B",
+                    "condition": "input[index] == '1'"
+                },
+                {
+                    "to": "A",
+                    "condition": "input[index] == '0'"
+                }
+            ]
+        },
+        "B": {
+            "action": "output = 'NIE';",
+            "transitions": [
+                {
+                    "to": "C",
+                    "condition": "input[index] == '0'"
+                },
+                {
+                    "to": "B",
+                    "condition": "input[index] == '1'"
+                }
+            ]
+        },
+        "C": {
+            "action": "output = 'NIE';",
+            "transitions": [
+                {
+                    "to": "D",
+                    "condition": "input[index] == '1'"
+                },
+                {
+                    "to": "A",
+                    "condition": "input[index] == '0'"
+                }
+            ]
+        },
+        "D": {
+            "action": "output = 'ÁNO';",
+            "transitions": [
+                {
+                    "to": "B",
+                    "condition": "input[index] == '1'"
+                },
+                {
+                    "to": "C",
+                    "condition": "input[index] == '0'"
+                }
+            ]
+        }
+    }
+}

@@ -40,13 +40,5 @@ int main(int argc, char *argv[])
     // AutomateJsonDocument jsonDocument;
     // jsonDocument.loadAutomateFromJsonFile("automate.json", mooreMachine);
 
-    // MachineExecutor executor(&mooreMachine);
-
-    // RunExecutionStrategy runStrategy;
-    // StepExecutionStrategy stepStrategy;
-
-    // executor.SetStrategy(&runStrategy);
-    // executor.Execute(mooreMachine);
-
     return a.exec();
 }

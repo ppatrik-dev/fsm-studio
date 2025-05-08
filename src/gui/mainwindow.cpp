@@ -7,7 +7,10 @@
 #include "FSMView.h"
 #include "FSMScene.h"
 #include "../parser/AutomateJsonDocument.h"
+#include "../parser/RunExecutionStrategy.h"
+#include "../parser/IExecutionStrategy.h"
 #include "../parser/MooreMachine.h"
+#include "../parser/MooreMachineExecutor.h"
 #include "TransitionRowWidget.h"
 #include "FSMState.h"
 #include <QDebug>
@@ -47,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
+    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::onRunClicked);
     connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
     connect(fsmGui, &FSMGui::inputDeleteValue, machine, &MooreMachine::deleteGuiInput);
     connect(fsmGui, &FSMGui::outputAddValue, machine, &MooreMachine::addGuiOutput);
@@ -118,6 +122,30 @@ MainWindow::MainWindow(QWidget *parent)
     // Variables
     connect(ui->saveVariablesButton, &QPushButton::clicked, this, [=]()
             { fsmGui->saveVariables(variablesWidgets); });
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+void MainWindow::onRunClicked()
+{
+    if (machine != nullptr)
+    {
+        auto *actionExecute = new ActionExecutor(this);
+        auto *executor = new MachineExecutor(machine, this);
+        auto *runStrategy = new RunExecutionStrategy(*actionExecute, *machine, this);
+
+        connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
+        connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
+
+        emit setStrategy(runStrategy);
+        emit executeMachine(*machine);
+    }
+    else
+    {
+        qDebug() << "Machine is null, Create automate!";
+    }
 }
 
 void MainWindow::onExportFileClicked()

@@ -1,7 +1,7 @@
 #include "MooreState.h"
 
-MooreState::MooreState(const QString &name, const QString &output, bool is_end_state)
-    : name(name), output(output), is_end_state(is_end_state)
+MooreState::MooreState(const QString &name, const QString &output, bool current_state)
+    : name(name), output(output), current_state(current_state)
 {
 }
 
@@ -15,11 +15,18 @@ QString MooreState::getOutput() const
     return output;
 }
 
-bool MooreState::isFinal() const
+bool MooreState::isCurrent() const
 {
-    return is_end_state;
+    return current_state;
 }
-
+void MooreState::setCurrent()
+{
+    current_state = true;
+}
+void MooreState::unsetCurrent()
+{
+    current_state = false;
+}
 void MooreState::addTransition(const QString &input, const QString &targetName)
 {
     transitions.append(MooreTransition(input, targetName));
