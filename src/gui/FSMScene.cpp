@@ -14,9 +14,8 @@
 
 FSMScene::FSMScene(QObject *parent)
     : QGraphicsScene{parent}, sceneMode(SELECT_MODE),
-      firstSelectedState(nullptr)
-{
-}
+      firstSelectedState(nullptr) {}
+
 void FSMScene::setMachine(MooreMachine *machine)
 {
     this->machine = machine;
@@ -28,12 +27,6 @@ void FSMScene::onAddState(const QPointF &pos)
 
 void FSMScene::onAddTransition()
 {
-    if (m_states.count() < 2)
-    {
-        qDebug() << "Warning: Cannot create transition, 2 states needed\n";
-        return;
-    }
-
     sceneMode = ADD_TRANSITION_MODE;
     firstSelectedState = nullptr;
 }
@@ -75,6 +68,7 @@ void FSMScene::addImportTransition(FSMState *firstSelectedState, FSMState *secon
     m_transitions.append(transition);
     if (firstSelectedState == secondSelectedState) {
         firstSelectedState->appendTransition(transition);
+        transition->setPos(firstSelectedState->pos());
     }
     else {
         firstSelectedState->appendTransition(transition);
@@ -125,6 +119,7 @@ void FSMScene::addTransition(FSMState *state)
 
         if (firstSelectedState == secondSelectedState) {
             firstSelectedState->appendTransition(transition);
+            transition->setPos(firstSelectedState->pos());
         }
         else {
             firstSelectedState->appendTransition(transition);
@@ -153,7 +148,7 @@ void FSMScene::deleteTransition(FSMTransition *transition)
 
     transition->setSelected(false);
     transition->setRow(nullptr);
-    debug(transition);
+    deleteDebug(transition);
     removeItem(transition);
     transition->setParentItem(nullptr);
 
@@ -173,13 +168,7 @@ void FSMScene::deleteState(FSMState *state)
 
     state->clearTransitionsRows();
 
-    if (state->getLabel() == "A") {
-        if (state->scene() == nullptr) {
-            qDebug() << "NULLPTR";
-        }
-    }
-
-    debug(state);
+    deleteDebug(state);
     removeItem(state);
     m_states.remove(state->getLabel());
     state->deleteLater();
@@ -315,6 +304,7 @@ FSMTransition *FSMScene::createTransition(FSMState *firstState, FSMState *second
 
     if (firstState == secondState) {
         firstState->appendTransition(transition);
+        transition->setPos(firstState->pos());
     }
     else {
         firstState->appendTransition(transition);

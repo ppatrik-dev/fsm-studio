@@ -56,6 +56,8 @@ public:
     void setRow(TransitionRowWidget *row) {
         m_row = row;
     }
+
+    QString getCondition() const;
 };
 
 #endif // FSMTRANSITION_H

@@ -158,18 +158,18 @@ void MainWindow::displayFSMDetais() {
     ui->automataNameLineEdit->setText(fsmGui->getName());
     ui->automataDescriptionTextEdit->setText(fsmGui->getDescription());
 
-    for (const QString key : fsmGui->getInputs().keys()) {
+    for (const QString &key : fsmGui->getInputs().keys()) {
         GenericRowWidget *row = createDetailsRow(inputsLayout, inputsWidgets, GenericRowWidget::Input);
         qDebug() << fsmGui->getInputs().value(key);
         row->setGenericTexts(key, fsmGui->getInputs().value(key));
     }
 
-    for (const QString key : fsmGui->getOutputs().keys()) {
+    for (const QString &key : fsmGui->getOutputs().keys()) {
         GenericRowWidget *row = createDetailsRow(outputsLayout, outputsWidgets, GenericRowWidget::Output);
         row->setGenericTexts(key, fsmGui->getOutputs().value(key));
     }
 
-    for (const QString key : fsmGui->getVariables().keys()) {
+    for (const QString &key : fsmGui->getVariables().keys()) {
         GenericRowWidget *row = createDetailsRow(variablesLayout, variablesWidgets, GenericRowWidget::Variable);
         row->setGenericTexts(key, fsmGui->getVariables().value(key));
     }
@@ -204,16 +204,15 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     ui->stateOutputLineEdit->setText(state->getOutput());
 
     disconnect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, nullptr, nullptr);
-    connect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, this, [=]()
-            {
+    connect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, this, [=]() {
         state->setOutput(ui->stateOutputLineEdit->text());
-        qDebug() << state->getOutput(); });
+    });
 
     // Display conditions
     for (auto *row : selectedState->getTransitionsRows())
     {
         ui->conditionsLayout->addWidget(row);
-        row->show(); // make visible again
+        row->show();
     }
 
     // Add new condition to new transition

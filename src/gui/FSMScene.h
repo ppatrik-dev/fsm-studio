@@ -72,6 +72,8 @@ public:
                 }
             }
         }
+
+        return QString();
     }
 
     FSMTransition *createTransition(FSMState *firstState, FSMState *secondState);
@@ -80,7 +82,7 @@ public:
     void drawInitialArrow(FSMState *state);
     void deleteTransition(FSMTransition *transition);
 
-    void debug(QGraphicsItem *item) {
+    void deleteDebug(QGraphicsItem *item) {
         if (item) {
             qDebug() << "Removing item:" << item
                      << "scene() =" << item->scene()
