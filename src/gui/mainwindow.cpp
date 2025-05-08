@@ -66,6 +66,8 @@ MainWindow::MainWindow(QWidget *parent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
 
     connect(fsmScene, &FSMScene::initialStateDeleted, fsmGui, &FSMGui::setInitialState);
+    connect(fsmScene, &FSMScene::deleteStateRequested, machine, &MooreMachine::deleteState);
+    connect(fsmScene, &FSMScene::deleteTransitionRequested, machine, &MooreMachine::deleteTransition);
 
     // FSM editing
     connect(fsmView, &FSMView::addStateRequested, fsmScene, &FSMScene::onAddState);

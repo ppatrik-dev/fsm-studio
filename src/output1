@@ -10,13 +10,9 @@
         "A": {
             "action": "Output1",
             "transitions": [
-                {
-                    "condition": "",
-                    "to": "B"
-                }
             ]
         },
-        "B": {
+        "C": {
             "action": "Output1",
             "transitions": [
             ]

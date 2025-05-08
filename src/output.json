@@ -7,25 +7,20 @@
     "outputs": [
         "var output;"
     ],
-    "start_state": "A",
+    "start_state": "",
     "states": {
-        "A": {
-            "action": "Output1",
-            "transitions": [
-            ]
-        },
         "B": {
-            "action": "Output1",
+            "action": "out = '1';",
             "transitions": [
+                {
+                    "condition": "input[index] == '1'",
+                    "to": "C"
+                }
             ]
         },
         "C": {
             "action": "",
             "transitions": [
-                {
-                    "condition": "input[index] == '0'",
-                    "to": "A"
-                },
                 {
                     "condition": "@timeout",
                     "to": "B"
@@ -38,10 +33,6 @@
                 {
                     "condition": "x <= 5",
                     "to": "E"
-                },
-                {
-                    "condition": "input[index] == '1'",
-                    "to": "A"
                 }
             ]
         },
@@ -57,10 +48,6 @@
         "F": {
             "action": "out = '0';",
             "transitions": [
-                {
-                    "condition": "true",
-                    "to": "A"
-                }
             ]
         }
     },

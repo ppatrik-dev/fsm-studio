@@ -45,9 +45,9 @@ public:
 public slots:
     void createAndAddState(std::shared_ptr<MooreState> &state, const QString &stateName, const QString &output);
     void createTransition(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetStateName);
-    void setName(const QString &name);
-    void setComment(const QString &comment);
-    void setStartState(QString &name);
+    void setName(QString name);
+    void setComment(QString comment);
+    void setStartState(QString name);
     void addGuiInput(const QString &name, const QString &value);
     void deleteGuiInput(const QString &name);
     void addGuiOutput(const QString &name, const QString &value);
@@ -59,4 +59,6 @@ public slots:
     void getGuiComment(QString &comment);
     void getGuiStartState(QString &startState);
     void clearMachine();
+    void deleteState(QString name);
+    void deleteTransition(QString firstName, QString secondName);
 };

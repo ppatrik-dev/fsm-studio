@@ -103,7 +103,9 @@ signals:
     void itemSelected(QGraphicsItem *item);
     void addNewTransition(FSMTransition *transition);
     void createStateRequested(std::shared_ptr<MooreState> &state, const QString &stateName, const QString &output);
-    void createTransitionRequest(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetname);
+    void createTransitionRequest(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetName);
+    void deleteStateRequested(QString name);
+    void deleteTransitionRequested(QString firstName, QString secondName);
 };
 
 #endif // FSMSCENE_H

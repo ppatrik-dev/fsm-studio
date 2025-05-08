@@ -132,7 +132,7 @@ void FSMScene::deleteTransition(FSMTransition *transition)
 {
     FSMState *first = transition->getFirstState();
     FSMState *second = transition->getSecondState();
-
+    // emit deleteTransitionRequested(first->getLabel(), second->getLabel());
     if (first)
         first->removeTransition(transition);
     if (second)
@@ -147,6 +147,7 @@ void FSMScene::deleteTransition(FSMTransition *transition)
 void FSMScene::deleteState(FSMState *state)
 {
     auto transitions = state->getTransitions();
+    emit deleteStateRequested(state->getLabel());
     for (FSMTransition *transition : transitions)
     {
         deleteTransition(transition);

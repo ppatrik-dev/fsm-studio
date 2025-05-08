@@ -37,16 +37,16 @@ QString MooreMachine::createVarCommand(const QString &name, const QString &value
 {
     return QString("var %1 = '%2';").arg(name, value);
 }
-void MooreMachine::setName(const QString &name)
+void MooreMachine::setName(QString name)
 {
     automate_name = name;
 }
 
-void MooreMachine::setComment(const QString &comment)
+void MooreMachine::setComment(QString comment)
 {
     automate_comment = comment;
 }
-void MooreMachine::setStartState(QString &name)
+void MooreMachine::setStartState(QString name)
 {
     start_state = name;
 }
@@ -187,4 +187,30 @@ void MooreMachine::getGuiStartState(QString &startState)
 void MooreMachine::clearMachine()
 {
     states.clear();
+    start_state.clear();
+}
+void MooreMachine::deleteState(QString name)
+{
+    states.remove(name);
+    for (auto &mooreState : states)
+    {
+        auto &transitions = mooreState->getTransitions();
+        transitions.erase(
+            std::remove_if(
+                transitions.begin(),
+                transitions.end(),
+                [=](const MooreTransition &t)
+                { return t.getTarget() == name; }),
+            transitions.end());
+    }
+
+    if (start_state == name)
+    {
+        start_state.clear();
+    }
+}
+void MooreMachine::deleteTransition(QString firstName, QString secondName)
+{
+    auto state = getState(firstName);
+    state->deleteTransitionByTarget(secondName);
 }

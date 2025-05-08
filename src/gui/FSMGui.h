@@ -85,8 +85,8 @@ signals:
     void outputDeleteValue(const QString key);
     void variableAddValue(const QString key, const QString value);
     void variableDeleteValue(const QString key);
-    void saveNameValue(const QString &name);
-    void saveDescriptionValue(const QString &comment);
+    void saveNameValue(QString name);
+    void saveDescriptionValue(QString comment);
     void getVarValue(QMap<QString, QString> &automate_backup, const QString &mode); // input output variable
     void getNameValue(QString &name);
     void getDescriptionValue(QString &comment);

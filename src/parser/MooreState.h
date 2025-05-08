@@ -17,6 +17,8 @@ public:
     QString getName() const override;
     QString getOutput() const override;
     bool isFinal() const override;
-    const QVector<MooreTransition> &getTransitions() const;
+    QVector<MooreTransition> &getTransitions();
+    MooreTransition *findTransitionByTarget(QString &target);
     void addTransition(const QString &input, const QString &target) override;
+    void deleteTransitionByTarget(const QString &target);
 };

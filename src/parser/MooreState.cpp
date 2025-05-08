@@ -24,7 +24,30 @@ void MooreState::addTransition(const QString &input, const QString &targetName)
 {
     transitions.append(MooreTransition(input, targetName));
 }
-const QVector<MooreTransition> &MooreState::getTransitions() const
+QVector<MooreTransition> &MooreState::getTransitions()
 {
     return transitions;
+}
+MooreTransition *MooreState::findTransitionByTarget(QString &target)
+{
+    for (MooreTransition &t : getTransitions())
+    {
+        if (t.getTarget() == target)
+        {
+            return &t;
+        }
+    }
+    return nullptr;
+}
+void MooreState::deleteTransitionByTarget(const QString &target)
+{
+    auto &transitions = getTransitions();
+
+    transitions.erase(
+        std::remove_if(transitions.begin(), transitions.end(),
+                       [&](const MooreTransition &t)
+                       {
+                           return t.getTarget() == target;
+                       }),
+        transitions.end());
 }
