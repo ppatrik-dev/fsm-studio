@@ -129,8 +129,9 @@ void MainWindow::onRunClicked()
 {
     if (machine != nullptr)
     {
+        auto *actionExecute = new ActionExecutor(this);
         auto *executor = new MachineExecutor(machine, this);
-        auto *runStrategy = new RunExecutionStrategy();
+        auto *runStrategy = new RunExecutionStrategy(*actionExecute, *machine, this);
 
         connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
         connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);

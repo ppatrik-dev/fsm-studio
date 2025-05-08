@@ -16,4 +16,10 @@ public slots:
     {
         qDebug() << message;
     }
+    void timer(qint32 timeout)
+    {
+        emit stepTimeout(timeout);
+    }
+signals:
+    void stepTimeout(qint32 timeout);
 };
