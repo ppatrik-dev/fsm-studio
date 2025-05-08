@@ -117,10 +117,6 @@ MainWindow::MainWindow(QWidget *parent)
             { fsmGui->saveVariables(variablesWidgets); });
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
 void MainWindow::onExportFileClicked()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Save File", "", "JSON FIle (*.json*)");
@@ -193,7 +189,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         edit->setReadOnly(true);
         row->setTransitionItem(transition);
         transition->setRow(row);
-        row->setTransitionItem(transition); });
+    });
 
     // Save conditions
     // disconnect(ui->saveConditionsButton, &QPushButton::clicked, nullptr, nullptr);
@@ -255,6 +251,7 @@ void MainWindow::onRemoveTransition(TransitionRowWidget *row)
     }
     ui->conditionsLayout->removeWidget(row);
     selectedState->m_transitionsRows.removeAll(row);
+    row->setTransitionItem(nullptr);
     row->deleteLater();
 }
 
@@ -331,6 +328,38 @@ void MainWindow::detachWidgetsFromLayout(QLayout *layout)
         }
         delete item; // delete the QLayoutItem, not the widget
     }
+}
+
+void MainWindow::clearFSMDetails() {
+    ui->automataNameLineEdit->clear();
+    ui->automataDescriptionTextEdit->clear();
+
+    for (auto row : inputsWidgets) {
+        if (row) {
+            inputsLayout->removeWidget(row);
+            row->deleteLater();
+        }
+    }
+
+    inputsWidgets.clear();
+
+    for (auto row : outputsWidgets) {
+        if (row) {
+            outputsLayout->removeWidget(row);
+            row->deleteLater();
+        }
+    }
+
+    outputsWidgets.clear();
+
+    for (auto row : variablesWidgets) {
+        if (row) {
+            variablesLayout->removeWidget(row);
+            row->deleteLater();
+        }
+    }
+
+    variablesWidgets.clear();
 }
 
 void MainWindow::clearTransitionRows()

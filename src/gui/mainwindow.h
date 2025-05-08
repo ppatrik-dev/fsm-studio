@@ -26,7 +26,20 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() {
+        // fsmScene->clearScene();
+        // machine->clearMachine();
+        // clearFSMDetails();
+
+        // delete ui;
+        // delete fsmScene;
+        // delete fsmView;
+        // delete fsmGui;
+
+        // delete inputsLayout;
+        // delete outputsLayout;
+        // delete variablesLayout;
+    }
 
 private:
     Ui::MainWindow *ui;
@@ -45,7 +58,7 @@ private:
     QList<GenericRowWidget *> inputsWidgets;
     QList<GenericRowWidget *> outputsWidgets;
     QList<GenericRowWidget *> variablesWidgets;
-    QList<TransitionRowWidget *> conditionWidgets;
+    // QList<TransitionRowWidget *> conditionWidgets;
 
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -66,6 +79,7 @@ private slots:
     void showDetailsPanel(QGraphicsItem *item);
 
 public:
+    void clearFSMDetails();
     void clearTransitionRows();
     void detachWidgetsFromLayout(QLayout *layout);
 };

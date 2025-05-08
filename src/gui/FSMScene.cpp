@@ -130,28 +130,34 @@ void FSMScene::addTransition(FSMState *state)
 
 void FSMScene::deleteTransition(FSMTransition *transition)
 {
+    if (!transition) return;
+
     FSMState *first = transition->getFirstState();
     FSMState *second = transition->getSecondState();
     // emit deleteTransitionRequested(first->getLabel(), second->getLabel());
+
     if (first)
         first->removeTransition(transition);
     if (second)
         second->removeTransition(transition);
 
+    transition->setSelected(false);
+    transition->setRow(nullptr);
     transition->setParentItem(nullptr);
     removeItem(transition);
+
     m_transitions.removeAll(transition);
     transition->deleteLater();
 }
 
 void FSMScene::deleteState(FSMState *state)
 {
-    auto transitions = state->getTransitions();
+    QList<FSMTransition*> transitions = state->getTransitions();
     emit deleteStateRequested(state->getLabel());
     for (FSMTransition *transition : transitions)
     {
-        deleteTransition(transition);
         transition->other(state)->removeTransitionRow(state->getLabel());
+        deleteTransition(transition);
     }
 
     state->clearTransitionsRows();
@@ -163,7 +169,7 @@ void FSMScene::deleteState(FSMState *state)
 
 void FSMScene::clearScene()
 {
-    auto states = m_states.values();
+    QList<FSMState*> states = m_states.values();
     for (FSMState *state : states)
     {
         deleteState(state);
