@@ -1,51 +1,48 @@
 {
-    "automate_name": "PalindromeChecker",
-    "automate_comment": "Automat na detekciu palindrómov (malé slová)",
+    "automate_name": "PalindromeCheck",
+    "automate_comment": "Automat na kontrolu palindrómov pre malé slová.",
     "inputs": [
-        "var input = 'abcde';"
+        "var input = 'abccba';"
     ],
     "outputs": [
-        "var output;"
+        "var output = '';"
     ],
-    "variables": [
-        "var state = 'A';"
-    ],
+    "variables": [],
     "start_state": "A",
     "states": {
         "A": {
-            "action": "output = 'NIE';",
+            "action": "",
             "transitions": [
                 {
-                    "to": "B",
-                    "condition": "input[index] == 'a'"
+                    "to": "C",
+                    "condition": "index >= input.length / 2"
                 },
                 {
-                    "to": "A",
-                    "condition": "input[index] == 'b'"
+                    "to": "B",
+                    "condition": "input[index] == input[input.length - 1 - index]"
+                },
+                {
+                    "to": "D",
+                    "condition": "input[index] != input[input.length - 1 - index]"
                 }
             ]
         },
         "B": {
-            "action": "output = 'NIE';",
+            "action": "index = index + 1;",
             "transitions": [
                 {
                     "to": "A",
-                    "condition": "input[index] == 'b'"
-                },
-                {
-                    "to": "C",
-                    "condition": "input[index] == 'c'"
+                    "condition": "true"
                 }
             ]
         },
         "C": {
             "action": "output = 'ÁNO';",
-            "transitions": [
-                {
-                    "to": "A",
-                    "condition": "input[index] == 'a'"
-                }
-            ]
+            "transitions": []
+        },
+        "D": {
+            "action": "output = 'NIE';",
+            "transitions": []
         }
     }
 }

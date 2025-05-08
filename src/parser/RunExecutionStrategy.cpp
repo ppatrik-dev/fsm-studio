@@ -1,7 +1,11 @@
 #include "RunExecutionStrategy.h"
 #include "MooreMachine.h"
 #include "MooreJsClass.h"
-
+void RunExecutionStrategy::terminalLog(QString message, MessageType type)
+{
+    qDebug() << message;
+    // emit printLog(message);
+}
 bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecutor &actionExecute, MooreMachine &machine)
 {
     auto result = actionExecute.evaluate(state->getOutput());
@@ -9,12 +13,11 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecuto
         output = "";
     else
         output = result.toString();
-    qDebug()
-        << "State:" << state->getName() << "Output:" << output;
+    terminalLog("State: " + state->getName() + " Output: " + output, MessageType.Info);
     for (const auto &transition : state->getTransitions())
     {
         auto boolResult = actionExecute.evaluate(transition.getInput());
-        qDebug() << "Condition result:" << boolResult.toBool();
+        terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), MessageType.TransitionResult);
         if (boolResult.toBool())
         {
             actionExecute.evaluate("index++;");
@@ -33,7 +36,7 @@ void RunExecutionStrategy::Execute(MooreMachine &machine)
     std::shared_ptr<MooreState> state = machine.getState(machine.getStartState());
     if (state == nullptr)
     {
-        qDebug() << "Error: Starting state is null!";
+        terminalLog("Error: Starting state is null!", MessageType.Error);
         return;
     }
     ActionExecutor actionExecute;
@@ -41,8 +44,6 @@ void RunExecutionStrategy::Execute(MooreMachine &machine)
     MooreJs *moore = new MooreJs();
     actionExecute.exposeObject("moore", moore);
 
-    auto result = actionExecute.evaluate("moore.print('patrik');");
-    qDebug() << "Result:" << result.toInt();
     for (const QString &input : machine.getInputs())
     {
         actionExecute.evaluate(input);
@@ -59,7 +60,7 @@ void RunExecutionStrategy::Execute(MooreMachine &machine)
     }
     actionExecute.evaluate("var index = 0;");
 
-    result = actionExecute.evaluate("input");
+    auto result = actionExecute.evaluate("input");
 
     qDebug() << "Input value: " << result.toString();
     step(state, actionExecute, machine);
