@@ -21,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     fsmView = ui->fsmGraphicsView;
     fsmScene = new FSMScene(this);
+    fsmView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    fsmView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     fsmView->setScene(fsmScene);
     machine = new MooreMachine(this);
     fsmScene->setMachine(machine);
@@ -331,10 +334,10 @@ void MainWindow::toggleTerminal() {
             " padding: 6px 12px;"
             " }"
             "QPushButton:hover {"
-            " background-color: #2ecc71;"   // svetlejšia zelená na hover
+            " background-color: #2ecc71;"
             " }"
             "QPushButton:pressed {"
-            " background-color: #1e6821;"   // tmavá na klik
+            " background-color: #1e6821;"
             " }"
         );
 
@@ -354,6 +357,8 @@ void MainWindow::toggleTerminal() {
     }
 
     else {
+
+        fsmView->restorePreviousView();
 
         TerminalActive = false;
 
@@ -382,5 +387,13 @@ void MainWindow::toggleTerminal() {
     animation->setStartValue(currentHeight);
     animation->setEndValue(targetHeight);
     animation->setEasingCurve(QEasingCurve::InOutQuad);
+
+    if (TerminalActive){
+
+        connect(animation, &QPropertyAnimation::finished, this, [this]() {
+            fsmView->fitToSceneOnce();
+        });
+    }
+
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
