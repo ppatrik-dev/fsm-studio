@@ -31,6 +31,11 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecuto
 void RunExecutionStrategy::Execute(MooreMachine &machine)
 {
     std::shared_ptr<MooreState> state = machine.getState(machine.getStartState());
+    if (state == nullptr)
+    {
+        qDebug() << "Error: Starting state is null!";
+        return;
+    }
     ActionExecutor actionExecute;
 
     MooreJs *moore = new MooreJs();

@@ -127,15 +127,21 @@ MainWindow::~MainWindow()
 }
 void MainWindow::onRunClicked()
 {
+    if (machine != nullptr)
+    {
+        auto *executor = new MachineExecutor(machine, this);
+        auto *runStrategy = new RunExecutionStrategy();
 
-    auto *executor = new MachineExecutor(machine, this);
-    auto *runStrategy = new RunExecutionStrategy();
+        connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
+        connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
 
-    connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
-    connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
-
-    emit setStrategy(runStrategy);
-    emit executeMachine(*machine);
+        emit setStrategy(runStrategy);
+        emit executeMachine(*machine);
+    }
+    else
+    {
+        qDebug() << "Machine is null, Create automate!";
+    }
 }
 
 void MainWindow::onExportFileClicked()
