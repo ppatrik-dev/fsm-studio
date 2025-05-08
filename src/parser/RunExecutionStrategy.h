@@ -15,6 +15,8 @@ class RunExecutionStrategy : public QObject, public IExecutionStrategy
         Error,
         Info,
         TransitionResult,
+        Variable,
+        Evaluate,
     };
 
 public:
@@ -25,6 +27,7 @@ public:
     void Execute() override;
     bool step(std::shared_ptr<MooreState> state);
     void terminalLog(QString message, MessageType type);
+    void outputVariables();
 
 private:
     QString output;

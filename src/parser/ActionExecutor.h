@@ -13,6 +13,14 @@ public:
     ActionExecutor(QObject *parent = nullptr);
     QJSValue evaluate(const QString &code);
     void exposeObject(const QString &name, QObject *object);
+    QJSEngine &getEngine()
+    {
+        return engine;
+    }
+    QString getValue(QString var)
+    {
+        return engine.globalObject().property(var).toString();
+    }
 
 private:
     QJSEngine engine;
