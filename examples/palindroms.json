@@ -1,0 +1,51 @@
+{
+    "automate_name": "PalindromeChecker",
+    "automate_comment": "Automat na detekciu palindrómov (malé slová)",
+    "inputs": [
+        "var input = 'abcde';"
+    ],
+    "outputs": [
+        "var output;"
+    ],
+    "variables": [
+        "var state = 'A';"
+    ],
+    "start_state": "A",
+    "states": {
+        "A": {
+            "action": "output = 'NIE';",
+            "transitions": [
+                {
+                    "to": "B",
+                    "condition": "input[index] == 'a'"
+                },
+                {
+                    "to": "A",
+                    "condition": "input[index] == 'b'"
+                }
+            ]
+        },
+        "B": {
+            "action": "output = 'NIE';",
+            "transitions": [
+                {
+                    "to": "A",
+                    "condition": "input[index] == 'b'"
+                },
+                {
+                    "to": "C",
+                    "condition": "input[index] == 'c'"
+                }
+            ]
+        },
+        "C": {
+            "action": "output = 'ÁNO';",
+            "transitions": [
+                {
+                    "to": "A",
+                    "condition": "input[index] == 'a'"
+                }
+            ]
+        }
+    }
+}

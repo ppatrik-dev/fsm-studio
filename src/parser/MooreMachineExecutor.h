@@ -1,11 +1,15 @@
 #pragma once
 
+#include <QObject>
 #include "IExecutionStrategy.h"
 
-class MachineExecutor
+class MachineExecutor : public QObject
 {
-public:
-    MachineExecutor(MooreMachine *machine);
+Q_OBJECT // This must be here!
+
+    public : explicit MachineExecutor(MooreMachine *machine, QObject *parent = nullptr);
+
+public slots:
     void SetStrategy(IExecutionStrategy *strategy);
     void Execute(MooreMachine &machine);
 

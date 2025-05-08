@@ -9,6 +9,7 @@
 #include "FSMView.h"
 #include "FSMScene.h"
 #include "../parser/MooreMachine.h"
+#include "../parser/IExecutionStrategy.h"
 #include "FSMGui.h"
 #include "GenericRowWidget.h"
 #include "TransitionRowWidget.h"
@@ -52,6 +53,8 @@ signals:
     void exportJsonRequested(const QString &fileName, MooreMachine &machine);
     void createMachine(MooreMachine &machine);
     void clearMachine();
+    void setStrategy(IExecutionStrategy *strategy);
+    void executeMachine(MooreMachine &machine);
 
 private slots:
     TransitionRowWidget *onAddTransitionClicked();
@@ -63,6 +66,7 @@ private slots:
     void onDeleteRow(GenericRowWidget *row);
     void onImportFileClicked();
     void onExportFileClicked();
+    void onRunClicked();
     void showDetailsPanel(QGraphicsItem *item);
 
 public:

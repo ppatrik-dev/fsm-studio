@@ -1,6 +1,6 @@
 #include "MooreMachineExecutor.h"
-MachineExecutor::MachineExecutor(MooreMachine *machine)
-    : machine(machine), currentState(nullptr)
+MachineExecutor::MachineExecutor(MooreMachine *machine, QObject *parent)
+    : QObject(parent), machine(machine), currentState(nullptr), strategy_(nullptr)
 {
 }
 void MachineExecutor::SetStrategy(IExecutionStrategy *strategy)

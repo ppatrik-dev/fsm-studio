@@ -7,7 +7,10 @@
 #include "FSMView.h"
 #include "FSMScene.h"
 #include "../parser/AutomateJsonDocument.h"
+#include "../parser/RunExecutionStrategy.h"
+#include "../parser/IExecutionStrategy.h"
 #include "../parser/MooreMachine.h"
+#include "../parser/MooreMachineExecutor.h"
 #include "TransitionRowWidget.h"
 #include "FSMState.h"
 #include <QDebug>
@@ -44,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
             { fsmScene->clearScene();   emit clearMachine(); });
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
+    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::onRunClicked);
     connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
     connect(fsmGui, &FSMGui::inputDeleteValue, machine, &MooreMachine::deleteGuiInput);
     connect(fsmGui, &FSMGui::outputAddValue, machine, &MooreMachine::addGuiOutput);
@@ -121,6 +125,19 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::onRunClicked()
+{
+
+    auto *executor = new MachineExecutor(machine, this);
+    auto *runStrategy = new RunExecutionStrategy();
+
+    connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
+    connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
+
+    emit setStrategy(runStrategy);
+    emit executeMachine(*machine);
+}
+
 void MainWindow::onExportFileClicked()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Save File", "", "JSON FIle (*.json*)");

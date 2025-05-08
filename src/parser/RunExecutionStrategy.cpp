@@ -6,9 +6,9 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecuto
 {
     auto result = actionExecute.evaluate(state->getOutput());
     if (result.toString() == "undefined")
-        output += "";
+        output = "";
     else
-        output += result.toString();
+        output = result.toString();
     qDebug()
         << "State:" << state->getName() << "Output:" << output;
     for (const auto &transition : state->getTransitions())
