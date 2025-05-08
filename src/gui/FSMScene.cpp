@@ -46,7 +46,7 @@ void FSMScene::addState(QPointF pos)
     QString label = getStateLabel();
     FSMState *state = new FSMState(label);
     std::shared_ptr<MooreState> mooreState = nullptr;
-    emit createStateRequested(mooreState, label, "Output1");
+    emit createStateRequested(mooreState, label, "");
     state->setMooreState(mooreState);
     m_states.insert(label, state);
     state->setPos(pos);
@@ -59,6 +59,7 @@ void FSMScene::addImportState(QString name, const std::shared_ptr<MooreState> &m
 {
     FSMState *state = new FSMState(name);
     state->setMooreState(mooreState);
+    state->setOutput(mooreState->getOutput());
     m_states.insert(name, state);
 }
 
@@ -313,4 +314,22 @@ FSMTransition *FSMScene::createTransition(FSMState *firstState, FSMState *second
     addItem(transition);
 
     return transition;
+}
+
+void FSMScene::deleteDebug(QGraphicsItem *item) {
+    if (debug) {
+        if (item) {
+            qDebug() << "Removing item:" << item
+                     << "scene() =" << item->scene()
+                     << "type =" << item->type();
+
+            if (FSMTransition *t = qgraphicsitem_cast<FSMTransition *>(item)) {
+                qDebug() << "It's an FSMTransition from"
+                         << t->getFirstState()->getLabel()
+                         << "to" << t->getSecondState()->getLabel();
+            } else if (FSMState *s = qgraphicsitem_cast<FSMState *>(item)) {
+                qDebug() << "It's an FSMState named" << s->getLabel();
+            }
+        }
+    }
 }

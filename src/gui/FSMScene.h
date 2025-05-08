@@ -34,6 +34,8 @@ private:
     };
     enum sceneModeEnum sceneMode;
 
+    inline static bool debug = false;
+
 public:
     explicit FSMScene(QObject *parent = nullptr);
     void clearScene();
@@ -82,21 +84,7 @@ public:
     void drawInitialArrow(FSMState *state);
     void deleteTransition(FSMTransition *transition);
 
-    void deleteDebug(QGraphicsItem *item) {
-        if (item) {
-            qDebug() << "Removing item:" << item
-                     << "scene() =" << item->scene()
-                     << "type =" << item->type();
-
-            if (FSMTransition *t = qgraphicsitem_cast<FSMTransition *>(item)) {
-                qDebug() << "It's an FSMTransition from"
-                         << t->getFirstState()->getLabel()
-                         << "to" << t->getSecondState()->getLabel();
-            } else if (FSMState *s = qgraphicsitem_cast<FSMState *>(item)) {
-                qDebug() << "It's an FSMState named" << s->getLabel();
-            }
-        }
-    }
+    void deleteDebug(QGraphicsItem *item);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

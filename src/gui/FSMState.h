@@ -29,7 +29,6 @@ private:
     QList<FSMTransition *> m_transitions;
     std::shared_ptr<MooreState> m_state;
     QList<QPair<QString, QString>> m_transitionsConditions;
-public:
     QList<TransitionRowWidget*> m_transitionsRows;
 
 public:
@@ -59,10 +58,19 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-    void saveConditions(QList<TransitionRowWidget *> conditionsRows);
-    void setOutput(QString output);
+    void saveConditions();
 
     void clearTransitionsRows();
+
+    void updateOutput(QString value) {
+        setOutput(value);
+
+        m_state->setOutput(value);
+    }
+
+    void setOutput(QString value) {
+        m_output = value;
+    }
 
     QString getOutput() const {
         return m_output;
@@ -112,9 +120,6 @@ public:
 protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
-
-signals:
-    // void outputChanged(QString value);
 };
 
 #endif // FSMSTATE_H

@@ -40,14 +40,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
     connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
-    connect(this, &MainWindow::clearMachine, machine, &MooreMachine::clearMachine);
+    connect(this, &MainWindow::clearMachineRequested, machine, &MooreMachine::clearMachine);
+    connect(this, &MainWindow::clearSceneRequested, fsmScene, &FSMScene::onClearScene);
     connect(this, &MainWindow::importDetailsRequested, fsmGui, &FSMGui::importDetails);
     connect(fsmGui, &FSMGui::displayDetailsRequested, this, &MainWindow::displayFSMDetais);
 
     // Control buttons
-    connect(ui->clearButton, &QPushButton::clicked, this, [=](){
-        fsmScene->clearScene();   emit clearMachine();
-    });
+    connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::clear);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
     connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::onRunClicked);
@@ -73,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent)
             { ui->zoomLabel->setText(QString::number(percent) + "%"); });
 
     connect(fsmScene, &FSMScene::initialStateDeleted, fsmGui, &FSMGui::setInitialState);
+
     connect(fsmScene, &FSMScene::deleteStateRequested, machine, &MooreMachine::deleteState);
     connect(fsmScene, &FSMScene::deleteTransitionRequested, machine, &MooreMachine::deleteTransition);
 
@@ -124,10 +124,6 @@ MainWindow::MainWindow(QWidget *parent)
             { fsmGui->saveVariables(variablesWidgets); });
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
 void MainWindow::onRunClicked()
 {
     if (machine != nullptr)
@@ -164,7 +160,7 @@ void MainWindow::onExportFileClicked()
 void MainWindow::onImportFileClicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
-    emit clearMachine();
+    emit clearMachineRequested();
     emit loadJsonRequested(filename, *machine);
     emit createMachine(*machine);
     emit importDetailsRequested();
@@ -209,7 +205,11 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     if (!item || item->type() != FSMState::Type)
     {
         ui->detailsPanel->setCurrentWidget(ui->automataPropertiesPanel);
-        selectedState = nullptr;
+
+        if (selectedState) {
+            selectedState = nullptr;
+        }
+
         return;
     }
 
@@ -233,7 +233,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
 
     disconnect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, nullptr, nullptr);
     connect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, this, [=]() {
-        state->setOutput(ui->stateOutputLineEdit->text());
+        state->updateOutput(ui->stateOutputLineEdit->text());
     });
 
     // Display conditions
@@ -251,15 +251,16 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         auto edit = row->getToStateEdit();
         edit->setText(transition->getSecondState()->getLabel());;
         edit->setReadOnly(true);
+        row->disableCreateButton();
         row->setTransitionItem(transition);
         transition->setRow(row);
     });
 
     // Save conditions
-    // disconnect(ui->saveConditionsButton, &QPushButton::clicked, nullptr, nullptr);
-    // connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]() {
-    //     state->saveConditions(selectedState->getTransitionsRows());
-    // });
+    disconnect(ui->saveConditionsButton, &QPushButton::clicked, nullptr, nullptr);
+    connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]() {
+        state->saveConditions();
+    });
 }
 
 // CONDITIONS
@@ -279,9 +280,9 @@ TransitionRowWidget *MainWindow::onAddTransitionClicked()
 
 void MainWindow::onCreateTransition(TransitionRowWidget *row)
 {
-    if (row->getConditionText().isEmpty() || row->getToStateText().isEmpty())
+    if (row->getToStateText().isEmpty())
     {
-        qDebug() << "Please provide transition details";
+        qDebug() << "Please provide transition to state";
         return;
     }
 
@@ -301,8 +302,6 @@ void MainWindow::onCreateTransition(TransitionRowWidget *row)
             row->setTransitionItem(transition);
             transition->setRow(row);
         }
-
-        // selectedState->saveConditions(selectedState->getTransitionsRows());
     }
 }
 
@@ -314,7 +313,7 @@ void MainWindow::onRemoveTransition(TransitionRowWidget *row)
         fsmScene->deleteTransition(transition);
     }
     ui->conditionsLayout->removeWidget(row);
-    selectedState->m_transitionsRows.removeAll(row);
+    selectedState->getTransitionsRows().removeAll(row);
     row->setTransitionItem(nullptr);
     row->deleteLater();
 }

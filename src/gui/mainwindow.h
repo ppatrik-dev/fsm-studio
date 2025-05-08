@@ -29,9 +29,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
 
     ~MainWindow() {
-        fsmScene->clearScene();
-        machine->clearMachine();
-        clearFSMDetails();
+        clear();
 
         delete ui;
         delete fsmScene;
@@ -41,6 +39,13 @@ public:
         delete inputsLayout;
         delete outputsLayout;
         delete variablesLayout;
+    }
+
+private:
+    void clear() {
+        emit clearSceneRequested();
+        emit clearMachineRequested();
+        clearFSMDetails();
     }
 
 private:
@@ -66,7 +71,8 @@ signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
     void exportJsonRequested(const QString &fileName, MooreMachine &machine);
     void createMachine(MooreMachine &machine);
-    void clearMachine();
+    void clearMachineRequested();
+    void clearSceneRequested();
     void importDetailsRequested();
     void setStrategy(IExecutionStrategy *strategy);
     void executeMachine(MooreMachine &machine);

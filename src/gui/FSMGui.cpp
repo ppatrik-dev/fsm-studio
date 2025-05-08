@@ -19,7 +19,12 @@ void FSMGui::setInitialState(FSMState *state)
     if (m_initialState)
         m_initialState->setInitial(true);
 
-    emit initialStateChanged(state->getLabel());
+    if (state) {
+        emit initialStateChanged(state->getLabel());
+    }
+    else {
+        emit initialStateChanged("");
+    }
 }
 
 void FSMGui::saveInputs(const QList<GenericRowWidget *> rows)

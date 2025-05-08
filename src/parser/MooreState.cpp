@@ -15,6 +15,10 @@ QString MooreState::getOutput() const
     return output;
 }
 
+void MooreState::setOutput(QString value) {
+    output = value;
+}
+
 bool MooreState::isCurrent() const
 {
     return current_state;

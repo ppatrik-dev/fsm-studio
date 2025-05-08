@@ -16,6 +16,7 @@ public:
 
     QString getName() const override;
     QString getOutput() const override;
+    void setOutput(QString value);
     bool isCurrent() const;
     void setCurrent();
     void unsetCurrent();
@@ -23,4 +24,5 @@ public:
     MooreTransition *findTransitionByTarget(QString &target);
     void addTransition(const QString &input, const QString &target) override;
     void deleteTransitionByTarget(const QString &target);
+
 };
