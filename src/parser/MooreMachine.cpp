@@ -23,12 +23,13 @@ QString MooreMachine::extractVariableName(const QString &command)
 }
 QString MooreMachine::extractVariableValue(const QString &command)
 {
-    QRegularExpression regex(R"(\bvar\s+\w+\s*=\s*(.+?))\s*;?\s*$)");
+    QRegularExpression regex(R"(\bvar\s+\w+\s*=\s*(.+?)\s*;?\s*$)");
     QRegularExpressionMatch match = regex.match(command);
 
     if (match.hasMatch())
     {
-        return match.captured(1).trimmed();
+        QString value = match.captured(1).trimmed();
+        return value;
     }
     return {};
 }
