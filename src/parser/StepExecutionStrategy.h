@@ -26,7 +26,10 @@ public:
     bool step();
     void reset();
     void terminalLog(QString message, MessageType type);
-
+    void initializeVariables();
+    void executeStateOutput();
+    bool evaluateTransitions();
+    void finalizeExecution();
     bool isFinished() const { return m_finished; }
 
 private:
