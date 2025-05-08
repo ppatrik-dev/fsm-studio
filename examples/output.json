@@ -2,26 +2,26 @@
     "automate_comment": "",
     "automate_name": "",
     "inputs": [
+        "var input = '1101001';"
     ],
-    "outputs": [
-    ],
-    "start_state": "",
+    "outputs": [],
+    "start_state": "A",
     "states": {
         "A": {
-            "action": "Output1",
+            "action": "",
             "transitions": [
                 {
-                    "condition": "",
+                    "condition": "moore.timer(timeout);",
                     "to": "B"
                 }
             ]
         },
         "B": {
-            "action": "Output1",
-            "transitions": [
-            ]
+            "action": "",
+            "transitions": []
         }
     },
     "variables": [
+        "var timeout = 5000;"
     ]
 }

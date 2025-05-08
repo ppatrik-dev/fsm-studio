@@ -6,7 +6,7 @@
 class StepExecutionStrategy : public IExecutionStrategy
 {
 public:
-    void Execute(MooreMachine &machine) override;
+    void Execute() override;
 
 private:
     QString output;

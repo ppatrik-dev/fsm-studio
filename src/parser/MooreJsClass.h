@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QTimer>
+#include <QEventLoop>
 
 class MooreJs : public QObject
 {
@@ -16,10 +18,11 @@ public slots:
     {
         qDebug() << message;
     }
-    void timer(qint32 timeout)
+    bool timer(qint32 timeout)
     {
-        emit stepTimeout(timeout);
+        QEventLoop loop;
+        QTimer::singleShot(timeout, &loop, &QEventLoop::quit);
+        loop.exec();
+        return true;
     }
-signals:
-    void stepTimeout(qint32 timeout);
 };

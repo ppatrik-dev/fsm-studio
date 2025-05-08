@@ -11,7 +11,7 @@ Q_OBJECT // This must be here!
 
 public slots:
     void SetStrategy(IExecutionStrategy *strategy);
-    void Execute(MooreMachine &machine);
+    void Execute();
 
 private:
     IExecutionStrategy *strategy_ = nullptr;

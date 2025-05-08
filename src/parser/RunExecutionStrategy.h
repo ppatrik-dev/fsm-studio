@@ -18,13 +18,12 @@ class RunExecutionStrategy : public QObject, public IExecutionStrategy
     };
 
 public:
-    RunExecutionStrategy(ActionExecutor &actionExecutor, MooreMachine &mooreMachine, QObject *parent = nullptr)
-        : QObject(parent), actionExecutor(actionExecutor), mooreMachine(mooreMachine)
-    {
-    }
+    explicit RunExecutionStrategy(ActionExecutor &actionExecutor,
+                                  MooreMachine &mooreMachine,
+                                  QObject *parent = nullptr);
 
-    void Execute(MooreMachine &mooreMachine) override;
-    bool step(std::shared_ptr<MooreState> state, ActionExecutor &actionExecute, MooreMachine &mooreMachine);
+    void Execute() override;
+    bool step(std::shared_ptr<MooreState> state);
     void terminalLog(QString message, MessageType type);
 
 private:
@@ -32,8 +31,4 @@ private:
     std::shared_ptr<MooreState> currentState;
     ActionExecutor &actionExecutor;
     MooreMachine &mooreMachine;
-
-public slots:
-    void
-    stepTimeout(qint32 timeout);
 };

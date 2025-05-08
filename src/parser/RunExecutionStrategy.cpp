@@ -1,8 +1,13 @@
 #include "RunExecutionStrategy.h"
 #include "MooreMachine.h"
 #include "MooreJsClass.h"
-RunExecutionStrategy::RunExecutionStrategy(QObject *parent)
-    : QObject(parent)
+
+RunExecutionStrategy::RunExecutionStrategy(ActionExecutor &actionExecutor,
+                                           MooreMachine &mooreMachine,
+                                           QObject *parent)
+    : QObject(parent),
+      actionExecutor(actionExecutor),
+      mooreMachine(mooreMachine)
 {
 }
 
@@ -11,9 +16,9 @@ void RunExecutionStrategy::terminalLog(QString message, MessageType type)
     qDebug() << message;
     // emit printLog(message);
 }
-bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecutor &actionExecute, MooreMachine &mooreMachine)
+bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state)
 {
-    auto result = actionExecute.evaluate(state->getOutput());
+    auto result = actionExecutor.evaluate(state->getOutput());
     if (result.toString() == "undefined")
         output = "";
     else
@@ -21,13 +26,13 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecuto
     terminalLog("State: " + state->getName() + " Output: " + output, MessageType::Info);
     for (const auto &transition : state->getTransitions())
     {
-        auto boolResult = actionExecute.evaluate(transition.getInput());
+        auto boolResult = actionExecutor.evaluate(transition.getInput());
         terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), MessageType::TransitionResult);
         if (boolResult.toBool())
         {
-            actionExecute.evaluate("index++;");
+            actionExecutor.evaluate("index++;");
             currentState = mooreMachine.getState(transition.getTarget());
-            step(currentState, actionExecute, mooreMachine);
+            step(currentState);
         }
         else
         {
@@ -36,11 +41,6 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state, ActionExecuto
     }
 
     return true;
-}
-void RunExecutionStrategy::stepTimeout(qint32 timeout)
-{
-    QTimer::singleShot(timeout, this, [=]()
-                       { step(currentState, actionExecutor, mooreMachine); });
 }
 void RunExecutionStrategy::Execute()
 {
@@ -53,26 +53,25 @@ void RunExecutionStrategy::Execute()
     }
 
     MooreJs *moore = new MooreJs();
-    actionExecute.exposeObject("moore", moore);
-    connect(moore, &MooreJs::stepTimeout, this, &RunExecutionStrategy::stepTimeout);
+    actionExecutor.exposeObject("moore", moore);
 
     for (const QString &input : mooreMachine.getInputs())
     {
-        actionExecute.evaluate(input);
+        actionExecutor.evaluate(input);
     }
 
     for (const QString &output : mooreMachine.getOutputs())
     {
-        actionExecute.evaluate(output);
+        actionExecutor.evaluate(output);
     }
 
     for (const QString &variable : mooreMachine.getVariables())
     {
-        actionExecute.evaluate(variable);
+        actionExecutor.evaluate(variable);
     }
-    actionExecute.evaluate("var index = 0;");
+    actionExecutor.evaluate("var index = 0;");
 
-    auto result = actionExecute.evaluate("input");
+    auto result = actionExecutor.evaluate("input");
     terminalLog("Input value: " + result.toString(), MessageType::Info);
-    step(currentState, actionExecute, mooreMachine);
+    step(currentState);
 }
