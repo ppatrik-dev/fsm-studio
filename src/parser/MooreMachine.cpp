@@ -29,8 +29,15 @@ QString MooreMachine::extractVariableValue(const QString &command)
     if (match.hasMatch())
     {
         QString value = match.captured(1).trimmed();
+        if (value.startsWith('\'') && value.endsWith('\''))
+        {
+            value = value.mid(1, value.length() - 2);
+        }
+
+        qDebug() << "Extracted value:" << value;
         return value;
     }
+
     return {};
 }
 
