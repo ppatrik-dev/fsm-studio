@@ -22,6 +22,7 @@ public:
     void disableKeyEdit();
     QString key() const;
     QString value() const;
+    void setDeleteButtonEnabled(bool enabled);
 
 signals:
     void requestDelete(GenericRowWidget *self);
@@ -30,6 +31,7 @@ private:
     QLineEdit *keyEdit;
     QLineEdit *valueEdit;
     RowType rowType;
+    QPushButton *deleteButton;
 };
 
 #endif // GENERICROWWIDGET_H

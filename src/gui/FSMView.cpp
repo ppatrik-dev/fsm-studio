@@ -77,3 +77,26 @@ void FSMView::contextMenuEvent(QContextMenuEvent *event) {
     //     emit deleteTransitionRequested();
     // }
 }
+
+void FSMView::fitToSceneOnce()
+{
+    if (!scene()) return;
+
+    if (!m_transformSaved) {
+        m_savedTransform = transform();
+        m_transformSaved = true;
+    }
+
+    QRectF bounds = scene()->itemsBoundingRect();
+    if (!bounds.isNull()) {
+        fitInView(bounds, Qt::KeepAspectRatio);
+    }
+}
+
+void FSMView::restorePreviousView()
+{
+    if (m_transformSaved) {
+        setTransform(m_savedTransform);
+        m_transformSaved = false;
+    }
+}

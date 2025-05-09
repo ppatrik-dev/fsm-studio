@@ -13,7 +13,7 @@ GenericRowWidget::GenericRowWidget(RowType type, QWidget *parent)
 
     keyEdit = new QLineEdit(this);
     valueEdit = new QLineEdit(this);
-    QPushButton *deleteButton = new QPushButton("D", this);
+    deleteButton = new QPushButton("D", this);
     deleteButton->setFixedSize(35, 30);
 
     layout->addWidget(keyEdit);
@@ -44,4 +44,10 @@ QString GenericRowWidget::key() const {
 
 QString GenericRowWidget::value() const {
     return valueEdit->text();
+}
+
+void GenericRowWidget::setDeleteButtonEnabled(bool enabled)
+{
+    if (deleteButton)
+        deleteButton->setEnabled(enabled);
 }

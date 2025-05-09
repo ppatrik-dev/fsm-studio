@@ -159,7 +159,7 @@
               <string notr="true"/>
              </property>
              <property name="text">
-              <string>Run</string>
+              <string>Generate</string>
              </property>
             </widget>
            </item>
@@ -212,6 +212,170 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QFrame" name="TerminalFrame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame#TerminalFrame {
+            background-color: #252525;
+            border: 1px solid #666666;
+            border-radius: 6px;
+            padding: 6px;
+        }</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="terminalLayout">
+         <item>
+          <widget class="QFrame" name="TerminaltoolBar">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QFrame#TerminaltoolBar{
+	background-color: transparent;
+    border: none;
+    padding: 0px;            
+}</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QPushButton" name="TerminalRun">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Run</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="TerminalStep">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Step</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="TerminalClear">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>80</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="TerminalCancel">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton#TerminalCancel {
+    background-color: #b22222;
+    color: white;
+    border: 1px solid #8b1a1a;
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+
+QPushButton#TerminalCancel:hover {
+    background-color: #cc3333;
+}
+
+QPushButton#TerminalCancel:pressed {
+    background-color: #aa0000;
+}</string>
+              </property>
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QScrollArea" name="TerminalScrollArea">
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -223,6 +387,9 @@
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
       <widget class="QWidget" name="automataPropertiesPanel">
        <layout class="QVBoxLayout" name="rightLayout">
@@ -703,8 +870,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>331</width>
-             <height>738</height>
+             <width>66</width>
+             <height>18</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="conditionsLayout"/>
@@ -761,7 +928,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <customwidget>
    <class>FSMView</class>
    <extends>QGraphicsView</extends>
-   <header>FSMView.h</header>
+   <header location="global">FSMView.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

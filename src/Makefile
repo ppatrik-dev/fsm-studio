@@ -53,11 +53,13 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = gui/FSMGui.cpp \
+SOURCES       = gui/FSMGui.cpp \
 		gui/FSMScene.cpp \
 		gui/FSMState.cpp \
 		gui/FSMTransition.cpp \
 		gui/FSMView.cpp \
 		gui/GenericRowWidget.cpp \
+		gui/TransitionRowWidget.cpp \
 		gui/TransitionRowWidget.cpp \
 		gui/main.cpp \
 		gui/mainwindow.cpp \
@@ -74,6 +76,7 @@ SOURCES       = gui/FSMGui.cpp \
 		moc_FSMScene.cpp \
 		moc_FSMView.cpp \
 		moc_TransitionRowWidget.cpp \
+		moc_TransitionRowWidget.cpp \
 		moc_mainwindow.cpp \
 		moc_MooreMachine.cpp \
 		moc_AutomateJsonDocument.cpp \
@@ -83,11 +86,13 @@ SOURCES       = gui/FSMGui.cpp \
 		moc_GenericRowWidget.cpp \
 		moc_MooreJsClass.cpp
 OBJECTS       = FSMGui.o \
+OBJECTS       = FSMGui.o \
 		FSMScene.o \
 		FSMState.o \
 		FSMTransition.o \
 		FSMView.o \
 		GenericRowWidget.o \
+		TransitionRowWidget.o \
 		TransitionRowWidget.o \
 		main.o \
 		mainwindow.o \
@@ -104,6 +109,7 @@ OBJECTS       = FSMGui.o \
 		moc_FSMGui.o \
 		moc_FSMScene.o \
 		moc_FSMView.o \
+		moc_TransitionRowWidget.o \
 		moc_TransitionRowWidget.o \
 		moc_mainwindow.o \
 		moc_MooreMachine.o \
@@ -197,10 +203,12 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		gui/gui/gui.pro gui/FSMGui.h \
+		gui/gui/gui.pro gui/FSMGui.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
 		gui/FSMTransition.h \
 		gui/FSMView.h \
+		gui/TransitionRowWidget.h \
 		gui/TransitionRowWidget.h \
 		gui/mainwindow.h \
 		parser/MooreMachine.h \
@@ -215,11 +223,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		gui/GenericRowWidget.h \
 		gui/ForceDirectedLayout.h \
 		parser/MooreJsClass.h gui/FSMGui.cpp \
+		parser/MooreJsClass.h gui/FSMGui.cpp \
 		gui/FSMScene.cpp \
 		gui/FSMState.cpp \
 		gui/FSMTransition.cpp \
 		gui/FSMView.cpp \
 		gui/GenericRowWidget.cpp \
+		gui/TransitionRowWidget.cpp \
 		gui/TransitionRowWidget.cpp \
 		gui/main.cpp \
 		gui/mainwindow.cpp \
@@ -432,6 +442,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/FSMGui.h gui/FSMScene.h gui/FSMState.h gui/FSMTransition.h gui/FSMView.h gui/TransitionRowWidget.h gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h parser/ActionExecutor.h parser/IExecutionStrategy.h parser/MooreMachineExecutor.h parser/RunExecutionStrategy.h parser/StepExecutionStrategy.h gui/GenericRowWidget.h gui/ForceDirectedLayout.h parser/MooreJsClass.h $(DISTDIR)/
 	$(COPY_FILE) --parents gui/FSMGui.cpp gui/FSMScene.cpp gui/FSMState.cpp gui/FSMTransition.cpp gui/FSMView.cpp gui/GenericRowWidget.cpp gui/TransitionRowWidget.cpp gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp parser/ActionExecutor.cpp parser/MooreMachineExecutor.cpp parser/RunExecutionStrategy.cpp parser/StepExecutionStrategy.cpp gui/ForceDirectedLayout.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents gui/FSMGui.h gui/FSMScene.h gui/FSMState.h gui/FSMTransition.h gui/FSMView.h gui/TransitionRowWidget.h gui/mainwindow.h parser/MooreMachine.h parser/MooreState.h parser/MooreStateFactory.h parser/AutomateJsonDocument.h parser/ActionExecutor.h parser/IExecutionStrategy.h parser/MooreMachineExecutor.h parser/RunExecutionStrategy.h parser/StepExecutionStrategy.h gui/GenericRowWidget.h gui/ForceDirectedLayout.h parser/MooreJsClass.h $(DISTDIR)/
+	$(COPY_FILE) --parents gui/FSMGui.cpp gui/FSMScene.cpp gui/FSMState.cpp gui/FSMTransition.cpp gui/FSMView.cpp gui/GenericRowWidget.cpp gui/TransitionRowWidget.cpp gui/main.cpp gui/mainwindow.cpp parser/MooreMachine.cpp parser/MooreState.cpp parser/MooreStateFactory.cpp parser/AutomateJsonDocument.cpp parser/ActionExecutor.cpp parser/MooreMachineExecutor.cpp parser/RunExecutionStrategy.cpp parser/StepExecutionStrategy.cpp gui/ForceDirectedLayout.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents gui/mainwindow.ui $(DISTDIR)/
 
 
@@ -476,11 +488,13 @@ compiler_moc_header_clean:
 moc_FSMGui.cpp: gui/FSMGui.h \
 		ui_mainwindow.h \
 		gui/GenericRowWidget.h \
+		gui/GenericRowWidget.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
+		gui/TransitionRowWidget.h \
 		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
@@ -494,6 +508,7 @@ moc_FSMScene.cpp: gui/FSMScene.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
 		gui/TransitionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
 		moc_predefs.h \
@@ -506,6 +521,7 @@ moc_FSMView.cpp: gui/FSMView.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
+		gui/TransitionRowWidget.h \
 		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
@@ -531,6 +547,7 @@ moc_mainwindow.cpp: gui/mainwindow.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
+		gui/TransitionRowWidget.h \
 		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
@@ -613,6 +630,7 @@ ui_mainwindow.h: gui/mainwindow.ui \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
 		gui/TransitionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h
 	/usr/lib/qt5/bin/uic gui/mainwindow.ui -o ui_mainwindow.h
@@ -630,13 +648,16 @@ compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_heade
 FSMGui.o: gui/FSMGui.cpp gui/FSMGui.h \
 		ui_mainwindow.h \
 		gui/GenericRowWidget.h \
+		gui/GenericRowWidget.h \
 		gui/FSMScene.h \
 		gui/FSMState.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
 		gui/TransitionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
+		parser/MooreMachine.h
 		parser/MooreMachine.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMGui.o gui/FSMGui.cpp
 
@@ -645,6 +666,7 @@ FSMScene.o: gui/FSMScene.cpp gui/FSMScene.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
+		gui/TransitionRowWidget.h \
 		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
@@ -656,6 +678,7 @@ FSMState.o: gui/FSMState.cpp gui/FSMState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
 		gui/TransitionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMState.o gui/FSMState.cpp
 
@@ -665,6 +688,7 @@ FSMTransition.o: gui/FSMTransition.cpp gui/FSMTransition.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
 		gui/TransitionRowWidget.h
+		gui/TransitionRowWidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FSMTransition.o gui/FSMTransition.cpp
 
 FSMView.o: gui/FSMView.cpp gui/FSMView.h \
@@ -673,6 +697,7 @@ FSMView.o: gui/FSMView.cpp gui/FSMView.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
+		gui/TransitionRowWidget.h \
 		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h
@@ -697,6 +722,7 @@ main.o: gui/main.cpp gui/mainwindow.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
 		gui/TransitionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
 		parser/IExecutionStrategy.h \
@@ -718,6 +744,7 @@ mainwindow.o: gui/mainwindow.cpp gui/mainwindow.h \
 		parser/MooreState.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
+		gui/TransitionRowWidget.h \
 		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h \
 		parser/MooreMachine.h \
@@ -792,6 +819,7 @@ ForceDirectedLayout.o: gui/ForceDirectedLayout.cpp gui/ForceDirectedLayout.h \
 		parser/IMooreState.h \
 		parser/MooreTransition.h \
 		gui/TransitionRowWidget.h \
+		gui/TransitionRowWidget.h \
 		gui/FSMTransition.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ForceDirectedLayout.o gui/ForceDirectedLayout.cpp
 
@@ -806,6 +834,9 @@ moc_FSMScene.o: moc_FSMScene.cpp
 
 moc_FSMView.o: moc_FSMView.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_FSMView.o moc_FSMView.cpp
+
+moc_TransitionRowWidget.o: moc_TransitionRowWidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_TransitionRowWidget.o moc_TransitionRowWidget.cpp
 
 moc_TransitionRowWidget.o: moc_TransitionRowWidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_TransitionRowWidget.o moc_TransitionRowWidget.cpp

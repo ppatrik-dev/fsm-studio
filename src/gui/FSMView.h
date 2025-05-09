@@ -13,9 +13,13 @@ class FSMView : public QGraphicsView {
     Q_OBJECT
 private:
     double m_currentScale = 1.0;
+    QTransform m_savedTransform;
+    bool m_transformSaved = false;
 
 public:
     explicit FSMView(QWidget *parent = nullptr);
+    void fitToSceneOnce();
+    void restorePreviousView();
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;

@@ -6,6 +6,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QScrollBar>
+#include <QPropertyAnimation>
 #include "FSMView.h"
 #include "FSMScene.h"
 #include "../parser/MooreMachine.h"
@@ -13,6 +15,7 @@
 #include "FSMGui.h"
 #include "GenericRowWidget.h"
 #include "TransitionRowWidget.h"
+#include "TerminalWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -67,6 +70,9 @@ private:
     QList<GenericRowWidget *> variablesWidgets;
     // QList<TransitionRowWidget *> conditionWidgets;
 
+    TerminalWidget* terminal;
+    bool TerminalActive = false;
+
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
     void exportJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -91,6 +97,8 @@ private slots:
     void onExportFileClicked();
     void onRunClicked();
     void showDetailsPanel(QGraphicsItem *item);
+    void toggleTerminal();
+    void setDeleteButtonsEnabled(bool enabled);
 
     void displayFSMDetais();
 
