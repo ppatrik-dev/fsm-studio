@@ -76,6 +76,8 @@ void FSMState::saveConditions() {
         if (conditionText.isEmpty() || toStateText.isEmpty()) {
             row->requestRemove(row);
         }
+ 
+        // m_state->addCondition(conditionText, toStateText); // TODO Mirek
 
         m_transitionsConditions.append({conditionText, toStateText});
     }

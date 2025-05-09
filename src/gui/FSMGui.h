@@ -98,7 +98,7 @@ signals:
     // FSM details imports within file
     void saveNameValue(QString name);
     void saveDescriptionValue(QString comment);
-    void getVarValue(QMap<QString, QString> &automate_backup, const QString &mode); // input output variable
+    void getVarValue(QMap<QString, QString> &automate_backup, const QString &mode);
     void getNameValue(QString &name);
     void getDescriptionValue(QString &comment);
     void getStartStateValue(QString &startState);

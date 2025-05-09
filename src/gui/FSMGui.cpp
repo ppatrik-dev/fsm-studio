@@ -176,7 +176,5 @@ void FSMGui::importDetails() {
     emit getVarValue(m_outputs, "output");
     emit getVarValue(m_variables, "variable");
 
-    qDebug() << m_inputs.value("input");
-
     emit displayDetailsRequested();
 }

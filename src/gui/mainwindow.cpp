@@ -162,7 +162,7 @@ void MainWindow::onExportFileClicked()
 void MainWindow::onImportFileClicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
-    emit clearMachineRequested();
+    clear();
     emit loadJsonRequested(filename, *machine);
     emit createMachine(*machine);
     emit importDetailsRequested();
@@ -253,6 +253,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         edit->setText(transition->getSecondState()->getLabel());;
         edit->setReadOnly(true);
         row->disableCreateButton();
+
         row->setTransitionItem(transition);
         transition->setRow(row);
     });
@@ -319,7 +320,7 @@ void MainWindow::onRemoveTransition(TransitionRowWidget *row)
     auto transition = row->getTransitionItem();
     if (transition && fsmScene->getTransitions().contains(transition))
     {
-        fsmScene->deleteTransition(transition);
+        fsmScene->deleteTransition(transition, true);
     }
     ui->conditionsLayout->removeWidget(row);
     selectedState->getTransitionsRows().removeAll(row);

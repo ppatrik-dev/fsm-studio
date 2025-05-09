@@ -84,7 +84,7 @@ public:
 
 public:
     void drawInitialArrow(FSMState *state);
-    void deleteTransition(FSMTransition *transition);
+    void deleteTransition(FSMTransition *transition, bool mooreDeleteFlag);
 
     void deleteDebug(QGraphicsItem *item);
 

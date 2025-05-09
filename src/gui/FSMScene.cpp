@@ -14,8 +14,9 @@
 #include "../parser/MooreMachine.h"
 
 FSMScene::FSMScene(QObject *parent)
-    : QGraphicsScene{parent}, sceneMode(SELECT_MODE),
-      firstSelectedState(nullptr) {}
+    : QGraphicsScene{parent},
+      firstSelectedState(nullptr), 
+      sceneMode(SELECT_MODE) {}
 
 void FSMScene::setMachine(MooreMachine *machine)
 {
@@ -137,13 +138,15 @@ void FSMScene::addTransition(FSMState *state)
     }
 }
 
-void FSMScene::deleteTransition(FSMTransition *transition)
+void FSMScene::deleteTransition(FSMTransition *transition, bool mooreDeleteFlag)
 {
     if (!transition) return;
 
     FSMState *first = transition->getFirstState();
     FSMState *second = transition->getSecondState();
-    // emit deleteTransitionRequested(first->getLabel(), second->getLabel());
+
+    if (mooreDeleteFlag)
+        emit deleteTransitionRequested(first->getLabel(), second->getLabel());
 
     if (first)
         first->removeTransition(transition);
@@ -152,7 +155,7 @@ void FSMScene::deleteTransition(FSMTransition *transition)
 
     transition->setSelected(false);
     transition->setRow(nullptr);
-    deleteDebug(transition);
+    // deleteDebug(transition);
     removeItem(transition);
     transition->setParentItem(nullptr);
 
@@ -163,11 +166,13 @@ void FSMScene::deleteTransition(FSMTransition *transition)
 void FSMScene::deleteState(FSMState *state)
 {
     QList<FSMTransition*> transitions = state->getTransitions();
+
     emit deleteStateRequested(state->getLabel());
+
     for (FSMTransition *transition : transitions)
     {
         transition->other(state)->removeTransitionRow(state->getLabel());
-        deleteTransition(transition);
+        deleteTransition(transition, false);
     }
 
     state->clearTransitionsRows();
@@ -220,15 +225,15 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
     else if (sceneMode == DELETE_TRANSITION_MODE)
     {
-        if (FSMTransition *transition = qgraphicsitem_cast<FSMTransition *>(item))
-        {
-            transition->setSelected(true);
-            deleteTransition(transition);
-        }
-        else
-        {
-            QGraphicsScene::mousePressEvent(event);
-        }
+        // if (FSMTransition *transition = qgraphicsitem_cast<FSMTransition *>(item))
+        // {
+        //     transition->setSelected(true);
+        //     deleteTransition(transition);
+        // }
+        // else
+        // {
+        //     QGraphicsScene::mousePressEvent(event);
+        // }
 
         sceneMode = SELECT_MODE;
     }
@@ -272,8 +277,6 @@ TransitionRowWidget* FSMScene::createTransitionRow(FSMState *state, const MooreT
 }
 
 void FSMScene::createMachineFile(MooreMachine &machine) {
-    clearScene();
-
     for (auto it = machine.states.cbegin(); it != machine.states.cend(); ++it)
     {
         const std::shared_ptr<MooreState> &state = it.value();
@@ -283,7 +286,6 @@ void FSMScene::createMachineFile(MooreMachine &machine) {
 
     for (FSMState *state : m_states)
     {
-        // mainWindow->setSelectedState(state);
         for (const auto &transition : state->getMooreState()->transitions)
         {
             TransitionRowWidget *row = createTransitionRow(state, transition);
@@ -294,7 +296,6 @@ void FSMScene::createMachineFile(MooreMachine &machine) {
         }
     }
 
-    // mainWindow->setSelectedState(nullptr);
     displayAutomaton(m_states.values(), m_transitions);
 }
 
