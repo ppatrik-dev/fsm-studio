@@ -162,6 +162,7 @@ void MainWindow::runSimulation()
         return;
     }
 
+    fsmScene->removeEpsilonTransitions();
     toggleTerminal();
 
     if (machine != nullptr)

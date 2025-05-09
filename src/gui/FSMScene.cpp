@@ -186,10 +186,18 @@ void FSMScene::deleteState(FSMState *state)
 
 void FSMScene::clearScene()
 {
-    QList<FSMState*> states = m_states.values();
+    auto states = m_states.values();
     for (FSMState *state : states)
     {
         deleteState(state);
+    }
+}
+
+void FSMScene::removeEpsilonTransitions() {
+    auto states = m_states.values();
+
+    for (FSMState *state : states) {
+        state->saveConditions();
     }
 }
 

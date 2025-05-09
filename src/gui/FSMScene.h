@@ -43,6 +43,7 @@ public:
     void clearScene();
     void setMachine(MooreMachine *machine);
     void addConnects();
+    void removeEpsilonTransitions();
 
     inline QMap<QString, FSMState *> getFSMStates() const
     {
@@ -85,7 +86,7 @@ public:
 public:
     void drawInitialArrow(FSMState *state);
     void deleteTransition(FSMTransition *transition, bool mooreDeleteFlag);
-
+    FSMState *getStateByName(const QString &name) const;
     void deleteDebug(QGraphicsItem *item);
 
 protected:
@@ -96,7 +97,6 @@ protected:
     void deleteState(FSMState *state);
     FSMTransition* addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState);
     void displayAutomaton(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions);
-    FSMState *getStateByName(const QString &name) const;
     TransitionRowWidget* createTransitionRow(FSMState *state, const MooreTransition &transition);
 
 public slots:
