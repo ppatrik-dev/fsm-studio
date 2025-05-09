@@ -4,6 +4,7 @@
 #include "MooreMachine.h"
 #include "ActionExecutor.h"
 #include <QTimer>
+#include <QString>
 #include <QObject>
 
 class RunExecutionStrategy : public QObject, public IExecutionStrategy
@@ -34,4 +35,7 @@ private:
     std::shared_ptr<MooreState> currentState;
     ActionExecutor &actionExecutor;
     MooreMachine &mooreMachine;
+
+signals:
+    void sendMessage(QString type, QString content);
 };

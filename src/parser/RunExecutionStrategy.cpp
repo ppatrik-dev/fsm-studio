@@ -36,22 +36,23 @@ void RunExecutionStrategy::terminalLog(QString message, MessageType type)
     switch (type)
     {
     case Error:
-        prefix = "[ERROR] ";
+        prefix = "[ERROR]";
         break;
     case Info:
-        prefix = "[INFO] ";
+        prefix = "[INFO]";
         break;
     case TransitionResult:
-        prefix = "[TRANSITION] ";
+        prefix = "[TRANSITION]";
         break;
     case Variable:
-        prefix = "[VARIABLE] ";
+        prefix = "[VARIABLE]";
         break;
     case Evaluate:
-        prefix = "[EVALUATE] ";
+        prefix = "[EVALUATE]";
         break;
     }
     qDebug().noquote() << prefix << message;
+    emit sendMessage(prefix, message);
 }
 bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state)
 {

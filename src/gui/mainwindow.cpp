@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // terminal creation
 
+
+
     ui->TerminalScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->TerminalScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -170,6 +172,7 @@ void MainWindow::runSimulation()
 
         connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
         connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
+        connect(runStrategy, &RunExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
 
         emit setStrategy(runStrategy);
         emit executeMachine(*machine);

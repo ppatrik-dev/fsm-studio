@@ -15,6 +15,9 @@ TerminalWidget::TerminalWidget(QWidget *parent)
     setLayout(layout);
 }
 
+void TerminalWidget::receiveMessage(QString type, QString content) {
+}
+
 void TerminalWidget::appendLine(const QString &text, int color)
 {
     QString lineText = QString::asprintf(">>> %s", text.toUtf8().constData());

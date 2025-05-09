@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QDebug>
 #include <QScrollArea>
 #include <deque>
 
@@ -24,6 +25,9 @@ private:
     const unsigned int maxLines = 150;
 
     void removeOldest();
+
+public slots:
+    void receiveMessage(QString type, QString content);
 
 signals:
     void lineAppended();
