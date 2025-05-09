@@ -170,5 +170,11 @@ void FSMGui::importDetails() {
     emit getVarValue(m_outputs, "output");
     emit getVarValue(m_variables, "variable");
 
+    QString initialStateName;
+    emit getStartStateValue(initialStateName);
+
+    FSMState *state = m_graph->getFSMStates().value(initialStateName);
+    setInitialState(state);
+
     emit displayDetailsRequested();
 }
