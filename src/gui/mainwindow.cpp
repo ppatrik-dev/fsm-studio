@@ -321,6 +321,7 @@ void MainWindow::toggleTerminal() {
     // diseabling buttons and changing colors for button run
     if (!TerminalActive){
 
+        ui->detailsPanel->setCurrentWidget(ui->automataPropertiesPanel);
         TerminalActive = true;
 
         ui->runButton->setEnabled(false);
