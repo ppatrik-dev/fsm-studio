@@ -65,22 +65,19 @@ QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value) 
     return QGraphicsItem::itemChange(change, value);
 }
 
-void FSMState::setOutput(QString value) {
-    m_output = value;
-
-    // emit outputChanged(value);
-}
-
-void FSMState::saveConditions(QList<TransitionRowWidget*> conditionsRows) {
+void FSMState::saveConditions() {
     m_transitionsConditions.clear();
 
-    for (auto row : conditionsRows) {
+    auto rows = m_transitionsRows;
+    for (TransitionRowWidget *row : rows) {
         QString conditionText = row->getConditionText();
         QString toStateText = row->getToStateText();
 
         if (conditionText.isEmpty() || toStateText.isEmpty()) {
-            continue;
+            row->requestRemove(row);
         }
+ 
+        // m_state->addCondition(conditionText, toStateText); // TODO Mirek
 
         m_transitionsConditions.append({conditionText, toStateText});
     }
@@ -90,7 +87,7 @@ void FSMState::removeTransitionRow(QString toState) {
     auto rows = m_transitionsRows;
     for (auto row : rows) {
         if (row->getToStateText() == toState) {
-            FSMState::m_layout->removeWidget(row);
+            m_layout->removeWidget(row);
             m_transitionsRows.removeAll(row);
             row->deleteLater();
         }

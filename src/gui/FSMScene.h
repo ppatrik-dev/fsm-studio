@@ -8,12 +8,15 @@
 #include <QGraphicsScene>
 #include <QList>
 #include <QMap>
+#include <QDebug>
 #include <QGraphicsLineItem>
 #include <climits>
 #include "FSMState.h"
 #include "FSMTransition.h"
 #include "../parser/MooreMachine.h"
 #include "../parser/MooreState.h"
+
+class MainWindow;
 
 class FSMScene : public QGraphicsScene
 {
@@ -32,6 +35,8 @@ private:
         DELETE_TRANSITION_MODE
     };
     enum sceneModeEnum sceneMode;
+
+    inline static bool debug = false;
 
 public:
     explicit FSMScene(QObject *parent = nullptr);
@@ -71,13 +76,17 @@ public:
                 }
             }
         }
+
+        return QString();
     }
 
     FSMTransition *createTransition(FSMState *firstState, FSMState *secondState);
 
 public:
     void drawInitialArrow(FSMState *state);
-    void deleteTransition(FSMTransition *transition);
+    void deleteTransition(FSMTransition *transition, bool mooreDeleteFlag);
+
+    void deleteDebug(QGraphicsItem *item);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -85,13 +94,13 @@ protected:
     void addImportState(QString name, const std::shared_ptr<MooreState> &state);
     void addTransition(FSMState *state);
     void deleteState(FSMState *state);
-    void addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState);
+    FSMTransition* addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState);
     void displayAutomaton(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions);
     FSMState *getStateByName(const QString &name) const;
+    TransitionRowWidget* createTransitionRow(FSMState *state, const MooreTransition &transition);
 
 public slots:
-    void
-    onAddState(const QPointF &pos);
+    void onAddState(const QPointF &pos);
     void onAddTransition();
     void onDeleteState();
     void onDeleteTransition();
@@ -106,6 +115,7 @@ signals:
     void createTransitionRequest(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetName);
     void deleteStateRequested(QString name);
     void deleteTransitionRequested(QString firstName, QString secondName);
+    void newTransitionRowRequested(FSMState *state, TransitionRowWidget *&row);
 };
 
 #endif // FSMSCENE_H

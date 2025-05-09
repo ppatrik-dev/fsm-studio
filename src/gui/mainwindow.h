@@ -27,7 +27,26 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+
+    ~MainWindow() {
+        clear();
+
+        delete ui;
+        delete fsmScene;
+        delete fsmView;
+        delete fsmGui;
+
+        delete inputsLayout;
+        delete outputsLayout;
+        delete variablesLayout;
+    }
+
+private:
+    void clear() {
+        emit clearSceneRequested();
+        emit clearMachineRequested();
+        clearFSMDetails();
+    }
 
 private:
     Ui::MainWindow *ui;
@@ -46,18 +65,22 @@ private:
     QList<GenericRowWidget *> inputsWidgets;
     QList<GenericRowWidget *> outputsWidgets;
     QList<GenericRowWidget *> variablesWidgets;
-    QList<TransitionRowWidget *> conditionWidgets;
+    // QList<TransitionRowWidget *> conditionWidgets;
 
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
     void exportJsonRequested(const QString &fileName, MooreMachine &machine);
     void createMachine(MooreMachine &machine);
-    void clearMachine();
+    void clearMachineRequested();
+    void clearSceneRequested();
+    void importDetailsRequested();
     void setStrategy(IExecutionStrategy *strategy);
     void executeMachine(MooreMachine &machine);
 
-private slots:
+public slots:
     TransitionRowWidget *onAddTransitionClicked();
+    void newTransitionRow(FSMState *state, TransitionRowWidget *&row);
+private slots:
     void onCreateTransition(TransitionRowWidget *row);
     void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();
@@ -69,9 +92,18 @@ private slots:
     void onRunClicked();
     void showDetailsPanel(QGraphicsItem *item);
 
+    void displayFSMDetais();
+
 public:
+    void setSelectedState(FSMState *state) {
+        selectedState = state;
+    }
+
+    void clearFSMDetails();
     void clearTransitionRows();
-    void detachWidgetsFromLayout(QLayout *layout);
+    void detachWidgetsFromLayout();
+
+    GenericRowWidget* createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget*> &widgets, GenericRowWidget::RowType type);
 };
 
 #endif // MAINWINDOW_H
