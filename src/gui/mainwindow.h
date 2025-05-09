@@ -31,7 +31,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
-    ~MainWindow() {
+    ~MainWindow()
+    {
         clear();
 
         delete ui;
@@ -45,9 +46,11 @@ public:
     }
 
 private:
-    void clear() {
-        emit 
-        emit clearSceneRequested();
+    void clear()
+    {
+        emit
+            emit
+            clearSceneRequested();
         emit clearMachineRequested();
         clearFSMDetails();
     }
@@ -71,7 +74,7 @@ private:
     QList<GenericRowWidget *> variablesWidgets;
     // QList<TransitionRowWidget *> conditionWidgets;
 
-    TerminalWidget* terminal;
+    TerminalWidget *terminal;
     bool TerminalActive = false;
 
 signals:
@@ -89,6 +92,7 @@ public slots:
     void newTransitionRow(FSMState *state, TransitionRowWidget *&row);
 private slots:
     void runSimulation();
+    void stepSimulation();
     void onCreateTransition(TransitionRowWidget *row);
     void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();
@@ -103,13 +107,14 @@ private slots:
     void displayFSMDetais();
 
 public:
-    void setSelectedState(FSMState *state) {
+    void setSelectedState(FSMState *state)
+    {
         selectedState = state;
     }
 
-    GenericRowWidget* createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget*> &widgets, GenericRowWidget::RowType type);
+    GenericRowWidget *createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget *> &widgets, GenericRowWidget::RowType type);
 
-private:     
+private:
     void clearFSMDetails();
     void clearTransitionRows();
     void detachWidgetsFromLayout();

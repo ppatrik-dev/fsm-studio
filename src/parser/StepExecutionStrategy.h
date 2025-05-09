@@ -38,4 +38,7 @@ private:
     std::shared_ptr<MooreState> m_currentState;
     ActionExecutor &m_actionExecutor;
     MooreMachine &m_mooreMachine;
+
+signals:
+    void sendMessage(QString type, QString content);
 };

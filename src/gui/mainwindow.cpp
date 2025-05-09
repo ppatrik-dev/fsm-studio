@@ -17,6 +17,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTimer>
+#include "../parser/StepExecutionStrategy.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -43,8 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // terminal creation
 
-
-
     ui->TerminalScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->TerminalScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -52,13 +51,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->TerminalScrollArea->setWidget(terminal);
     ui->TerminalScrollArea->setWidgetResizable(true);
 
-    connect(terminal, &TerminalWidget::lineAppended, this, [=]() {
-        QTimer::singleShot(0, this, [=]() {
-            ui->TerminalScrollArea->verticalScrollBar()->setValue(
-                ui->TerminalScrollArea->verticalScrollBar()->maximum()
-                );
-        });
-    });
+    connect(terminal, &TerminalWidget::lineAppended, this, [=]()
+            { QTimer::singleShot(0, this, [=]()
+                                 { ui->TerminalScrollArea->verticalScrollBar()->setValue(
+                                       ui->TerminalScrollArea->verticalScrollBar()->maximum()); }); });
 
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
@@ -72,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::clear);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
-    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::runSimulation);
+    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
     connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
     connect(fsmGui, &FSMGui::inputDeleteValue, machine, &MooreMachine::deleteGuiInput);
     connect(fsmGui, &FSMGui::outputAddValue, machine, &MooreMachine::addGuiOutput);
@@ -80,11 +76,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmGui, &FSMGui::variableAddValue, machine, &MooreMachine::addGuiVariable);
     connect(fsmGui, &FSMGui::variableDeleteValue, machine, &MooreMachine::deleteGuiVariable);
 
-    connect(ui->TerminalClear, &QPushButton::clicked, this, [=]() {
-        terminal->clearTerminal();
-    });
+    connect(ui->TerminalClear, &QPushButton::clicked, this, [=]()
+            { terminal->clearTerminal(); });
 
     connect(ui->TerminalCancel, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
+    connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::runSimulation);
+    connect(ui->TerminalStep, &QPushButton::clicked, this, &MainWindow::stepSimulation);
 
     connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
     connect(fsmGui, &FSMGui::saveDescriptionValue, machine, &MooreMachine::setComment);
@@ -157,12 +154,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::runSimulation()
 {
-    if (!fsmGui->getInitialState()) {
+    if (!fsmGui->getInitialState())
+    {
         qWarning() << "Initial state not selected";
         return;
     }
-
-    toggleTerminal();
 
     if (machine != nullptr)
     {
@@ -175,6 +171,32 @@ void MainWindow::runSimulation()
         connect(runStrategy, &RunExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
 
         emit setStrategy(runStrategy);
+        emit executeMachine(*machine);
+    }
+    else
+    {
+        qDebug() << "Machine is null, Create automate!";
+    }
+}
+void MainWindow::stepSimulation()
+{
+    if (!fsmGui->getInitialState())
+    {
+        qWarning() << "Initial state not selected";
+        return;
+    }
+
+    if (machine != nullptr)
+    {
+        auto *actionExecute = new ActionExecutor(this);
+        auto *executor = new MachineExecutor(machine, this);
+        auto *stepStrategy = new StepExecutionStrategy(*actionExecute, *machine, this);
+
+        connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
+        connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
+        connect(stepStrategy, &StepExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
+
+        emit setStrategy(stepStrategy);
         emit executeMachine(*machine);
     }
     else
@@ -205,7 +227,7 @@ void MainWindow::onImportFileClicked()
     emit importDetailsRequested();
 }
 
-GenericRowWidget* MainWindow::createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget*> &widgets, GenericRowWidget::RowType type)
+GenericRowWidget *MainWindow::createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget *> &widgets, GenericRowWidget::RowType type)
 {
     GenericRowWidget *row = new GenericRowWidget(type, this);
     layout->addWidget(row);
@@ -217,21 +239,25 @@ GenericRowWidget* MainWindow::createDetailsRow(QVBoxLayout *layout, QList<Generi
     return row;
 }
 
-void MainWindow::displayFSMDetais() {
+void MainWindow::displayFSMDetais()
+{
     ui->automataNameLineEdit->setText(fsmGui->getName());
     ui->automataDescriptionTextEdit->setText(fsmGui->getDescription());
 
-    for (const QString &key : fsmGui->getInputs().keys()) {
+    for (const QString &key : fsmGui->getInputs().keys())
+    {
         GenericRowWidget *row = createDetailsRow(inputsLayout, inputsWidgets, GenericRowWidget::Input);
         row->setGenericTexts(key, fsmGui->getInputs().value(key));
     }
 
-    for (const QString &key : fsmGui->getOutputs().keys()) {
+    for (const QString &key : fsmGui->getOutputs().keys())
+    {
         GenericRowWidget *row = createDetailsRow(outputsLayout, outputsWidgets, GenericRowWidget::Output);
         row->setGenericTexts(key, fsmGui->getOutputs().value(key));
     }
 
-    for (const QString &key : fsmGui->getVariables().keys()) {
+    for (const QString &key : fsmGui->getVariables().keys())
+    {
         GenericRowWidget *row = createDetailsRow(variablesLayout, variablesWidgets, GenericRowWidget::Variable);
         row->setGenericTexts(key, fsmGui->getVariables().value(key));
     }
@@ -244,7 +270,8 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     {
         ui->detailsPanel->setCurrentWidget(ui->automataPropertiesPanel);
 
-        if (selectedState) {
+        if (selectedState)
+        {
             selectedState = nullptr;
         }
 
@@ -270,9 +297,8 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     ui->stateOutputLineEdit->setText(state->getOutput());
 
     disconnect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, nullptr, nullptr);
-    connect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, this, [=]() {
-        state->updateOutput(ui->stateOutputLineEdit->text());
-    });
+    connect(ui->stateOutputLineEdit, &QLineEdit::editingFinished, this, [=]()
+            { state->updateOutput(ui->stateOutputLineEdit->text()); });
 
     // Display conditions
     for (auto *row : selectedState->getTransitionsRows())
@@ -292,14 +318,12 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         row->disableCreateButton();
 
         row->setTransitionItem(transition);
-        transition->setRow(row);
-    });
+        transition->setRow(row); });
 
     // Save conditions
     disconnect(ui->saveConditionsButton, &QPushButton::clicked, nullptr, nullptr);
-    connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]() {
-        state->saveConditions();
-    });
+    connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]()
+            { state->saveConditions(); });
 }
 
 void MainWindow::newTransitionRow(FSMState *state, TransitionRowWidget *&row)
@@ -401,7 +425,8 @@ void MainWindow::onAddVariableClicked()
 
 void MainWindow::onDeleteRow(GenericRowWidget *row)
 {
-    if (!row) return;
+    if (!row)
+        return;
 
     // from which layout it came
     if (inputsLayout->indexOf(row) != -1)
@@ -439,12 +464,15 @@ void MainWindow::detachWidgetsFromLayout()
     }
 }
 
-void MainWindow::clearFSMDetails() {
+void MainWindow::clearFSMDetails()
+{
     ui->automataNameLineEdit->clear();
     ui->automataDescriptionTextEdit->clear();
 
-    for (auto row : inputsWidgets) {
-        if (row) {
+    for (auto row : inputsWidgets)
+    {
+        if (row)
+        {
             inputsLayout->removeWidget(row);
             row->deleteLater();
         }
@@ -452,8 +480,10 @@ void MainWindow::clearFSMDetails() {
 
     inputsWidgets.clear();
 
-    for (auto row : outputsWidgets) {
-        if (row) {
+    for (auto row : outputsWidgets)
+    {
+        if (row)
+        {
             outputsLayout->removeWidget(row);
             row->deleteLater();
         }
@@ -461,8 +491,10 @@ void MainWindow::clearFSMDetails() {
 
     outputsWidgets.clear();
 
-    for (auto row : variablesWidgets) {
-        if (row) {
+    for (auto row : variablesWidgets)
+    {
+        if (row)
+        {
             variablesLayout->removeWidget(row);
             row->deleteLater();
         }
@@ -476,25 +508,30 @@ void MainWindow::clearTransitionRows()
     selectedState->getTransitionsRows().clear();
 }
 
-//function for diseabling delete buttons in genericRow
+// function for diseabling delete buttons in genericRow
 void MainWindow::setDeleteButtonsEnabled(bool enabled)
 {
-    for (GenericRowWidget* row : inputsWidgets) {
+    for (GenericRowWidget *row : inputsWidgets)
+    {
         row->setDeleteButtonEnabled(enabled);
     }
-    for (GenericRowWidget* row : outputsWidgets) {
+    for (GenericRowWidget *row : outputsWidgets)
+    {
         row->setDeleteButtonEnabled(enabled);
     }
-    for (GenericRowWidget* row : variablesWidgets) {
+    for (GenericRowWidget *row : variablesWidgets)
+    {
         row->setDeleteButtonEnabled(enabled);
     }
 }
 
 // function for terminal set up
-void MainWindow::toggleTerminal() {
+void MainWindow::toggleTerminal()
+{
 
     // diseabling buttons and changing colors for button run
-    if (!TerminalActive){
+    if (!TerminalActive)
+    {
 
         ui->detailsPanel->setCurrentWidget(ui->automataPropertiesPanel);
         TerminalActive = true;
@@ -512,7 +549,7 @@ void MainWindow::toggleTerminal() {
 
         ui->runButton->setStyleSheet(
             "QPushButton {"
-            " background-color: #228B22;"   // ForestGreen
+            " background-color: #228B22;" // ForestGreen
             " color: white;"
             " border: 1px solid #1e7b1e;"
             " border-radius: 6px;"
@@ -523,13 +560,13 @@ void MainWindow::toggleTerminal() {
             " }"
             "QPushButton:pressed {"
             " background-color: #1e6821;"
-            " }"
-        );
+            " }");
 
         terminal->appendLine("[TERMINAL] Started simulation...", PURPLE);
     }
 
-    else {
+    else
+    {
 
         fsmView->restorePreviousView();
 
@@ -548,7 +585,6 @@ void MainWindow::toggleTerminal() {
 
         terminal->clearTerminal();
         ui->runButton->setStyleSheet("");
-
     }
 
     // get height, set new and animate
@@ -561,12 +597,13 @@ void MainWindow::toggleTerminal() {
     animation->setEndValue(targetHeight);
     animation->setEasingCurve(QEasingCurve::InOutQuad);
 
-    if (TerminalActive){
+    if (TerminalActive)
+    {
 
-        connect(animation, &QPropertyAnimation::finished, this, [this]() {
+        connect(animation, &QPropertyAnimation::finished, this, [this]()
+                {
             fsmView->fitToSceneOnce();
-            terminal->lineAppended();
-        });
+            terminal->lineAppended(); });
     }
 
     animation->start(QAbstractAnimation::DeleteWhenStopped);

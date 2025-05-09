@@ -90,7 +90,7 @@ void StepExecutionStrategy::finalizeExecution()
 
 void StepExecutionStrategy::reset()
 {
-    m_currentState->unsetCurrent();
+    // m_currentState->unsetCurrent();
     m_currentState = m_mooreMachine.getState(m_mooreMachine.getStartState());
     m_currentState->setCurrent();
     m_finished = false;
@@ -119,4 +119,5 @@ void StepExecutionStrategy::terminalLog(QString message, MessageType type)
         break;
     }
     qDebug().noquote() << prefix << message;
+    emit sendMessage(prefix, message);
 }
