@@ -3,6 +3,7 @@
 // Login: xprochp00
 
 #include "FSMScene.h"
+#include "mainwindow.h"
 #include "FSMState.h"
 #include <QRandomGenerator>
 #include <QPen>
@@ -63,7 +64,7 @@ void FSMScene::addImportState(QString name, const std::shared_ptr<MooreState> &m
     m_states.insert(name, state);
 }
 
-void FSMScene::addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState)
+FSMTransition* FSMScene::addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState)
 {
     FSMTransition *transition = new FSMTransition(firstSelectedState, secondSelectedState);
     m_transitions.append(transition);
@@ -75,6 +76,8 @@ void FSMScene::addImportTransition(FSMState *firstSelectedState, FSMState *secon
         firstSelectedState->appendTransition(transition);
         secondSelectedState->appendTransition(transition);
     }
+
+    return transition;
 }
 FSMState *FSMScene::getStateByName(const QString &name) const
 {
@@ -252,8 +255,23 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsScene::mousePressEvent(event);
     }
 }
-void FSMScene::createMachineFile(MooreMachine &machine)
-{
+
+TransitionRowWidget* FSMScene::createTransitionRow(FSMState *state, const MooreTransition &transition) {
+    TransitionRowWidget *row = nullptr;
+    
+    emit newTransitionRowRequested(state, row);
+
+    row->setTransitionTexts(transition.getInput(), transition.getTarget());
+    row->disableCreateButton();
+    row->hide();
+
+    QTextEdit *toStateEdit = row->getToStateEdit();
+    toStateEdit->setReadOnly(true);
+
+    return row;
+}
+
+void FSMScene::createMachineFile(MooreMachine &machine) {
     clearScene();
 
     for (auto it = machine.states.cbegin(); it != machine.states.cend(); ++it)
@@ -265,11 +283,18 @@ void FSMScene::createMachineFile(MooreMachine &machine)
 
     for (FSMState *state : m_states)
     {
+        // mainWindow->setSelectedState(state);
         for (const auto &transition : state->getMooreState()->transitions)
         {
-            addImportTransition(state, getStateByName(transition.getTarget()));
+            TransitionRowWidget *row = createTransitionRow(state, transition);
+            FSMTransition *item = addImportTransition(state, getStateByName(transition.getTarget()));
+
+            row->setTransitionItem(item);
+            item->setRow(row);
         }
     }
+
+    // mainWindow->setSelectedState(nullptr);
     displayAutomaton(m_states.values(), m_transitions);
 }
 

@@ -77,8 +77,10 @@ signals:
     void setStrategy(IExecutionStrategy *strategy);
     void executeMachine(MooreMachine &machine);
 
-private slots:
+public slots:
     TransitionRowWidget *onAddTransitionClicked();
+    void newTransitionRow(FSMState *state, TransitionRowWidget *&row);
+private slots:
     void onCreateTransition(TransitionRowWidget *row);
     void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();
@@ -93,9 +95,13 @@ private slots:
     void displayFSMDetais();
 
 public:
+    void setSelectedState(FSMState *state) {
+        selectedState = state;
+    }
+
     void clearFSMDetails();
     void clearTransitionRows();
-    void detachWidgetsFromLayout(QLayout *layout);
+    void detachWidgetsFromLayout();
 
     GenericRowWidget* createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget*> &widgets, GenericRowWidget::RowType type);
 };

@@ -122,6 +122,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Variables
     connect(ui->saveVariablesButton, &QPushButton::clicked, this, [=]()
             { fsmGui->saveVariables(variablesWidgets); });
+
+    connect(fsmScene, &FSMScene::newTransitionRowRequested, this, &MainWindow::newTransitionRow);
 }
 
 void MainWindow::onRunClicked()
@@ -184,7 +186,6 @@ void MainWindow::displayFSMDetais() {
 
     for (const QString &key : fsmGui->getInputs().keys()) {
         GenericRowWidget *row = createDetailsRow(inputsLayout, inputsWidgets, GenericRowWidget::Input);
-        qDebug() << fsmGui->getInputs().value(key);
         row->setGenericTexts(key, fsmGui->getInputs().value(key));
     }
 
@@ -213,7 +214,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         return;
     }
 
-    detachWidgetsFromLayout(ui->conditionsLayout);
+    detachWidgetsFromLayout();
     ui->detailsPanel->setCurrentWidget(ui->statePropertiesPanel);
 
     FSMState *state = qgraphicsitem_cast<FSMState *>(item);
@@ -263,6 +264,15 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     });
 }
 
+void MainWindow::newTransitionRow(FSMState *state, TransitionRowWidget *&row)
+{
+    setSelectedState(state);
+
+    row = onAddTransitionClicked();
+
+    setSelectedState(nullptr);
+}
+
 // CONDITIONS
 TransitionRowWidget *MainWindow::onAddTransitionClicked()
 {
@@ -274,7 +284,6 @@ TransitionRowWidget *MainWindow::onAddTransitionClicked()
     connect(row, &TransitionRowWidget::requestRemove, this, &MainWindow::onRemoveTransition);
 
     selectedState->getTransitionsRows().append(row);
-
     return row;
 }
 
@@ -380,9 +389,9 @@ void MainWindow::onDeleteRow(GenericRowWidget *row)
     row->deleteLater();
 }
 
-void MainWindow::detachWidgetsFromLayout(QLayout *layout)
+void MainWindow::detachWidgetsFromLayout()
 {
-    while (QLayoutItem *item = layout->takeAt(0))
+    while (QLayoutItem *item = ui->conditionsLayout->takeAt(0))
     {
         if (QWidget *widget = item->widget())
         {

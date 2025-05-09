@@ -16,6 +16,8 @@
 #include "../parser/MooreMachine.h"
 #include "../parser/MooreState.h"
 
+class MainWindow;
+
 class FSMScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -92,9 +94,10 @@ protected:
     void addImportState(QString name, const std::shared_ptr<MooreState> &state);
     void addTransition(FSMState *state);
     void deleteState(FSMState *state);
-    void addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState);
+    FSMTransition* addImportTransition(FSMState *firstSelectedState, FSMState *secondSelectedState);
     void displayAutomaton(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions);
     FSMState *getStateByName(const QString &name) const;
+    TransitionRowWidget* createTransitionRow(FSMState *state, const MooreTransition &transition);
 
 public slots:
     void onAddState(const QPointF &pos);
@@ -112,6 +115,7 @@ signals:
     void createTransitionRequest(const std::shared_ptr<MooreState> &state, const QString &action, const QString &targetName);
     void deleteStateRequested(QString name);
     void deleteTransitionRequested(QString firstName, QString secondName);
+    void newTransitionRowRequested(FSMState *state, TransitionRowWidget *&row);
 };
 
 #endif // FSMSCENE_H
