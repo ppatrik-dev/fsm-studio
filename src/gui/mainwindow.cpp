@@ -401,8 +401,7 @@ void MainWindow::onAddVariableClicked()
 
 void MainWindow::onDeleteRow(GenericRowWidget *row)
 {
-    if (!row)
-        return;
+    if (!row) return;
 
     // from which layout it came
     if (inputsLayout->indexOf(row) != -1)

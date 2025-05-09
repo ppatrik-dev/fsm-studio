@@ -46,6 +46,7 @@ public:
 
 private:
     void clear() {
+        emit 
         emit clearSceneRequested();
         emit clearMachineRequested();
         clearFSMDetails();

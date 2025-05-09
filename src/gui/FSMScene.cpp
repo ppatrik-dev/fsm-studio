@@ -167,6 +167,7 @@ void FSMScene::deleteState(FSMState *state)
 {
     QList<FSMTransition*> transitions = state->getTransitions();
 
+    if (state->isInitial()) emit initialStateDeleted(nullptr);
     emit deleteStateRequested(state->getLabel());
 
     for (FSMTransition *transition : transitions)
@@ -212,8 +213,6 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (FSMState *state = qgraphicsitem_cast<FSMState *>(item))
         {
             state->setSelected(true);
-            if (state->isInitial())
-                emit initialStateDeleted(nullptr);
             deleteState(state);
         }
         else
