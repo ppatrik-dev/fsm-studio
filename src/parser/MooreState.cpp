@@ -15,7 +15,8 @@ QString MooreState::getOutput() const
     return output;
 }
 
-void MooreState::setOutput(QString value) {
+void MooreState::setOutput(QString value)
+{
     output = value;
 }
 
@@ -61,4 +62,9 @@ void MooreState::deleteTransitionByTarget(const QString &target)
                            return t.getTarget() == target;
                        }),
         transitions.end());
+}
+void MooreState::addConditionByTransition(QString conditionText, QString toStateText)
+{
+    auto transition = findTransitionByTarget(toStateText);
+    transition->setInput(conditionText);
 }

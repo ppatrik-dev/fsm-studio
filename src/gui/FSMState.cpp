@@ -26,11 +26,13 @@ FSMState::FSMState(const QString &label)
     setCacheMode(DeviceCoordinateCache);
 }
 
-QRectF FSMState::boundingRect() const {
+QRectF FSMState::boundingRect() const
+{
     return QRectF(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
 }
 
-void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
     QRectF rect = boundingRect();
@@ -56,37 +58,46 @@ void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawText(rect, Qt::AlignCenter, m_label);
 }
 
-QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value) {
-    if (change == ItemPositionHasChanged) {
-        for (FSMTransition *transition : m_transitions) {
+QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    if (change == ItemPositionHasChanged)
+    {
+        for (FSMTransition *transition : m_transitions)
+        {
             transition->updatePosition();
         }
     }
     return QGraphicsItem::itemChange(change, value);
 }
 
-void FSMState::saveConditions() {
+void FSMState::saveConditions()
+{
     m_transitionsConditions.clear();
 
     auto rows = m_transitionsRows;
-    for (TransitionRowWidget *row : rows) {
+    for (TransitionRowWidget *row : rows)
+    {
         QString conditionText = row->getConditionText();
         QString toStateText = row->getToStateText();
 
-        if (conditionText.isEmpty() || toStateText.isEmpty()) {
+        if (conditionText.isEmpty() || toStateText.isEmpty())
+        {
             row->requestRemove(row);
         }
- 
-        // m_state->addCondition(conditionText, toStateText); // TODO Mirek
+
+        m_state->addConditionByTransition(conditionText, toStateText);
 
         m_transitionsConditions.append({conditionText, toStateText});
     }
 }
 
-void FSMState::removeTransitionRow(QString toState) {
+void FSMState::removeTransitionRow(QString toState)
+{
     auto rows = m_transitionsRows;
-    for (auto row : rows) {
-        if (row->getToStateText() == toState) {
+    for (auto row : rows)
+    {
+        if (row->getToStateText() == toState)
+        {
             m_layout->removeWidget(row);
             m_transitionsRows.removeAll(row);
             row->deleteLater();
@@ -94,10 +105,12 @@ void FSMState::removeTransitionRow(QString toState) {
     }
 }
 
-void FSMState::clearTransitionsRows() {
+void FSMState::clearTransitionsRows()
+{
     for (auto row : m_transitionsRows)
     {
-        if (row) {
+        if (row)
+        {
             FSMState::m_layout->removeWidget(row);
             row->deleteLater();
         }
@@ -106,14 +119,16 @@ void FSMState::clearTransitionsRows() {
     m_transitionsRows.clear();
 }
 
-void FSMState::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
+void FSMState::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
     m_hovered = true;
-    update();  // triggers repaint
+    update(); // triggers repaint
     QGraphicsItem::hoverEnterEvent(event);
 }
 
-void FSMState::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
+void FSMState::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
     m_hovered = false;
-    update();  // triggers repaint
+    update(); // triggers repaint
     QGraphicsItem::hoverLeaveEvent(event);
 }
