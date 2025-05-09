@@ -200,7 +200,13 @@ void MooreMachine::clearMachine()
 {
     states.clear();
     start_state.clear();
+    automate_name.clear();
+    automate_comment.clear();
+    automate_inputs.clear();
+    automate_outputs.clear();
+    variables.clear();
 }
+
 void MooreMachine::deleteState(QString name)
 {
     states.remove(name);
