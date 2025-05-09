@@ -566,6 +566,7 @@ void MainWindow::toggleTerminal() {
 
         connect(animation, &QPropertyAnimation::finished, this, [this]() {
             fsmView->fitToSceneOnce();
+            terminal->lineAppended();
         });
     }
 
