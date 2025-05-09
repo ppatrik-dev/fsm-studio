@@ -70,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::clear);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
-    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
+    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::runSimulation);
     connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
     connect(fsmGui, &FSMGui::inputDeleteValue, machine, &MooreMachine::deleteGuiInput);
     connect(fsmGui, &FSMGui::outputAddValue, machine, &MooreMachine::addGuiOutput);
@@ -153,8 +153,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmScene, &FSMScene::newTransitionRowRequested, this, &MainWindow::newTransitionRow);
 }
 
-void MainWindow::onRunClicked()
+void MainWindow::runSimulation()
 {
+    if (!fsmGui->getInitialState()) {
+        qWarning() << "Initial state not selected";
+        return;
+    }
+
+    toggleTerminal();
+
     if (machine != nullptr)
     {
         auto *actionExecute = new ActionExecutor(this);
@@ -465,101 +472,6 @@ void MainWindow::clearFSMDetails() {
 void MainWindow::clearTransitionRows()
 {
     selectedState->getTransitionsRows().clear();
-}
-
-//function for diseabling delete buttons in genericRow
-void MainWindow::setDeleteButtonsEnabled(bool enabled)
-{
-    for (GenericRowWidget* row : inputsWidgets) {
-        row->setDeleteButtonEnabled(enabled);
-    }
-    for (GenericRowWidget* row : outputsWidgets) {
-        row->setDeleteButtonEnabled(enabled);
-    }
-    for (GenericRowWidget* row : variablesWidgets) {
-        row->setDeleteButtonEnabled(enabled);
-    }
-}
-
-// function for terminal set up
-void MainWindow::toggleTerminal() {
-
-    // diseabling buttons and changing colors for button run
-    if (!TerminalActive){
-
-        ui->detailsPanel->setCurrentWidget(ui->automataPropertiesPanel);
-        TerminalActive = true;
-
-        ui->runButton->setEnabled(false);
-        ui->importButton->setEnabled(false);
-        ui->exportButton->setEnabled(false);
-        ui->clearButton->setEnabled(false);
-        ui->addInputButton->setEnabled(false);
-        ui->addOutputButton->setEnabled(false);
-        ui->addVariableButton->setEnabled(false);
-        setDeleteButtonsEnabled(false);
-
-        ui->fsmGraphicsView->setEnabled(false);
-
-        ui->runButton->setStyleSheet(
-            "QPushButton {"
-            " background-color: #228B22;"   // ForestGreen
-            " color: white;"
-            " border: 1px solid #1e7b1e;"
-            " border-radius: 6px;"
-            " padding: 6px 12px;"
-            " }"
-            "QPushButton:hover {"
-            " background-color: #2ecc71;"
-            " }"
-            "QPushButton:pressed {"
-            " background-color: #1e6821;"
-            " }"
-        );
-
-        terminal->appendLine("Started simulation...", 7);
-    }
-
-    else {
-
-        fsmView->restorePreviousView();
-
-        TerminalActive = false;
-
-        ui->runButton->setEnabled(true);
-        ui->importButton->setEnabled(true);
-        ui->exportButton->setEnabled(true);
-        ui->clearButton->setEnabled(true);
-        ui->addInputButton->setEnabled(true);
-        ui->addOutputButton->setEnabled(true);
-        ui->addVariableButton->setEnabled(true);
-        setDeleteButtonsEnabled(true);
-
-        ui->fsmGraphicsView->setEnabled(true);
-
-        terminal->clearTerminal();
-        ui->runButton->setStyleSheet("");
-
-    }
-
-    // get height, set new and animate
-    int currentHeight = ui->TerminalFrame->maximumHeight();
-    int targetHeight = currentHeight == 0 ? 300 : 0;
-
-    QPropertyAnimation *animation = new QPropertyAnimation(ui->TerminalFrame, "maximumHeight");
-    animation->setDuration(300);
-    animation->setStartValue(currentHeight);
-    animation->setEndValue(targetHeight);
-    animation->setEasingCurve(QEasingCurve::InOutQuad);
-
-    if (TerminalActive){
-
-        connect(animation, &QPropertyAnimation::finished, this, [this]() {
-            fsmView->fitToSceneOnce();
-        });
-    }
-
-    animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 //function for diseabling delete buttons in genericRow

@@ -87,6 +87,7 @@ public slots:
     TransitionRowWidget *onAddTransitionClicked();
     void newTransitionRow(FSMState *state, TransitionRowWidget *&row);
 private slots:
+    void runSimulation();
     void onCreateTransition(TransitionRowWidget *row);
     void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();
@@ -95,11 +96,9 @@ private slots:
     void onDeleteRow(GenericRowWidget *row);
     void onImportFileClicked();
     void onExportFileClicked();
-    void onRunClicked();
     void showDetailsPanel(QGraphicsItem *item);
     void toggleTerminal();
     void setDeleteButtonsEnabled(bool enabled);
-
     void displayFSMDetais();
 
 public:
@@ -107,11 +106,12 @@ public:
         selectedState = state;
     }
 
+    GenericRowWidget* createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget*> &widgets, GenericRowWidget::RowType type);
+
+private:     
     void clearFSMDetails();
     void clearTransitionRows();
     void detachWidgetsFromLayout();
-
-    GenericRowWidget* createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget*> &widgets, GenericRowWidget::RowType type);
 };
 
 #endif // MAINWINDOW_H

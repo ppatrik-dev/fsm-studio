@@ -83,8 +83,7 @@ public:
     void deleteInput(const QString &key);
     void deleteOutput(const QString &key);
     void deleteVariable(const QString &key);
-
-    void runSimulation(Ui::MainWindow *ui);
+    
 signals:
     // FSM detials changes within GUI
     void initialStateChanged(QString stateLabel);

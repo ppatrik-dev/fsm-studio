@@ -1,11 +1,5 @@
 #include "FSMGui.h"
 
-void FSMGui::runSimulation(Ui::MainWindow *ui)
-{
-    simulationMode = true;
-    ui->runButton->setStyleSheet("background-color: rgb(51, 153, 102);");
-}
-
 void FSMGui::setInitialState(FSMState *state)
 {
     if (m_initialState == state)
