@@ -21,8 +21,8 @@ public:
     void setCurrent();
     void unsetCurrent();
     QVector<MooreTransition> &getTransitions();
+    void addConditionByTransition(QString conditionText, QString toStateText);
     MooreTransition *findTransitionByTarget(QString &target);
     void addTransition(const QString &input, const QString &target) override;
     void deleteTransitionByTarget(const QString &target);
-
 };

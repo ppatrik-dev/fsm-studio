@@ -9,6 +9,10 @@ public:
 
     QString getInput() const { return input; }
     QString getTarget() const { return target; }
+    void setInput(QString command)
+    {
+        input = command;
+    }
 
 private:
     QString input;
