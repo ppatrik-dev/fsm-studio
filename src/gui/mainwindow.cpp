@@ -527,7 +527,7 @@ void MainWindow::toggleTerminal() {
             " }"
         );
 
-        terminal->appendLine("Started simulation...", 7);
+        terminal->appendLine("[TERMINAL] Started simulation...", PURPLE);
     }
 
     else {

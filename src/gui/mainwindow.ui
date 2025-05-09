@@ -159,7 +159,7 @@
               <string notr="true"/>
              </property>
              <property name="text">
-              <string>Generate</string>
+              <string>Simulate</string>
              </property>
             </widget>
            </item>
@@ -870,8 +870,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>66</width>
-             <height>18</height>
+             <width>98</width>
+             <height>28</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="conditionsLayout"/>

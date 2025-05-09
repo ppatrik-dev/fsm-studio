@@ -10,6 +10,15 @@
 #include <QScrollArea>
 #include <deque>
 
+enum COLORS{
+    WHITE,
+    GREEN,
+    RED,
+    BLUE,
+    YELLOW,
+    PURPLE
+};
+
 class TerminalWidget : public QWidget
 {
     Q_OBJECT
@@ -21,7 +30,7 @@ public:
 
 private:
     QVBoxLayout *layout;
-    std::deque<QLabel*> buffer;
+    std::deque<QWidget*> buffer;
     const unsigned int maxLines = 150;
 
     void removeOldest();
