@@ -1,0 +1,41 @@
+{
+    "automate_comment": "Cyklický Mooreov automat: RED → GREEN → BLUE → RED",
+    "automate_name": "RGBColorCycle",
+    "inputs": [
+        "var input;"
+    ],
+    "outputs": [
+        "var output;"
+    ],
+    "start_state": "RED",
+    "states": {
+        "RED": {
+            "action": "output = 'red';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "GREEN"
+                }
+            ]
+        },
+        "GREEN": {
+            "action": "output = 'green';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "BLUE"
+                }
+            ]
+        },
+        "BLUE": {
+            "action": "output = 'blue';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "RED"
+                }
+            ]
+        }
+    },
+    "variables": []
+}

@@ -1,0 +1,40 @@
+{
+    "automate_comment": "Automat má výstup 1, ak je počet núl párny",
+    "automate_name": "PocetNulParny",
+    "inputs": [
+        "var input;"
+    ],
+    "outputs": [
+        "var output;"
+    ],
+    "start_state": "EVEN",
+    "states": {
+        "EVEN": {
+            "action": "output = '1';",
+            "transitions": [
+                {
+                    "condition": "input == '0';",
+                    "to": "ODD"
+                },
+                {
+                    "condition": "input == '1';",
+                    "to": "EVEN"
+                }
+            ]
+        },
+        "ODD": {
+            "action": "output = '0';",
+            "transitions": [
+                {
+                    "condition": "input == '0';",
+                    "to": "EVEN"
+                },
+                {
+                    "condition": "input == '1';",
+                    "to": "ODD"
+                }
+            ]
+        }
+    },
+    "variables": []
+}
