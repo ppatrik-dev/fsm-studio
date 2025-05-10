@@ -13,10 +13,12 @@ void FSMGui::setInitialState(FSMState *state)
     if (m_initialState)
         m_initialState->setInitial(true);
 
-    if (state) {
+    if (state)
+    {
         emit initialStateChanged(state->getLabel());
     }
-    else {
+    else
+    {
         emit initialStateChanged("");
     }
 }
@@ -137,7 +139,7 @@ void FSMGui::saveVariables(const QList<GenericRowWidget *> rows)
             continue;
         }
 
-        if (m_outputs.contains(key))
+        if (m_variables.contains(key))
         {
             if (m_variables.value(key) != value)
             {
@@ -163,7 +165,8 @@ void FSMGui::deleteVariable(const QString &key)
     emit variableDeleteValue(key);
 }
 
-void FSMGui::importDetails() {
+void FSMGui::importDetails()
+{
     emit getNameValue(m_name);
     emit getDescriptionValue(m_description);
     emit getVarValue(m_inputs, "input");

@@ -33,8 +33,6 @@ QString MooreMachine::extractVariableValue(const QString &command)
         {
             value = value.mid(1, value.length() - 2);
         }
-
-        qDebug() << "Extracted value:" << value;
         return value;
     }
 
@@ -114,7 +112,10 @@ QVector<QString> MooreMachine::getInputs() const
 {
     return QVector<QString>::fromList(automate_inputs.values());
 }
-
+QMap<QString, QString> MooreMachine::getMapInputs() const
+{
+    return automate_inputs;
+}
 QVector<QString> MooreMachine::getOutputs() const
 {
     return QVector<QString>::fromList(automate_outputs.values());
