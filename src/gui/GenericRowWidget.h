@@ -52,6 +52,7 @@ private:
     QLineEdit *valueEdit;
     RowType rowType;
     QPushButton *deleteButton;
+    QString disableStyle = "QPushButton:disabled { background-color: #444444; color: #888888; }";
 };
 
 #endif // GENERICROWWIDGET_H

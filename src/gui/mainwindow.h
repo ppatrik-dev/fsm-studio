@@ -90,6 +90,7 @@ private:
 
     TerminalWidget *terminal;
     bool TerminalActive = false;
+    QString disableStyle = "QPushButton:disabled { background-color: #444444; color: #888888; }";
 
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -121,6 +122,8 @@ private slots:
     void toggleTerminal();
     void setDeleteButtonsEnabled(bool enabled);
     void displayFSMDetais();
+    void on_TerminalRun_clicked();
+    void on_TerminalReset_clicked();
 
 public:
     void setSelectedState(FSMState *state)

@@ -64,6 +64,11 @@ MainWindow::MainWindow(QWidget *parent)
                                  { ui->TerminalScrollArea->verticalScrollBar()->setValue(
                                        ui->TerminalScrollArea->verticalScrollBar()->maximum()); }); });
 
+    ui->TerminalReset->setEnabled(false);
+    ui->TerminalReset->setStyleSheet(disableStyle);
+    connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::on_TerminalRun_clicked);
+    connect(ui->TerminalReset, &QPushButton::clicked, this, &MainWindow::on_TerminalReset_clicked);
+
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
     connect(this, &MainWindow::createMachine, fsmScene, &FSMScene::createMachineFile);
@@ -88,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
             { terminal->clearTerminal(); });
 
     connect(ui->TerminalCancel, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
-    connect(ui->TerminalRunMode, &QPushButton::clicked, this, &MainWindow::runSimulation);
+    connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::runSimulation);
 
     connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
     connect(fsmGui, &FSMGui::saveDescriptionValue, machine, &MooreMachine::setComment);
@@ -179,7 +184,6 @@ void MainWindow::simulation()
         connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
         connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
         connect(stepStrategy, &StepExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
-        connect(ui->TerminalStep, &QPushButton::clicked, stepStrategy, &StepExecutionStrategy::step);
 
         emit setStrategy(stepStrategy);
     }
@@ -541,6 +545,14 @@ void MainWindow::toggleTerminal()
         ui->addVariableButton->setEnabled(false);
         setDeleteButtonsEnabled(false);
 
+        ui->runButton->setStyleSheet(disableStyle);
+        ui->importButton->setStyleSheet(disableStyle);
+        ui->exportButton->setStyleSheet(disableStyle);
+        ui->clearButton->setStyleSheet(disableStyle);
+        ui->addInputButton->setStyleSheet(disableStyle);
+        ui->addOutputButton->setStyleSheet(disableStyle);
+        ui->addVariableButton->setStyleSheet(disableStyle);
+
         ui->fsmGraphicsView->setEnabled(false);
 
         ui->runButton->setStyleSheet(
@@ -565,6 +577,7 @@ void MainWindow::toggleTerminal()
     {
 
         fsmView->restorePreviousView();
+        on_TerminalReset_clicked();
 
         TerminalActive = false;
 
@@ -576,6 +589,14 @@ void MainWindow::toggleTerminal()
         ui->addOutputButton->setEnabled(true);
         ui->addVariableButton->setEnabled(true);
         setDeleteButtonsEnabled(true);
+
+        ui->runButton->setStyleSheet("");
+        ui->importButton->setStyleSheet("");
+        ui->exportButton->setStyleSheet("");
+        ui->clearButton->setStyleSheet("");
+        ui->addInputButton->setStyleSheet("");
+        ui->addOutputButton->setStyleSheet("");
+        ui->addVariableButton->setStyleSheet("");
 
         ui->fsmGraphicsView->setEnabled(true);
 
@@ -607,4 +628,22 @@ void MainWindow::toggleTerminal()
     }
 
     animation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void MainWindow::on_TerminalRun_clicked()
+{
+    ui->TerminalRun->setEnabled(false);
+    ui->TerminalReset->setEnabled(true);
+
+    ui->TerminalRun->setStyleSheet("QPushButton:disabled { background-color: #444444; color: #888888; }");
+    ui->TerminalReset->setStyleSheet("");
+}
+
+void MainWindow::on_TerminalReset_clicked()
+{
+    ui->TerminalRun->setEnabled(true);      // povolíme Run
+    ui->TerminalReset->setEnabled(false);   // zakážeme Reset
+
+    ui->TerminalRun->setStyleSheet("");
+    ui->TerminalReset->setStyleSheet("QPushButton:disabled { background-color: #444444; color: #888888; }");
 }

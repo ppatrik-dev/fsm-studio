@@ -89,6 +89,16 @@ QString GenericRowWidget::value() const {
  */
 void GenericRowWidget::setDeleteButtonEnabled(bool enabled)
 {
-    if (deleteButton)
+    if (deleteButton){
+
         deleteButton->setEnabled(enabled);
+
+        if (!enabled){
+            deleteButton->setStyleSheet(disableStyle);
+        }
+
+        else {
+            deleteButton->setStyleSheet("");
+        }
+    }
 }
