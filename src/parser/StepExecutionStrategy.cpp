@@ -5,9 +5,11 @@
 #include <QTime>
 #include <QApplication>
 
-void wait(int ms) {
+void wait(int ms)
+{
     QTime end = QTime::currentTime().addMSecs(ms);
-    while (QTime::currentTime() < end) {
+    while (QTime::currentTime() < end)
+    {
         qApp->processEvents(QEventLoop::AllEvents, 5);
     }
 }
@@ -22,6 +24,20 @@ StepExecutionStrategy::StepExecutionStrategy(ActionExecutor &actionExecutor,
 {
     reset();
 }
+bool StepExecutionStrategy::allStacksAreEmpty()
+{
+    const auto stacks = inputStacks.values();
+
+    for (const QStack<QString> &stack : stacks)
+    {
+        if (!stack.isEmpty())
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 void StepExecutionStrategy::Execute()
 {
@@ -30,41 +46,69 @@ void StepExecutionStrategy::Execute()
     initializeVariables();
     // auto inputResult = m_actionExecutor.evaluate("input");
     // terminalLog("Initial input value: " + inputResult.toString(), Info);
-    while (!inputStack.isEmpty() && step())
+    while (!allStacksAreEmpty() && step())
     {
         qDebug() << "Step succeeded.";
         wait(500);
     }
     finalizeExecution();
-    QList<QString> tempList = inputStack.toList();
-    std::reverse(tempList.begin(), tempList.end());
-    qDebug() << "Stack contents:";
-    QString remainingInput = "";
-    QString varName;
-    for (QString value : tempList)
+    for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
     {
-        QString variableValue = m_mooreMachine.extractVariableValue(value);
-        remainingInput.append(variableValue);
-        varName = m_mooreMachine.extractVariableName(value);
+        const QString &varName = it.key();
+        const QStack<QString> &inputStack = it.value();
+
+        if (inputStack.isEmpty())
+            continue;
+
+        QList<QString> tempList = inputStack.toList();
+        std::reverse(tempList.begin(), tempList.end());
+
+        // qDebug() << "Stack" << varName << "contents:";
+
+        QString remainingInput;
+
+        for (const QString &value : tempList)
+        {
+            QString variableValue = m_mooreMachine.extractVariableValue(value);
+            remainingInput.append(variableValue);
+        }
+
+        emit sendRemainingInput(varName, remainingInput);
     }
-    emit sendRemainingInput(varName, remainingInput);
 }
 
 void StepExecutionStrategy::initializeVariables()
 {
     QVector<QString> inputs = m_mooreMachine.getInputs();
+
     for (const QString &input : inputs)
     {
-
+        QStack<QString> inputStack; // Dedicated stack for this input
         const QString &varName = m_mooreMachine.extractVariableName(input);
         const QString &varValue = m_mooreMachine.extractVariableValue(input);
-        qDebug() << varName << varValue;
+
+        // Push characters in reverse to ensure correct pop order
         for (int i = varValue.length() - 1; i >= 0; --i)
         {
             QChar ch = varValue[i];
             inputStack.push(m_mooreMachine.createVarCommand(varName, ch));
         }
+
+        inputStacks.insert(varName, inputStack);
     }
+    // QVector<QString> inputs = m_mooreMachine.getInputs();
+    // for (const QString &input : inputs)
+    // {
+
+    //     const QString &varName = m_mooreMachine.extractVariableName(input);
+    //     const QString &varValue = m_mooreMachine.extractVariableValue(input);
+    //     qDebug() << varName << varValue;
+    //     for (int i = varValue.length() - 1; i >= 0; --i)
+    //     {
+    //         QChar ch = varValue[i];
+    //         inputStack.push(m_mooreMachine.createVarCommand(varName, ch));
+    //     }
+    // }
 
     // for (const QString &input : m_mooreMachine.getInputs())
     // {
@@ -85,18 +129,33 @@ void StepExecutionStrategy::initializeVariables()
 
 bool StepExecutionStrategy::step()
 {
-    qDebug() << inputStack.top();
-    m_actionExecutor.evaluate(inputStack.top());
+    // First, evaluate the top element of each stack and execute action
+    for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
+    {
+        QString key = it.key();              // Access key
+        QStack<QString> &stack = it.value(); // Access corresponding stack
+        m_actionExecutor.evaluate(stack.top());
+    }
+
+    // Check if the operation is finished or if there's no valid state
     if (m_finished || !m_currentState)
     {
         return false;
     }
 
+    // Execute state output
     executeStateOutput();
 
+    // Check for transitions and process the stacks only if necessary
     if (evaluateTransitions())
     {
-        inputStack.pop();
+        // Pop the top element after evaluating and processing
+        for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
+        {
+            QString key = it.key();              // Access key
+            QStack<QString> &stack = it.value(); // Access corresponding stack
+            stack.pop();
+        }
         return true;
     }
 
@@ -114,9 +173,9 @@ bool StepExecutionStrategy::evaluateTransitions()
 {
     for (const auto &transition : m_currentState->getTransitions())
     {
-        // terminalLog("Condition: " + transition.getInput(), Info);
+        terminalLog("Condition: " + transition.getInput(), Info);
         auto boolResult = m_actionExecutor.evaluate(transition.getInput());
-        // terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), TransitionResult);
+        terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), TransitionResult);
 
         if (boolResult.toBool())
         {

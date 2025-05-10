@@ -33,6 +33,7 @@ public:
     bool evaluateTransitions();
     void finalizeExecution();
     bool isFinished() const { return m_finished; }
+    bool allStacksAreEmpty();
 
 private:
     QString m_output;
@@ -42,7 +43,7 @@ private:
     MooreMachine &m_mooreMachine;
     QVector<QString> m_input;
     qint32 index;
-    QStack<QString> inputStack;
+    QMap<QString, QStack<QString>> inputStacks;
 public slots:
     bool step();
 signals:
