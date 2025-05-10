@@ -151,6 +151,7 @@ void StepExecutionStrategy::finalizeExecution()
         if (inputStack.isEmpty())
         {
             emit sendRemainingInput(varName, "");
+            m_mooreMachine.addGuiInput(varName, "");
             continue;
         }
 
@@ -166,8 +167,7 @@ void StepExecutionStrategy::finalizeExecution()
             QString variableValue = m_mooreMachine.extractVariableValue(value);
             remainingInput.append(variableValue);
         }
-        qDebug() << remainingInput;
-        // m_mooreMachine.addGuiInput
+        m_mooreMachine.addGuiInput(varName, remainingInput);
         emit sendRemainingInput(varName, remainingInput);
     }
     for (const QString &output : m_mooreMachine.getOutputs())
