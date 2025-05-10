@@ -41,6 +41,8 @@ bool StepExecutionStrategy::allStacksAreEmpty()
 
 void StepExecutionStrategy::Execute()
 {
+    emit currentStateChanged(m_currentState->getName());
+    wait(250);
     // reset();
     m_finished = false;
     initializeVariables();
@@ -138,6 +140,7 @@ bool StepExecutionStrategy::evaluateTransitions()
 
 void StepExecutionStrategy::finalizeExecution()
 {
+    executeStateOutput();
     m_finished = true;
     terminalLog("Execution finished in state: " + m_currentState->getName(), Info);
     for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
@@ -164,6 +167,7 @@ void StepExecutionStrategy::finalizeExecution()
             remainingInput.append(variableValue);
         }
         qDebug() << remainingInput;
+        // m_mooreMachine.addGuiInput
         emit sendRemainingInput(varName, remainingInput);
     }
     for (const QString &output : m_mooreMachine.getOutputs())

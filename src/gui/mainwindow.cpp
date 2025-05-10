@@ -169,7 +169,8 @@ MainWindow::MainWindow(QWidget *parent)
 }
 void MainWindow::startSimulation()
 {
-    if (selectedState) selectedState->setSelected(false);
+    if (selectedState)
+        selectedState->setSelected(false);
 
     if (!fsmGui->getInitialState())
     {
@@ -194,7 +195,6 @@ void MainWindow::startSimulation()
         connect(stepStrategy, &StepExecutionStrategy::sendRemainingOutput, fsmGui, &FSMGui::updateOutput);
         connect(stepStrategy, &StepExecutionStrategy::sendRemainingVariable, fsmGui, &FSMGui::updateVariable);
         connect(ui->TerminalReset, &QPushButton::clicked, stepStrategy, &StepExecutionStrategy::reset);
-
         emit setStrategy(stepStrategy);
     }
     else
@@ -252,18 +252,28 @@ GenericRowWidget *MainWindow::createDetailsRow(QVBoxLayout *layout, QList<Generi
     return row;
 }
 
-void MainWindow::displayUpdatedDetail(detailTypeEnum type, QString key, QString value) {
+void MainWindow::displayUpdatedDetail(detailTypeEnum type, QString key, QString value)
+{
     QVBoxLayout *layout = nullptr;
 
-    switch(type) {
-        case INPUT_DETAIL: layout = inputsLayout; break;
-        case OUTPUT_DETAIL: layout = outputsLayout; break;
-        case VARIABLE_DETAIL: layout = variablesLayout; break;
+    switch (type)
+    {
+    case INPUT_DETAIL:
+        layout = inputsLayout;
+        break;
+    case OUTPUT_DETAIL:
+        layout = outputsLayout;
+        break;
+    case VARIABLE_DETAIL:
+        layout = variablesLayout;
+        break;
     }
 
-    for (int i = 0; i < layout->count(); ++i) {
+    for (int i = 0; i < layout->count(); ++i)
+    {
         QLayoutItem *item = layout->itemAt(i);
-        if (!item) continue;
+        if (!item)
+            continue;
 
         QWidget *widget = item->widget();
         if (!widget)
@@ -278,15 +288,18 @@ void MainWindow::displayUpdatedDetail(detailTypeEnum type, QString key, QString 
     }
 }
 
-void MainWindow::displayUpdatedInput(QString key, QString value) {
+void MainWindow::displayUpdatedInput(QString key, QString value)
+{
     displayUpdatedDetail(INPUT_DETAIL, key, value);
 }
 
-void MainWindow::displayUpdatedOutput(QString key, QString value) {
+void MainWindow::displayUpdatedOutput(QString key, QString value)
+{
     displayUpdatedDetail(OUTPUT_DETAIL, key, value);
 }
 
-void MainWindow::displayUpdatedVariable(QString key, QString value) {
+void MainWindow::displayUpdatedVariable(QString key, QString value)
+{
     displayUpdatedDetail(VARIABLE_DETAIL, key, value);
 }
 
