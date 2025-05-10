@@ -5,6 +5,9 @@
 #include "ActionExecutor.h"
 #include <QObject>
 #include <memory>
+#include <QCoreApplication>
+#include <QStack>
+#include <algorithm>
 
 class StepExecutionStrategy : public QObject, public IExecutionStrategy
 {
@@ -23,7 +26,6 @@ public:
                                    QObject *parent = nullptr);
 
     void Execute() override;
-    bool step();
     void reset();
     void terminalLog(QString message, MessageType type);
     void initializeVariables();
@@ -38,7 +40,11 @@ private:
     std::shared_ptr<MooreState> m_currentState;
     ActionExecutor &m_actionExecutor;
     MooreMachine &m_mooreMachine;
-
+    QVector<QString> m_input;
+    qint32 index;
+    QStack<QString> inputStack;
+public slots:
+    bool step();
 signals:
     void sendMessage(QString type, QString content);
 };

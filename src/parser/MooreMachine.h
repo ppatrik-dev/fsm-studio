@@ -34,6 +34,7 @@ public:
     const QString &getComment() const;
     const QString &getStartState() const;
     QVector<QString> getInputs() const;
+    QMap<QString, QString> getMapInputs() const;
     QVector<QString> getOutputs() const;
     QVector<QString> getVariables() const;
     QString createVarCommand(const QString &name, const QString &value);

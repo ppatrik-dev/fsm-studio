@@ -17,16 +17,35 @@ void StepExecutionStrategy::Execute()
 {
     reset();
     initializeVariables();
-    auto inputResult = m_actionExecutor.evaluate("input");
-    terminalLog("Initial input value: " + inputResult.toString(), Info);
+    // auto inputResult = m_actionExecutor.evaluate("input");
+    // terminalLog("Initial input value: " + inputResult.toString(), Info);
+    while (!inputStack.isEmpty() && step())
+    {
+        qDebug() << "Step succeeded.";
+    }
 }
 
 void StepExecutionStrategy::initializeVariables()
 {
-    for (const QString &input : m_mooreMachine.getInputs())
+    QVector<QString> inputs = m_mooreMachine.getInputs();
+    for (const QString &input : inputs)
     {
-        m_actionExecutor.evaluate(input);
+
+        const QString &varName = m_mooreMachine.extractVariableName(input);
+        const QString &varValue = m_mooreMachine.extractVariableValue(input);
+        qDebug() << varName << varValue;
+        for (int i = varValue.length() - 1; i >= 0; --i)
+        {
+            QChar ch = varValue[i];
+            inputStack.push(m_mooreMachine.createVarCommand(varName, ch));
+        }
     }
+
+    // for (const QString &input : m_mooreMachine.getInputs())
+    // {
+
+    //     // m_actionExecutor.evaluate(input);
+    // }
     for (const QString &output : m_mooreMachine.getOutputs())
     {
         m_actionExecutor.evaluate(output);
@@ -36,10 +55,13 @@ void StepExecutionStrategy::initializeVariables()
         m_actionExecutor.evaluate(variable);
     }
     m_actionExecutor.evaluate("var index = 0;");
+    index = 0;
 }
 
 bool StepExecutionStrategy::step()
 {
+    qDebug() << inputStack.top();
+    m_actionExecutor.evaluate(inputStack.top());
     if (m_finished || !m_currentState)
     {
         return false;
@@ -49,6 +71,7 @@ bool StepExecutionStrategy::step()
 
     if (evaluateTransitions())
     {
+        inputStack.pop();
         return true;
     }
 
@@ -72,7 +95,7 @@ bool StepExecutionStrategy::evaluateTransitions()
 
         if (boolResult.toBool())
         {
-            m_actionExecutor.evaluate("index++;");
+            index++;
             m_currentState->unsetCurrent();
             m_currentState = m_mooreMachine.getState(transition.getTarget());
             m_currentState->setCurrent();

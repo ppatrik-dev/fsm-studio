@@ -80,8 +80,8 @@ MainWindow::MainWindow(QWidget *parent)
             { terminal->clearTerminal(); });
 
     connect(ui->TerminalCancel, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
-    connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::runSimulation);
-    connect(ui->TerminalStep, &QPushButton::clicked, this, &MainWindow::stepSimulation);
+    connect(ui->TerminalRunMode, &QPushButton::clicked, this, &MainWindow::runSimulation);
+    connect(ui->TerminalStepMode, &QPushButton::clicked, this, &MainWindow::stepSimulation);
 
     connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
     connect(fsmGui, &FSMGui::saveDescriptionValue, machine, &MooreMachine::setComment);
@@ -198,6 +198,7 @@ void MainWindow::stepSimulation()
         connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
         connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
         connect(stepStrategy, &StepExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
+        connect(ui->TerminalStep, &QPushButton::clicked, stepStrategy, &StepExecutionStrategy::step);
 
         emit setStrategy(stepStrategy);
         emit executeMachine(*machine);
