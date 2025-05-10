@@ -143,13 +143,13 @@ void StepExecutionStrategy::terminalLog(QString message, MessageType type)
     switch (type)
     {
     case Error:
-        prefix = "[ERROR] ";
+        prefix = "[ERROR]";
         break;
     case Info:
-        prefix = "[INFO] ";
+        prefix = "[INFO]";
         break;
     case TransitionResult:
-        prefix = "[TRANSITION] ";
+        prefix = "[TRANSITION]";
         break;
     }
     qDebug().noquote() << prefix << message;
