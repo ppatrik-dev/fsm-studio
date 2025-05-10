@@ -31,6 +31,7 @@ TerminalWidget::TerminalWidget(QWidget *parent)
     layout->setSpacing(2);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 }
 
 /**
@@ -124,6 +125,7 @@ void TerminalWidget::appendLine(const QString &text, int color)
     if (buffer.size() > maxLines)
         removeOldest();
 
+    this->adjustSize();
     /// send signal to lower scrollArea
     emit lineAppended();
 }

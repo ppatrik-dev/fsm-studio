@@ -559,7 +559,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <x>0</x>
                 <y>0</y>
                 <width>311</width>
-                <height>153</height>
+                <height>120</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="scrollInputsLayout">
@@ -612,7 +612,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <x>0</x>
                 <y>0</y>
                 <width>311</width>
-                <height>154</height>
+                <height>119</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="scrollOutputsLayout">
@@ -661,7 +661,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
                 <x>0</x>
                 <y>0</y>
                 <width>311</width>
-                <height>153</height>
+                <height>120</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="scrollVariablesLayout">

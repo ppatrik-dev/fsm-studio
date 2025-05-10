@@ -59,10 +59,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->TerminalScrollArea->setWidget(terminal);
     ui->TerminalScrollArea->setWidgetResizable(true);
 
-    connect(terminal, &TerminalWidget::lineAppended, this, [=]()
-            { QTimer::singleShot(0, this, [=]()
-                                 { ui->TerminalScrollArea->verticalScrollBar()->setValue(
-                                       ui->TerminalScrollArea->verticalScrollBar()->maximum()); }); });
+    connect(terminal, &TerminalWidget::lineAppended, this, [=]() {
+        QTimer::singleShot(0, this, [=]() {
+            QTimer::singleShot(0, this, [=]() {
+                auto scroll = ui->TerminalScrollArea->verticalScrollBar();
+                scroll->setValue(scroll->maximum());
+                qDebug() << "SCROLL MAX (2nd pass):" << scroll->maximum();
+            });
+        });
+    });
 
     // ui->TerminalReset->setEnabled(false);
     // ui->TerminalReset->setStyleSheet(disableStyle);

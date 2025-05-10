@@ -1,0 +1,31 @@
+{
+  "automate_name": "FifoSimulator",
+  "automate_comment": "Simuluje frontu veľkosti 2 s vložením a resetom",
+  "start_state": "Empty",
+  "inputs": ["var char = 'iirir';"],
+  "outputs": ["var output = '';"],
+  "states": {
+    "Empty": {
+      "action": "output += 'E';",
+      "transitions": [
+        { "condition": "char == 'i';", "to": "Half" },
+        { "condition": "char == 'r';", "to": "Empty" }
+      ]
+    },
+    "Half": {
+      "action": "output += 'H';",
+      "transitions": [
+        { "condition": "char == 'i';", "to": "Full" },
+        { "condition": "char == 'r';", "to": "Empty" }
+      ]
+    },
+    "Full": {
+      "action": "output += 'F';",
+      "transitions": [
+        { "condition": "char == 'i';", "to": "Full" },
+        { "condition": "char == 'r';", "to": "Half" }
+      ]
+    }
+  },
+  "variables": []
+}
