@@ -16,7 +16,8 @@ StepExecutionStrategy::StepExecutionStrategy(ActionExecutor &actionExecutor,
 
 void StepExecutionStrategy::Execute()
 {
-    reset();
+    // reset();
+    m_finished = false;
     initializeVariables();
     // auto inputResult = m_actionExecutor.evaluate("input");
     // terminalLog("Initial input value: " + inputResult.toString(), Info);
@@ -25,6 +26,17 @@ void StepExecutionStrategy::Execute()
         qDebug() << "Step succeeded.";
     }
     finalizeExecution();
+    QList<QString> tempList = inputStack.toList();
+    qDebug() << "Stack contents:";
+    QString remainingInput = "";
+    QString varName;
+    for (QString value : tempList)
+    {
+        QString variableValue = m_mooreMachine.extractVariableValue(value);
+        remainingInput.append(variableValue);
+        varName = m_mooreMachine.extractVariableName(input);
+    }
+    emit sendRemainingInput(varName, remainingInput);
 }
 
 void StepExecutionStrategy::initializeVariables()
@@ -110,6 +122,7 @@ bool StepExecutionStrategy::evaluateTransitions()
 void StepExecutionStrategy::finalizeExecution()
 {
     m_finished = true;
+    // m_currentState->unsetCurrent();
     terminalLog("Execution finished in state: " + m_currentState->getName(), Info);
 }
 
