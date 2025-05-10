@@ -169,6 +169,8 @@ MainWindow::MainWindow(QWidget *parent)
 }
 void MainWindow::startSimulation()
 {
+    if (selectedState) selectedState->setSelected(false);
+
     if (!fsmGui->getInitialState())
     {
         qWarning() << "Initial state not selected";
@@ -189,6 +191,8 @@ void MainWindow::startSimulation()
         connect(stepStrategy, &StepExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
         connect(stepStrategy, &StepExecutionStrategy::currentStateChanged, fsmScene, &FSMScene::setActiveState);
         connect(stepStrategy, &StepExecutionStrategy::sendRemainingInput, fsmGui, &FSMGui::updateInput);
+        connect(stepStrategy, &StepExecutionStrategy::sendRemainingOutput, fsmGui, &FSMGui::updateOutput);
+        connect(stepStrategy, &StepExecutionStrategy::sendRemainingVariable, fsmGui, &FSMGui::updateVariable);
         connect(ui->TerminalReset, &QPushButton::clicked, stepStrategy, &StepExecutionStrategy::reset);
 
         emit setStrategy(stepStrategy);
