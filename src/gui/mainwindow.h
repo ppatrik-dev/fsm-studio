@@ -24,6 +24,9 @@
 #include "GenericRowWidget.h"
 #include "TransitionRowWidget.h"
 #include "TerminalWidget.h"
+#include "../parser/MooreMachineExecutor.h"
+#include "../parser/RunExecutionStrategy.h"
+#include "../parser/StepExecutionStrategy.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -80,6 +83,9 @@ private:
     QList<GenericRowWidget *> inputsWidgets;
     QList<GenericRowWidget *> outputsWidgets;
     QList<GenericRowWidget *> variablesWidgets;
+    ActionExecutor *actionExecute = nullptr;
+    MachineExecutor *executor = nullptr;
+    StepExecutionStrategy *stepStrategy = nullptr;
     // QList<TransitionRowWidget *> conditionWidgets;
 
     TerminalWidget *terminal;
@@ -100,7 +106,7 @@ public slots:
     void newTransitionRow(FSMState *state, TransitionRowWidget *&row);
 private slots:
     void runSimulation();
-    void stepSimulation();
+    void simulation();
     void onCreateTransition(TransitionRowWidget *row);
     void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();

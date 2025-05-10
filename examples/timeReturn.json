@@ -1,0 +1,47 @@
+{
+    "automate_comment": "Používa časovač na návrat do A po čase",
+    "automate_name": "TimeoutReturn",
+    "inputs": [
+        "var input = '1010';"
+    ],
+    "outputs": [
+        "var output = '';"
+    ],
+    "start_state": "A",
+    "states": {
+        "A": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "B"
+                }
+            ]
+        },
+        "B": {
+            "action": "output += '1';",
+            "transitions": [
+                {
+                    "condition": "input == '0';",
+                    "to": "C"
+                }
+            ]
+        },
+        "C": {
+            "action": "output += '-';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "B"
+                },
+                {
+                    "condition": "moore.timer(timeout);",
+                    "to": "A"
+                }
+            ]
+        }
+    },
+    "variables": [
+        "var timeout = 2000;"
+    ]
+}
