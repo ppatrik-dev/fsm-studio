@@ -173,13 +173,17 @@ void StepExecutionStrategy::finalizeExecution()
     for (const QString &output : m_mooreMachine.getOutputs())
     {
         QString var = m_mooreMachine.extractVariableName(output);
-        emit sendRemainingOutput(var, m_actionExecutor.getValue(var));
+        QString varValue = m_actionExecutor.getValue(var);
+        m_mooreMachine.addGuiOutput(var, varValue);
+        emit sendRemainingOutput(var, varValue);
     }
 
     for (const QString &variable : m_mooreMachine.getVariables())
     {
         QString var = m_mooreMachine.extractVariableName(variable);
-        emit sendRemainingVariable(var, m_actionExecutor.getValue(var));
+        QString varValue = m_actionExecutor.getValue(var);
+        m_mooreMachine.addGuiVariable(var, varValue);
+        emit sendRemainingVariable(var, varValue);
     }
 }
 
