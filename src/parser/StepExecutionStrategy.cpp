@@ -37,6 +37,7 @@ void StepExecutionStrategy::Execute()
     }
     finalizeExecution();
     QList<QString> tempList = inputStack.toList();
+    std::reverse(tempList.begin(), tempList.end());
     qDebug() << "Stack contents:";
     QString remainingInput = "";
     QString varName;
