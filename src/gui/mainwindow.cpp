@@ -64,10 +64,10 @@ MainWindow::MainWindow(QWidget *parent)
                                  { ui->TerminalScrollArea->verticalScrollBar()->setValue(
                                        ui->TerminalScrollArea->verticalScrollBar()->maximum()); }); });
 
-    ui->TerminalReset->setEnabled(false);
-    ui->TerminalReset->setStyleSheet(disableStyle);
-    connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::on_TerminalRun_clicked);
-    connect(ui->TerminalReset, &QPushButton::clicked, this, &MainWindow::on_TerminalReset_clicked);
+    //ui->TerminalReset->setEnabled(false);
+    //ui->TerminalReset->setStyleSheet(disableStyle);
+    //connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::on_TerminalRun_clicked);
+    //connect(ui->TerminalReset, &QPushButton::clicked, this, &MainWindow::on_TerminalReset_clicked);
 
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
@@ -588,7 +588,7 @@ void MainWindow::toggleTerminal()
     {
 
         fsmView->restorePreviousView();
-        on_TerminalReset_clicked();
+        //on_TerminalReset_clicked();
 
         TerminalActive = false;
 
@@ -639,18 +639,18 @@ void MainWindow::toggleTerminal()
 
 void MainWindow::on_TerminalRun_clicked()
 {
-    ui->TerminalRun->setEnabled(false);
-    ui->TerminalReset->setEnabled(true);
+    // ui->TerminalRun->setEnabled(false);
+    // ui->TerminalReset->setEnabled(true);
 
-    ui->TerminalRun->setStyleSheet("QPushButton:disabled { background-color: #444444; color: #888888; }");
-    ui->TerminalReset->setStyleSheet("");
+    // ui->TerminalRun->setStyleSheet("QPushButton:disabled { background-color: #444444; color: #888888; }");
+    // ui->TerminalReset->setStyleSheet("");
 }
 
 void MainWindow::on_TerminalReset_clicked()
 {
-    ui->TerminalRun->setEnabled(true);      // povolíme Run
-    ui->TerminalReset->setEnabled(false);   // zakážeme Reset
+    // ui->TerminalRun->setEnabled(true);
+    // ui->TerminalReset->setEnabled(false);
 
-    ui->TerminalRun->setStyleSheet("");
-    ui->TerminalReset->setStyleSheet("QPushButton:disabled { background-color: #444444; color: #888888; }");
+    // ui->TerminalRun->setStyleSheet("");
+    // ui->TerminalReset->setStyleSheet("QPushButton:disabled { background-color: #444444; color: #888888; }");
 }
