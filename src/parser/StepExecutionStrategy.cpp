@@ -34,7 +34,7 @@ void StepExecutionStrategy::Execute()
     {
         QString variableValue = m_mooreMachine.extractVariableValue(value);
         remainingInput.append(variableValue);
-        varName = m_mooreMachine.extractVariableName(input);
+        varName = m_mooreMachine.extractVariableName(value);
     }
     emit sendRemainingInput(varName, remainingInput);
 }
