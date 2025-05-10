@@ -1,0 +1,45 @@
+{
+    "automate_comment": "Úloha: Prepnúť medzi hlavnými stavmi aplikácie. MENU (vstup: start) → RUNNING RUNNING (vstup: pause) → PAUSED PAUSED (vstup: resume) → RUNNING RUNNING (vstup: exit) → MENU",
+    "automate_name": "Riadenie menu",
+    "inputs": [
+        "var input;"
+    ],
+    "outputs": [
+        "var output;"
+    ],
+    "start_state": "MENU",
+    "states": {
+        "MENU": {
+            "action": "output = 'Main menu'",
+            "transitions": [
+                {
+                    "condition": "input == 's';",
+                    "to": "RUNNING"
+                }
+            ]
+        },
+        "RUNNING": {
+            "action": "output = 'Game running'",
+            "transitions": [
+                {
+                    "condition": "input == 'p';",
+                    "to": "PAUSED"
+                },
+                {
+                    "condition": "input == 'e';",
+                    "to": "MENU"
+                }
+            ]
+        },
+        "PAUSED": {
+            "action": "output = 'Game paused'",
+            "transitions": [
+                {
+                    "condition": "input == 'r';",
+                    "to": "RUNNING"
+                }
+            ]
+        }
+    },
+    "variables": []
+}
