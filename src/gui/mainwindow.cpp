@@ -163,9 +163,9 @@ void MainWindow::simulation()
 
     if (machine != nullptr)
     {
-        auto *actionExecute = new ActionExecutor(this);
-        auto *executor = new MachineExecutor(machine, this);
-        auto *stepStrategy = new StepExecutionStrategy(*actionExecute, *machine, this);
+        actionExecute = new ActionExecutor(this);
+        executor = new MachineExecutor(machine, this);
+        stepStrategy = new StepExecutionStrategy(*actionExecute, *machine, this);
 
         connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
         connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
@@ -564,6 +564,10 @@ void MainWindow::toggleTerminal()
 
         terminal->clearTerminal();
         ui->runButton->setStyleSheet("");
+
+        delete actionExecute;
+        delete executor;
+        delete stepStrategy;
     }
 
     // get height, set new and animate
