@@ -1,0 +1,66 @@
+{
+    "automate_comment": "Detekuje vzor '101' vo vstupe",
+    "automate_name": "Pattern101",
+    "start_state": "S0",
+    "inputs": [
+        "var input = '1101010';"
+    ],
+    "outputs": [
+        "var output = '';"
+    ],
+    "states": {
+        "S0": {
+            "action": "output += '';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "input == '0';",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S1": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "input == '0';",
+                    "to": "S2"
+                },
+                {
+                    "condition": "input == '1';",
+                    "to": "S1"
+                }
+            ]
+        },
+        "S2": {
+            "action": "output += '1';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "S3"
+                },
+                {
+                    "condition": "input == '0';",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S3": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "input == '0';",
+                    "to": "S0"
+                }
+            ]
+        }
+    },
+    "variables": []
+}

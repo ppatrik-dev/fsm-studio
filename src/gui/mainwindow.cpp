@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::clear);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
-    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
+    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::simulation);
     connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
     connect(fsmGui, &FSMGui::inputDeleteValue, machine, &MooreMachine::deleteGuiInput);
     connect(fsmGui, &FSMGui::outputAddValue, machine, &MooreMachine::addGuiOutput);
@@ -81,7 +81,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->TerminalCancel, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
     connect(ui->TerminalRunMode, &QPushButton::clicked, this, &MainWindow::runSimulation);
-    connect(ui->TerminalStepMode, &QPushButton::clicked, this, &MainWindow::stepSimulation);
 
     connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
     connect(fsmGui, &FSMGui::saveDescriptionValue, machine, &MooreMachine::setComment);
@@ -151,8 +150,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(fsmScene, &FSMScene::newTransitionRowRequested, this, &MainWindow::newTransitionRow);
 }
-
-void MainWindow::runSimulation()
+void MainWindow::simulation()
 {
     if (!fsmGui->getInitialState())
     {
@@ -167,32 +165,6 @@ void MainWindow::runSimulation()
     {
         auto *actionExecute = new ActionExecutor(this);
         auto *executor = new MachineExecutor(machine, this);
-        auto *runStrategy = new RunExecutionStrategy(*actionExecute, *machine, this);
-
-        connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
-        connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
-        connect(runStrategy, &RunExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
-
-        emit setStrategy(runStrategy);
-        emit executeMachine(*machine);
-    }
-    else
-    {
-        qDebug() << "Machine is null, Create automate!";
-    }
-}
-void MainWindow::stepSimulation()
-{
-    if (!fsmGui->getInitialState())
-    {
-        qWarning() << "Initial state not selected";
-        return;
-    }
-
-    if (machine != nullptr)
-    {
-        auto *actionExecute = new ActionExecutor(this);
-        auto *executor = new MachineExecutor(machine, this);
         auto *stepStrategy = new StepExecutionStrategy(*actionExecute, *machine, this);
 
         connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
@@ -201,12 +173,15 @@ void MainWindow::stepSimulation()
         connect(ui->TerminalStep, &QPushButton::clicked, stepStrategy, &StepExecutionStrategy::step);
 
         emit setStrategy(stepStrategy);
-        emit executeMachine(*machine);
     }
     else
     {
         qDebug() << "Machine is null, Create automate!";
     }
+}
+void MainWindow::runSimulation()
+{
+    emit executeMachine(*machine);
 }
 
 void MainWindow::onExportFileClicked()

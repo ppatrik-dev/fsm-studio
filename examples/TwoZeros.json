@@ -1,0 +1,45 @@
+{
+    "automate_comment": "Prepne výstup na 1 po každej dvojici '00'",
+    "automate_name": "TwoZeros",
+    "inputs": [
+        "var input = '00100100';"
+    ],
+    "outputs": [
+        "var output = '';"
+    ],
+    "start_state": "Init",
+    "states": {
+        "Init": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "input == '0';",
+                    "to": "OneZero"
+                }
+            ]
+        },
+        "OneZero": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "input == '0';",
+                    "to": "Fire"
+                },
+                {
+                    "condition": "input == '1';",
+                    "to": "Init"
+                }
+            ]
+        },
+        "Fire": {
+            "action": "output += '1';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "Init"
+                }
+            ]
+        }
+    },
+    "variables": []
+}

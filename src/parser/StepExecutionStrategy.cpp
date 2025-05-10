@@ -1,6 +1,7 @@
 #include "StepExecutionStrategy.h"
 #include "MooreMachine.h"
 #include <QDebug>
+#include "MooreJsClass.h"
 
 StepExecutionStrategy::StepExecutionStrategy(ActionExecutor &actionExecutor,
                                              MooreMachine &mooreMachine,
@@ -23,6 +24,7 @@ void StepExecutionStrategy::Execute()
     {
         qDebug() << "Step succeeded.";
     }
+    finalizeExecution();
 }
 
 void StepExecutionStrategy::initializeVariables()
@@ -75,7 +77,6 @@ bool StepExecutionStrategy::step()
         return true;
     }
 
-    finalizeExecution();
     return false;
 }
 
@@ -90,8 +91,9 @@ bool StepExecutionStrategy::evaluateTransitions()
 {
     for (const auto &transition : m_currentState->getTransitions())
     {
+        // terminalLog("Condition: " + transition.getInput(), Info);
         auto boolResult = m_actionExecutor.evaluate(transition.getInput());
-        terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), TransitionResult);
+        // terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), TransitionResult);
 
         if (boolResult.toBool())
         {
@@ -114,7 +116,15 @@ void StepExecutionStrategy::finalizeExecution()
 void StepExecutionStrategy::reset()
 {
     // m_currentState->unsetCurrent();
+
     m_currentState = m_mooreMachine.getState(m_mooreMachine.getStartState());
+    if (!m_currentState)
+    {
+        terminalLog("Error: Starting state is null!", Error);
+        m_finished = true;
+    }
+    MooreJs *moore = new MooreJs();
+    m_actionExecutor.exposeObject("moore", moore);
     m_currentState->setCurrent();
     m_finished = false;
     m_output.clear();

@@ -92,7 +92,7 @@ public slots:
     void newTransitionRow(FSMState *state, TransitionRowWidget *&row);
 private slots:
     void runSimulation();
-    void stepSimulation();
+    void simulation();
     void onCreateTransition(TransitionRowWidget *row);
     void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();
