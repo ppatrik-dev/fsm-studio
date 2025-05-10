@@ -1,12 +1,29 @@
+/**
+ * @file TerminalWidget.cpp
+ * @author Filip Ficka, xfickaf00
+ * @brief cpp file for functions from TerminalWidget.h
+ * @version 1.4
+ * @date 2025-05-10
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "TerminalWidget.h"
 #include <QFont>
 #include <QScrollBar>
 #include <QDateTime>
 #include <QScrollArea>
 
+/**
+ * @brief Construct a new Terminal Widget:: Terminal Widget object
+ * 
+ * @param parent widget to bound TerminalWidget to scrollArea
+ */
 TerminalWidget::TerminalWidget(QWidget *parent)
     : QWidget(parent)
 {
+    /// creating layout
     this->setStyleSheet("background-color: transparent; border: none;");
 
     layout = new QVBoxLayout(this);
@@ -16,8 +33,16 @@ TerminalWidget::TerminalWidget(QWidget *parent)
     setLayout(layout);
 }
 
+/**
+ * @brief function for comunication with backend part of app
+ * printing debug from simulation into this terminal
+ * 
+ * @param type type of message (ERROR, INFO etc.)
+ * @param content message itself
+ */
 void TerminalWidget::receiveMessage(QString type, QString content) {
 
+    /// setting color for line
     int color = WHITE;
     if (type == "[ERROR]"){
         color = RED;
@@ -35,28 +60,33 @@ void TerminalWidget::receiveMessage(QString type, QString content) {
         color = WHITE;
     }
 
+    /// concate strings
     QString lineText = QString("%1 %2").arg(type, content);
     appendLine(lineText, color);
 }
 
 void TerminalWidget::appendLine(const QString &text, int color)
-{
+{   
+    /// getting time into string
     QString timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
 
+    /// creating layout
     QWidget *lineWidget = new QWidget();
     QHBoxLayout *lineLayout = new QHBoxLayout(lineWidget);
-    lineLayout->setContentsMargins(0, 0, 0, 0); // žiadne okraje
-    lineLayout->setSpacing(10); // medzera medzi textom a časom
+    lineLayout->setContentsMargins(0, 0, 0, 0);
+    lineLayout->setSpacing(10);
 
+    /// creating labels, one for time, second for message
     QLabel *textLabel = new QLabel(text);
     QLabel *timeLabel = new QLabel(timestamp);
 
+    /// setting fonts
     QFont font("Courier New");
     font.setStyleHint(QFont::Monospace);
     textLabel->setFont(font);
     timeLabel->setFont(font);
 
-    // Nastavenie farby podľa parametra
+    /// setting color
     QString colorStyle;
     if (color == WHITE){
         colorStyle = "white";
@@ -74,25 +104,34 @@ void TerminalWidget::appendLine(const QString &text, int color)
         colorStyle = "#FFD54F";
     }
     else{
-        colorStyle = "#8E24AA"; // default - fialová
+        // purple
+        colorStyle = "#8E24AA";
     }
 
+    /// set style
     textLabel->setStyleSheet(QString("color: %1;").arg(colorStyle));
-    timeLabel->setStyleSheet("color: gray;"); // čas menší, šedý
+    timeLabel->setStyleSheet("color: gray;");
 
+    /// create whole line widget
     lineLayout->addWidget(textLabel);
-    lineLayout->addStretch(); // natiahne voľné miesto medzi textom a časom
+    lineLayout->addStretch();
     lineLayout->addWidget(timeLabel);
 
     layout->addWidget(lineWidget);
     buffer.push_back(lineWidget);
 
+    /// if buffer is full delete oldest line
     if (buffer.size() > maxLines)
         removeOldest();
 
+    /// send signal to lower scrollArea
     emit lineAppended();
 }
 
+/**
+ * @brief function to delete oldest line in buffer
+ * 
+ */
 void TerminalWidget::removeOldest()
 {
     QWidget *old = buffer.front();
@@ -101,6 +140,10 @@ void TerminalWidget::removeOldest()
     old->deleteLater();
 }
 
+/**
+ * @brief function for clearing whole terminal
+ * 
+ */
 void TerminalWidget::clearTerminal()
 {
     for (QWidget *line : buffer) {

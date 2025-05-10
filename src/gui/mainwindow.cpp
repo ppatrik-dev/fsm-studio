@@ -1,6 +1,14 @@
-// File: mainwindow.cpp
-// Author: Patrik Prochazka, Filip Ficka
-// Login: xprochp00, xfickaf00
+/**
+ * @file mainwindow.h
+ * @author Patrik Prochazka, xprochp00
+ *         Filip Ficka, xfickaf00
+ * @brief cpp file for functions from mainwindow.h
+ * @version 1.7
+ * @date 2025-05-10
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"

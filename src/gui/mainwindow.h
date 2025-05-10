@@ -1,6 +1,14 @@
-// File: mainwindow.h
-// Author: Patrik Prochazka, Filip Ficka
-// Login: xprochp00, xfickaf00
+/**
+ * @file mainwindow.h
+ * @author Patrik Prochazka, xprochp00
+ *         Filip Ficka, xfickaf00
+ * @brief header file for mainwindow
+ * @version 1.7
+ * @date 2025-05-10
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H

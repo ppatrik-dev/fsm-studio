@@ -1,5 +1,6 @@
 # Makefile
 
+DOXYFILE = Doxyfile
 TARGET=icp-fsm-app
 
 all: $(TARGET)
@@ -9,10 +10,17 @@ $(TARGET):
 	make -C src/
 	@mv src/$(TARGET) .
 
-.PHONY: run clean
+.PHONY: run clean doxygen doxyClean
 
 run: $(TARGET)
 	./$(TARGET)
+
+doxygen:
+	doxygen $(DOXYFILE)
+
+doxyClean:
+	rm -rf doc/html
+	rm -r doc/
 
 clean:
 	make -C src/ clean
