@@ -18,6 +18,8 @@ class StepExecutionStrategy : public QObject, public IExecutionStrategy
         Error,
         Info,
         TransitionResult,
+        Variable,
+        Evaluate,
     };
 
 public:
@@ -34,6 +36,7 @@ public:
     void finalizeExecution();
     bool isFinished() const { return m_finished; }
     bool allStacksAreEmpty();
+    void outputVariables();
 
 private:
     QString m_output;
@@ -50,4 +53,6 @@ signals:
     void sendMessage(QString type, QString content);
     void currentStateChanged(QString name);
     void sendRemainingInput(QString varName, QString remainingInput);
+    void sendRemainingOutput(QString varName, QString remainingInput);
+    void sendRemainingVariable(QString varName, QString remainingInput);
 };

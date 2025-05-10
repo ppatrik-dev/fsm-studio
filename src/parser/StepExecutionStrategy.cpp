@@ -52,29 +52,6 @@ void StepExecutionStrategy::Execute()
         wait(500);
     }
     finalizeExecution();
-    for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
-    {
-        const QString &varName = it.key();
-        const QStack<QString> &inputStack = it.value();
-
-        if (inputStack.isEmpty())
-            continue;
-
-        QList<QString> tempList = inputStack.toList();
-        std::reverse(tempList.begin(), tempList.end());
-
-        // qDebug() << "Stack" << varName << "contents:";
-
-        QString remainingInput;
-
-        for (const QString &value : tempList)
-        {
-            QString variableValue = m_mooreMachine.extractVariableValue(value);
-            remainingInput.append(variableValue);
-        }
-
-        emit sendRemainingInput(varName, remainingInput);
-    }
 }
 
 void StepExecutionStrategy::initializeVariables()
@@ -83,11 +60,10 @@ void StepExecutionStrategy::initializeVariables()
 
     for (const QString &input : inputs)
     {
-        QStack<QString> inputStack; // Dedicated stack for this input
+        QStack<QString> inputStack;
         const QString &varName = m_mooreMachine.extractVariableName(input);
         const QString &varValue = m_mooreMachine.extractVariableValue(input);
 
-        // Push characters in reverse to ensure correct pop order
         for (int i = varValue.length() - 1; i >= 0; --i)
         {
             QChar ch = varValue[i];
@@ -96,25 +72,6 @@ void StepExecutionStrategy::initializeVariables()
 
         inputStacks.insert(varName, inputStack);
     }
-    // QVector<QString> inputs = m_mooreMachine.getInputs();
-    // for (const QString &input : inputs)
-    // {
-
-    //     const QString &varName = m_mooreMachine.extractVariableName(input);
-    //     const QString &varValue = m_mooreMachine.extractVariableValue(input);
-    //     qDebug() << varName << varValue;
-    //     for (int i = varValue.length() - 1; i >= 0; --i)
-    //     {
-    //         QChar ch = varValue[i];
-    //         inputStack.push(m_mooreMachine.createVarCommand(varName, ch));
-    //     }
-    // }
-
-    // for (const QString &input : m_mooreMachine.getInputs())
-    // {
-
-    //     // m_actionExecutor.evaluate(input);
-    // }
     for (const QString &output : m_mooreMachine.getOutputs())
     {
         m_actionExecutor.evaluate(output);
@@ -129,31 +86,23 @@ void StepExecutionStrategy::initializeVariables()
 
 bool StepExecutionStrategy::step()
 {
-    // First, evaluate the top element of each stack and execute action
     for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
     {
-        QString key = it.key();              // Access key
-        QStack<QString> &stack = it.value(); // Access corresponding stack
+        QStack<QString> &stack = it.value();
         m_actionExecutor.evaluate(stack.top());
     }
-
-    // Check if the operation is finished or if there's no valid state
     if (m_finished || !m_currentState)
     {
         return false;
     }
 
-    // Execute state output
     executeStateOutput();
 
-    // Check for transitions and process the stacks only if necessary
     if (evaluateTransitions())
     {
-        // Pop the top element after evaluating and processing
         for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
         {
-            QString key = it.key();              // Access key
-            QStack<QString> &stack = it.value(); // Access corresponding stack
+            QStack<QString> &stack = it.value();
             stack.pop();
         }
         return true;
@@ -179,10 +128,7 @@ bool StepExecutionStrategy::evaluateTransitions()
 
         if (boolResult.toBool())
         {
-            index++;
-            // m_currentState->unsetCurrent();
             m_currentState = m_mooreMachine.getState(transition.getTarget());
-            // m_currentState->setCurrent();
             emit currentStateChanged(m_currentState->getName());
             return true;
         }
@@ -193,14 +139,48 @@ bool StepExecutionStrategy::evaluateTransitions()
 void StepExecutionStrategy::finalizeExecution()
 {
     m_finished = true;
-    // m_currentState->unsetCurrent();
     terminalLog("Execution finished in state: " + m_currentState->getName(), Info);
+    for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
+    {
+        const QString varName = it.key();
+        const QStack<QString> inputStack = it.value();
+
+        if (inputStack.isEmpty())
+        {
+            emit sendRemainingInput(varName, "");
+            continue;
+        }
+
+        QList<QString> tempList = inputStack.toList();
+        std::reverse(tempList.begin(), tempList.end());
+
+        qDebug() << "Stack" << varName << "contents:";
+
+        QString remainingInput;
+
+        for (const QString &value : tempList)
+        {
+            QString variableValue = m_mooreMachine.extractVariableValue(value);
+            remainingInput.append(variableValue);
+        }
+        qDebug() << remainingInput;
+        emit sendRemainingInput(varName, remainingInput);
+    }
+    for (const QString &output : m_mooreMachine.getOutputs())
+    {
+        QString var = m_mooreMachine.extractVariableName(output);
+        emit sendRemainingOutput(var, m_actionExecutor.getValue(var));
+    }
+
+    for (const QString &variable : m_mooreMachine.getVariables())
+    {
+        QString var = m_mooreMachine.extractVariableName(variable);
+        emit sendRemainingVariable(var, m_actionExecutor.getValue(var));
+    }
 }
 
 void StepExecutionStrategy::reset()
 {
-    // m_currentState->unsetCurrent();
-
     m_currentState = m_mooreMachine.getState(m_mooreMachine.getStartState());
     if (!m_currentState)
     {
@@ -209,7 +189,6 @@ void StepExecutionStrategy::reset()
     }
     MooreJs *moore = new MooreJs();
     m_actionExecutor.exposeObject("moore", moore);
-    // m_currentState->setCurrent();
     emit currentStateChanged(m_currentState->getName());
     m_finished = false;
     m_output.clear();
@@ -235,7 +214,33 @@ void StepExecutionStrategy::terminalLog(QString message, MessageType type)
     case TransitionResult:
         prefix = "[TRANSITION]";
         break;
+    case Variable:
+        prefix = "[VARIABLE]";
+        break;
+    case Evaluate:
+        prefix = "[EVALUATE]";
+        break;
     }
     qDebug().noquote() << prefix << message;
     emit sendMessage(prefix, message);
+}
+void StepExecutionStrategy::outputVariables()
+{
+    for (const QString &input : m_mooreMachine.getInputs())
+    {
+        QString var = m_mooreMachine.extractVariableName(input);
+        terminalLog(var + ": " + m_actionExecutor.getValue(var), Variable);
+    }
+
+    for (const QString &output : m_mooreMachine.getOutputs())
+    {
+        QString var = m_mooreMachine.extractVariableName(output);
+        terminalLog(var + ": " + m_actionExecutor.getValue(var), Variable);
+    }
+
+    for (const QString &variable : m_mooreMachine.getVariables())
+    {
+        QString var = m_mooreMachine.extractVariableName(variable);
+        terminalLog(var + ": " + m_actionExecutor.getValue(var), Variable);
+    }
 }
