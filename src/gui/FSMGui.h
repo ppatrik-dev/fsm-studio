@@ -104,10 +104,14 @@ signals:
 
     void displayDetailsRequested();
     void displayUpdatedInputRequested(QString key, QString value);
+    void displayUpdatedOutputRequested(QString key, QString value);
+    void displayUpdatedVariableRequested(QString key, QString value);
 
 public slots:
     void importDetails();
-    void updateInput(const QString key, const QString value);
+    void updateInput(QString key, QString value);
+    void updateOutput(QString key, QString value);
+    void updateVariable(QString key, QString value);
 };
 
 #endif // FSMGUI_H

@@ -92,6 +92,9 @@ private:
     bool TerminalActive = false;
     QString disableStyle = "QPushButton:disabled { background-color: #444444; color: #888888; }";
 
+    enum detailTypeEnum {INPUT_DETAIL, OUTPUT_DETAIL, VARIABLE_DETAIL};
+    detailTypeEnum detailType;
+
 signals:
     void loadJsonRequested(const QString &fileName, MooreMachine &machine);
     void exportJsonRequested(const QString &fileName, MooreMachine &machine);
@@ -108,6 +111,8 @@ public slots:
     void newTransitionRow(FSMState *state, TransitionRowWidget *&row);
     void removeRowAndTransition(FSMState *state, TransitionRowWidget *row);
     void displayUpdatedInput(QString key, QString value);
+    void displayUpdatedOutput(QString key, QString value);
+    void displayUpdatedVariable(QString key, QString value);
 
 private slots:
     void runSimulation();
@@ -137,6 +142,7 @@ public:
     GenericRowWidget *createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget *> &widgets, GenericRowWidget::RowType type);
 
 private:
+    void displayUpdatedDetail(detailTypeEnum type, QString key, QString value);
     void clearFSMDetails();
     void clearTransitionRows();
     void detachWidgetsFromLayout();

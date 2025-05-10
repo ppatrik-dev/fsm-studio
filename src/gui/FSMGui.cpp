@@ -179,11 +179,20 @@ void FSMGui::importDetails()
     emit displayDetailsRequested();
 }
 
-void FSMGui::updateInput(const QString key, const QString value)
-{
-    qDebug() << "Var" << key << ": " << value;
-
+void FSMGui::updateInput(QString key, QString value) {
     m_inputs[key] = value;
 
     emit displayUpdatedInputRequested(key, value);
+}
+
+void FSMGui::updateOutput(QString key, QString value) {
+    m_outputs[key] = value;
+
+    emit displayUpdatedOutputRequested(key, value);
+}
+
+void FSMGui::updateVariable(QString key, QString value) {
+    m_variables[key] = value;
+
+    emit displayUpdatedVariableRequested(key, value);
 }

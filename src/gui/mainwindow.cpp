@@ -77,6 +77,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::importDetailsRequested, fsmGui, &FSMGui::importDetails);
     connect(fsmGui, &FSMGui::displayDetailsRequested, this, &MainWindow::displayFSMDetais);
     connect(fsmGui, &FSMGui::displayUpdatedInputRequested, this, &MainWindow::displayUpdatedInput);
+    connect(fsmGui, &FSMGui::displayUpdatedOutputRequested, this, &MainWindow::displayUpdatedOutput);
+    connect(fsmGui, &FSMGui::displayUpdatedVariableRequested, this, &MainWindow::displayUpdatedVariable);
 
     // Control buttons
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::clear);
@@ -246,13 +248,18 @@ GenericRowWidget *MainWindow::createDetailsRow(QVBoxLayout *layout, QList<Generi
     return row;
 }
 
-void MainWindow::displayUpdatedInput(QString key, QString value)
-{
-    for (int i = 0; i < inputsLayout->count(); ++i)
-    {
-        QLayoutItem *item = inputsLayout->itemAt(i);
-        if (!item)
-            continue;
+void MainWindow::displayUpdatedDetail(detailTypeEnum type, QString key, QString value) {
+    QVBoxLayout *layout = nullptr;
+
+    switch(type) {
+        case INPUT_DETAIL: layout = inputsLayout; break;
+        case OUTPUT_DETAIL: layout = outputsLayout; break;
+        case VARIABLE_DETAIL: layout = variablesLayout; break;
+    }
+
+    for (int i = 0; i < layout->count(); ++i) {
+        QLayoutItem *item = layout->itemAt(i);
+        if (!item) continue;
 
         QWidget *widget = item->widget();
         if (!widget)
@@ -265,6 +272,18 @@ void MainWindow::displayUpdatedInput(QString key, QString value)
             return;
         }
     }
+}
+
+void MainWindow::displayUpdatedInput(QString key, QString value) {
+    displayUpdatedDetail(INPUT_DETAIL, key, value);
+}
+
+void MainWindow::displayUpdatedOutput(QString key, QString value) {
+    displayUpdatedDetail(OUTPUT_DETAIL, key, value);
+}
+
+void MainWindow::displayUpdatedVariable(QString key, QString value) {
+    displayUpdatedDetail(VARIABLE_DETAIL, key, value);
 }
 
 void MainWindow::displayFSMDetais()
