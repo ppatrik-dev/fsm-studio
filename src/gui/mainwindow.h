@@ -5,9 +5,9 @@
  * @brief header file for mainwindow
  * @version 1.7
  * @date 2025-05-10
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 
 #ifndef MAINWINDOW_H
@@ -101,6 +101,7 @@ signals:
     void importDetailsRequested();
     void setStrategy(IExecutionStrategy *strategy);
     void executeMachine(MooreMachine &machine);
+    void resetSimulation();
 
 public slots:
     TransitionRowWidget *onAddTransitionClicked();

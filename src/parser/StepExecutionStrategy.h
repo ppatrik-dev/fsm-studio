@@ -28,7 +28,7 @@ public:
                                    QObject *parent = nullptr);
 
     void Execute() override;
-    void reset();
+
     void terminalLog(QString message, MessageType type);
     void initializeVariables();
     void executeStateOutput();
@@ -49,6 +49,7 @@ private:
     QMap<QString, QStack<QString>> inputStacks;
 public slots:
     bool step();
+    void reset();
 signals:
     void sendMessage(QString type, QString content);
     void currentStateChanged(QString name);

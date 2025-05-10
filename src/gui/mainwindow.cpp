@@ -64,10 +64,10 @@ MainWindow::MainWindow(QWidget *parent)
                                  { ui->TerminalScrollArea->verticalScrollBar()->setValue(
                                        ui->TerminalScrollArea->verticalScrollBar()->maximum()); }); });
 
-    //ui->TerminalReset->setEnabled(false);
-    //ui->TerminalReset->setStyleSheet(disableStyle);
-    //connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::on_TerminalRun_clicked);
-    //connect(ui->TerminalReset, &QPushButton::clicked, this, &MainWindow::on_TerminalReset_clicked);
+    // ui->TerminalReset->setEnabled(false);
+    // ui->TerminalReset->setStyleSheet(disableStyle);
+    // connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::on_TerminalRun_clicked);
+    // connect(ui->TerminalReset, &QPushButton::clicked, this, &MainWindow::on_TerminalReset_clicked);
 
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
@@ -187,6 +187,7 @@ void MainWindow::startSimulation()
         connect(stepStrategy, &StepExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
         connect(stepStrategy, &StepExecutionStrategy::currentStateChanged, fsmScene, &FSMScene::setActiveState);
         connect(stepStrategy, &StepExecutionStrategy::sendRemainingInput, fsmGui, &FSMGui::updateInput);
+        connect(ui->TerminalReset, &QPushButton::clicked, stepStrategy, &StepExecutionStrategy::reset);
 
         emit setStrategy(stepStrategy);
     }
@@ -196,7 +197,8 @@ void MainWindow::startSimulation()
     }
 }
 
-void MainWindow::cancelSimulation() {
+void MainWindow::cancelSimulation()
+{
     delete actionExecute;
     delete executor;
     delete stepStrategy;
@@ -244,16 +246,21 @@ GenericRowWidget *MainWindow::createDetailsRow(QVBoxLayout *layout, QList<Generi
     return row;
 }
 
-void MainWindow::displayUpdatedInput(QString key, QString value) {
-    for (int i = 0; i < inputsLayout->count(); ++i) {
+void MainWindow::displayUpdatedInput(QString key, QString value)
+{
+    for (int i = 0; i < inputsLayout->count(); ++i)
+    {
         QLayoutItem *item = inputsLayout->itemAt(i);
-        if (!item) continue;
+        if (!item)
+            continue;
 
         QWidget *widget = item->widget();
-        if (!widget) continue;
+        if (!widget)
+            continue;
 
         GenericRowWidget *row = qobject_cast<GenericRowWidget *>(widget);
-        if (row && row->getKey() == key) {
+        if (row && row->getKey() == key)
+        {
             row->setValue(value);
             return;
         }
@@ -356,7 +363,8 @@ void MainWindow::newTransitionRow(FSMState *state, TransitionRowWidget *&row)
     setSelectedState(nullptr);
 }
 
-void MainWindow::removeRowAndTransition(FSMState *state, TransitionRowWidget *row) {
+void MainWindow::removeRowAndTransition(FSMState *state, TransitionRowWidget *row)
+{
     setSelectedState(state);
 
     onRemoveTransition(row);
@@ -606,7 +614,7 @@ void MainWindow::toggleTerminal()
     {
 
         fsmView->restorePreviousView();
-        //on_TerminalReset_clicked();
+        // on_TerminalReset_clicked();
 
         TerminalActive = false;
 
