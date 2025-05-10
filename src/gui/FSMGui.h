@@ -103,9 +103,11 @@ signals:
     void getStartStateValue(QString &startState);
 
     void displayDetailsRequested();
+    void displayUpdatedInputRequested(QString key, QString value);
 
 public slots:
     void importDetails();
+    void updateInput(const QString key, const QString value);
 };
 
 #endif // FSMGUI_H

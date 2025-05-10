@@ -69,7 +69,7 @@ void GenericRowWidget::setGenericTexts(const QString &keyText, const QString &va
  * 
  * @return QString 
  */
-QString GenericRowWidget::key() const {
+QString GenericRowWidget::getKey() const {
     return keyEdit->text();
 }
 
@@ -78,8 +78,17 @@ QString GenericRowWidget::key() const {
  * 
  * @return QString 
  */
-QString GenericRowWidget::value() const {
+QString GenericRowWidget::getValue() const {
     return valueEdit->text();
+}
+
+/**
+ * @brief function to set value of row
+ * 
+ * @param value new value
+ */
+void GenericRowWidget::setValue(QString value) {
+    valueEdit->setText(value);
 }
 
 /**

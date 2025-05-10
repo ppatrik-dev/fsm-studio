@@ -76,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::clearSceneRequested, fsmScene, &FSMScene::onClearScene);
     connect(this, &MainWindow::importDetailsRequested, fsmGui, &FSMGui::importDetails);
     connect(fsmGui, &FSMGui::displayDetailsRequested, this, &MainWindow::displayFSMDetais);
+    connect(fsmGui, &FSMGui::displayUpdatedInputRequested, this, &MainWindow::displayUpdatedInput);
 
     // Control buttons
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::clear);
@@ -185,6 +186,7 @@ void MainWindow::startSimulation()
         connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
         connect(stepStrategy, &StepExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
         connect(stepStrategy, &StepExecutionStrategy::currentStateChanged, fsmScene, &FSMScene::setActiveState);
+        connect(stepStrategy, &StepExecutionStrategy::sendRemainingInput, fsmGui, &FSMGui::updateInput);
 
         emit setStrategy(stepStrategy);
     }
@@ -240,6 +242,22 @@ GenericRowWidget *MainWindow::createDetailsRow(QVBoxLayout *layout, QList<Generi
     widgets.append(row);
 
     return row;
+}
+
+void MainWindow::displayUpdatedInput(QString key, QString value) {
+    for (int i = 0; i < inputsLayout->count(); ++i) {
+        QLayoutItem *item = inputsLayout->itemAt(i);
+        if (!item) continue;
+
+        QWidget *widget = item->widget();
+        if (!widget) continue;
+
+        GenericRowWidget *row = qobject_cast<GenericRowWidget *>(widget);
+        if (row && row->getKey() == key) {
+            row->setValue(value);
+            return;
+        }
+    }
 }
 
 void MainWindow::displayFSMDetais()
@@ -444,19 +462,19 @@ void MainWindow::onDeleteRow(GenericRowWidget *row)
     {
         inputsLayout->removeWidget(row);
         inputsWidgets.removeAll(row);
-        fsmGui->deleteInput(row->key());
+        fsmGui->deleteInput(row->getKey());
     }
     else if (outputsLayout->indexOf(row) != -1)
     {
         outputsLayout->removeWidget(row);
         outputsWidgets.removeAll(row);
-        fsmGui->deleteOutput(row->key());
+        fsmGui->deleteOutput(row->getKey());
     }
     else if (variablesLayout->indexOf(row) != -1)
     {
         variablesLayout->removeWidget(row);
         variablesWidgets.removeAll(row);
-        fsmGui->deleteVariable(row->key());
+        fsmGui->deleteVariable(row->getKey());
     }
 
     row->deleteLater();

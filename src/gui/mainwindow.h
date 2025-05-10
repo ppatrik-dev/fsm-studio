@@ -106,6 +106,7 @@ public slots:
     TransitionRowWidget *onAddTransitionClicked();
     void newTransitionRow(FSMState *state, TransitionRowWidget *&row);
     void removeRowAndTransition(FSMState *state, TransitionRowWidget *row);
+    void displayUpdatedInput(QString key, QString value);
 
 private slots:
     void runSimulation();

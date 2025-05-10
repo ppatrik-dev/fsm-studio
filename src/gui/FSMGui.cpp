@@ -29,8 +29,8 @@ void FSMGui::saveInputs(const QList<GenericRowWidget *> rows)
 
     for (GenericRowWidget *row : rows)
     {
-        QString key = row->key();
-        QString value = row->value();
+        QString key = row->getKey();
+        QString value = row->getValue();
 
         if (used_id.contains(key))
         {
@@ -76,8 +76,8 @@ void FSMGui::saveOutputs(const QList<GenericRowWidget *> rows)
 
     for (GenericRowWidget *row : rows)
     {
-        QString key = row->key();
-        QString value = row->value();
+        QString key = row->getKey();
+        QString value = row->getValue();
 
         if (used_id.contains(key))
         {
@@ -123,8 +123,8 @@ void FSMGui::saveVariables(const QList<GenericRowWidget *> rows)
 
     for (GenericRowWidget *row : rows)
     {
-        QString key = row->key();
-        QString value = row->value();
+        QString key = row->getKey();
+        QString value = row->getValue();
 
         if (used_id.contains(key))
         {
@@ -144,7 +144,6 @@ void FSMGui::saveVariables(const QList<GenericRowWidget *> rows)
             if (m_variables.value(key) != value)
             {
                 m_variables[key] = value;
-                qDebug() << key << value;
                 emit variableAddValue(key, value);
             }
         }
@@ -178,4 +177,12 @@ void FSMGui::importDetails()
     setInitialState(m_graph->getStateByName(stateLabel));
 
     emit displayDetailsRequested();
+}
+
+void FSMGui::updateInput(const QString key, const QString value) {
+    // qDebug() << "" << key << ": " << value;
+
+    m_inputs[key] = value;
+
+    emit displayUpdatedInputRequested(key, value);
 }
