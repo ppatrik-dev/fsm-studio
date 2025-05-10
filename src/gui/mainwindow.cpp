@@ -5,9 +5,9 @@
  * @brief cpp file for functions from mainwindow.h
  * @version 1.7
  * @date 2025-05-10
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 
 #include "mainwindow.h"
