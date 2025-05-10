@@ -16,7 +16,8 @@ StepExecutionStrategy::StepExecutionStrategy(ActionExecutor &actionExecutor,
 
 void StepExecutionStrategy::Execute()
 {
-    reset();
+    // reset();
+    m_finished = false;
     initializeVariables();
     // auto inputResult = m_actionExecutor.evaluate("input");
     // terminalLog("Initial input value: " + inputResult.toString(), Info);
