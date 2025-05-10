@@ -70,28 +70,6 @@ QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value)
     return QGraphicsItem::itemChange(change, value);
 }
 
-void FSMState::saveConditions()
-{
-    m_transitionsConditions.clear();
-
-    auto rows = m_transitionsRows;
-    for (TransitionRowWidget *row : rows)
-    {
-        QString conditionText = row->getConditionText();
-        QString toStateText = row->getToStateText();
-
-        if (conditionText.isEmpty() || toStateText.isEmpty())
-        {
-            row->requestRemove(row);
-            continue;
-        }
-
-        m_state->addConditionByTransition(conditionText, toStateText);
-
-        m_transitionsConditions.append({conditionText, toStateText});
-    }
-}
-
 void FSMState::removeTransitionRow(QString toState)
 {
     auto rows = m_transitionsRows;

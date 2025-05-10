@@ -157,6 +157,7 @@ MainWindow::MainWindow(QWidget *parent)
             { fsmGui->saveVariables(variablesWidgets); });
 
     connect(fsmScene, &FSMScene::newTransitionRowRequested, this, &MainWindow::newTransitionRow);
+    connect(fsmScene, &FSMScene::requestRemoveRowAndTransition, this, &MainWindow::removeRowAndTransition);
 }
 void MainWindow::simulation()
 {
@@ -310,7 +311,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
     // Save conditions
     disconnect(ui->saveConditionsButton, &QPushButton::clicked, nullptr, nullptr);
     connect(ui->saveConditionsButton, &QPushButton::clicked, this, [state, this]()
-            { state->saveConditions(); });
+            { fsmScene->saveConditions(state); });
 }
 
 void MainWindow::newTransitionRow(FSMState *state, TransitionRowWidget *&row)
@@ -318,6 +319,14 @@ void MainWindow::newTransitionRow(FSMState *state, TransitionRowWidget *&row)
     setSelectedState(state);
 
     row = onAddTransitionClicked();
+
+    setSelectedState(nullptr);
+}
+
+void MainWindow::removeRowAndTransition(FSMState *state, TransitionRowWidget *row) {
+    setSelectedState(state);
+
+    onRemoveTransition(row);
 
     setSelectedState(nullptr);
 }

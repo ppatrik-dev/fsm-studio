@@ -88,6 +88,7 @@ public:
     void deleteTransition(FSMTransition *transition, bool mooreDeleteFlag);
     FSMState *getStateByName(const QString &name) const;
     void deleteDebug(QGraphicsItem *item);
+    void saveConditions(FSMState *state);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -116,6 +117,7 @@ signals:
     void deleteStateRequested(QString name);
     void deleteTransitionRequested(QString firstName, QString secondName);
     void newTransitionRowRequested(FSMState *state, TransitionRowWidget *&row);
+    void requestRemoveRowAndTransition(FSMState *state, TransitionRowWidget *row);
 };
 
 #endif // FSMSCENE_H

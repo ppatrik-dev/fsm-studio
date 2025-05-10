@@ -104,6 +104,8 @@ signals:
 public slots:
     TransitionRowWidget *onAddTransitionClicked();
     void newTransitionRow(FSMState *state, TransitionRowWidget *&row);
+    void removeRowAndTransition(FSMState *state, TransitionRowWidget *row);
+
 private slots:
     void runSimulation();
     void simulation();

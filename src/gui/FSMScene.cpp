@@ -193,11 +193,29 @@ void FSMScene::clearScene()
     }
 }
 
+void FSMScene::saveConditions(FSMState *state)
+{
+    auto rows = state->getTransitionsRows();
+    for (TransitionRowWidget *row : rows)
+    {
+        QString conditionText = row->getConditionText();
+        QString toStateText = row->getToStateText();
+
+        if (conditionText.isEmpty() || toStateText.isEmpty())
+        {   
+            emit requestRemoveRowAndTransition(state, row);
+            continue;
+        }
+
+        state->getMooreState()->addConditionByTransition(conditionText, toStateText);
+    }
+}
+
 void FSMScene::removeEpsilonTransitions() {
     auto states = m_states.values();
 
     for (FSMState *state : states) {
-        state->saveConditions();
+        saveConditions(state);
     }
 }
 

@@ -58,7 +58,7 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-    void saveConditions();
+    
 
     void clearTransitionsRows();
 
