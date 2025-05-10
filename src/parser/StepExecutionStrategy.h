@@ -47,5 +47,6 @@ public slots:
     bool step();
 signals:
     void sendMessage(QString type, QString content);
+    void currentStateChanged(QString name);
     void sendRemainingInput(QString varName, QString remainingInput);
 };

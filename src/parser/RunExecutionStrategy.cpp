@@ -72,12 +72,12 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state)
         terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), MessageType::TransitionResult);
         if (boolResult.toBool())
         {
-            state->unsetCurrent();
+            // state->unsetCurrent();
             terminalLog("index++;", MessageType::Evaluate);
             actionExecutor.evaluate("index++;");
 
             currentState = mooreMachine.getState(transition.getTarget());
-            currentState->setCurrent();
+            // currentState->setCurrent();
             outputVariables();
             step(currentState);
         }
@@ -92,7 +92,7 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state)
 void RunExecutionStrategy::Execute()
 {
     currentState = mooreMachine.getState(mooreMachine.getStartState());
-    currentState->setCurrent();
+    // currentState->setCurrent();
 
     if (currentState == nullptr)
     {

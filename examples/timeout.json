@@ -1,0 +1,27 @@
+{
+    "automate_comment": "",
+    "automate_name": "",
+    "inputs": [
+    ],
+    "outputs": [
+    ],
+    "start_state": "A",
+    "states": {
+        "A": {
+            "action": "",
+            "transitions": [
+                {
+                    "condition": "moore.timer(5000);",
+                    "to": "B"
+                }
+            ]
+        },
+        "B": {
+            "action": "",
+            "transitions": [
+            ]
+        }
+    },
+    "variables": [
+    ]
+}

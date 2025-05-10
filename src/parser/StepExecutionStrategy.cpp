@@ -2,6 +2,15 @@
 #include "MooreMachine.h"
 #include <QDebug>
 #include "MooreJsClass.h"
+#include <QTime>
+#include <QApplication>
+
+void wait(int ms) {
+    QTime end = QTime::currentTime().addMSecs(ms);
+    while (QTime::currentTime() < end) {
+        qApp->processEvents(QEventLoop::AllEvents, 5);
+    }
+}
 
 StepExecutionStrategy::StepExecutionStrategy(ActionExecutor &actionExecutor,
                                              MooreMachine &mooreMachine,
@@ -24,6 +33,7 @@ void StepExecutionStrategy::Execute()
     while (!inputStack.isEmpty() && step())
     {
         qDebug() << "Step succeeded.";
+        wait(500);
     }
     finalizeExecution();
     QList<QString> tempList = inputStack.toList();
@@ -110,9 +120,10 @@ bool StepExecutionStrategy::evaluateTransitions()
         if (boolResult.toBool())
         {
             index++;
-            m_currentState->unsetCurrent();
+            // m_currentState->unsetCurrent();
             m_currentState = m_mooreMachine.getState(transition.getTarget());
-            m_currentState->setCurrent();
+            // m_currentState->setCurrent();
+            emit currentStateChanged(m_currentState->getName());
             return true;
         }
     }
@@ -138,7 +149,8 @@ void StepExecutionStrategy::reset()
     }
     MooreJs *moore = new MooreJs();
     m_actionExecutor.exposeObject("moore", moore);
-    m_currentState->setCurrent();
+    // m_currentState->setCurrent();
+    emit currentStateChanged(m_currentState->getName());
     m_finished = false;
     m_output.clear();
 

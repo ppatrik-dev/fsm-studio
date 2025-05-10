@@ -15,13 +15,39 @@
 
 FSMScene::FSMScene(QObject *parent)
     : QGraphicsScene{parent},
-      firstSelectedState(nullptr), 
+      firstSelectedState(nullptr), activeState(nullptr),
       sceneMode(SELECT_MODE) {}
 
 void FSMScene::setMachine(MooreMachine *machine)
 {
     this->machine = machine;
 }
+
+void FSMScene::setActiveState(const QString &label) {
+    FSMState *state = getStateByName(label);
+
+    if (activeState) {
+        activeState->setActive(false);
+        activeState->update();
+    }
+    
+    activeState = state;
+
+    if (activeState) {
+        activeState->setActive(true);
+        activeState->update();
+    }
+}
+
+void FSMScene::unsetActiveState() {
+    if (activeState) {
+        activeState->setActive(false);
+        activeState->update();
+    }
+    
+    activeState = nullptr;
+}
+
 void FSMScene::onAddState(const QPointF &pos)
 {
     addState(pos);

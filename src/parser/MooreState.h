@@ -8,7 +8,6 @@ class MooreState : public IMooreState
 {
     QString name;
     QString output;
-    bool current_state;
 
 public:
     QVector<MooreTransition> transitions;
@@ -17,9 +16,6 @@ public:
     QString getName() const override;
     QString getOutput() const override;
     void setOutput(QString value);
-    bool isCurrent() const;
-    void setCurrent();
-    void unsetCurrent();
     QVector<MooreTransition> &getTransitions();
     void addConditionByTransition(QString conditionText, QString toStateText);
     MooreTransition *findTransitionByTarget(QString &target);

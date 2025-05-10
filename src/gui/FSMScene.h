@@ -27,6 +27,7 @@ private:
     QMap<QString, FSMState *> m_states;
     QList<FSMTransition *> m_transitions;
     MooreMachine *machine;
+    FSMState *activeState;
     enum sceneModeEnum
     {
         SELECT_MODE,
@@ -107,6 +108,9 @@ public slots:
     void onDeleteTransition();
     void createMachineFile(MooreMachine &machine);
     void onClearScene();
+
+    void setActiveState(const QString &label);
+    void unsetActiveState();
 
 signals:
     void initialStateDeleted(FSMState *state);

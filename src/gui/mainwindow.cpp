@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearButton, &QPushButton::clicked, this, &MainWindow::clear);
     connect(ui->importButton, &QPushButton::clicked, this, &MainWindow::onImportFileClicked);
     connect(ui->exportButton, &QPushButton::clicked, this, &MainWindow::onExportFileClicked);
-    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::simulation);
+    connect(ui->runButton, &QPushButton::clicked, this, &MainWindow::startSimulation);
     connect(fsmGui, &FSMGui::inputAddValue, machine, &MooreMachine::addGuiInput);
     connect(fsmGui, &FSMGui::inputDeleteValue, machine, &MooreMachine::deleteGuiInput);
     connect(fsmGui, &FSMGui::outputAddValue, machine, &MooreMachine::addGuiOutput);
@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->TerminalClear, &QPushButton::clicked, this, [=]()
             { terminal->clearTerminal(); });
 
-    connect(ui->TerminalCancel, &QPushButton::clicked, this, &MainWindow::toggleTerminal);
+    connect(ui->TerminalCancel, &QPushButton::clicked, this, &MainWindow::cancelSimulation);
     connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::runSimulation);
 
     connect(fsmGui, &FSMGui::saveNameValue, machine, &MooreMachine::setName);
@@ -164,7 +164,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmScene, &FSMScene::newTransitionRowRequested, this, &MainWindow::newTransitionRow);
     connect(fsmScene, &FSMScene::requestRemoveRowAndTransition, this, &MainWindow::removeRowAndTransition);
 }
-void MainWindow::simulation()
+void MainWindow::startSimulation()
 {
     if (!fsmGui->getInitialState())
     {
@@ -184,6 +184,7 @@ void MainWindow::simulation()
         connect(this, &MainWindow::setStrategy, executor, &MachineExecutor::SetStrategy);
         connect(this, &MainWindow::executeMachine, executor, &MachineExecutor::Execute);
         connect(stepStrategy, &StepExecutionStrategy::sendMessage, terminal, &TerminalWidget::receiveMessage);
+        connect(stepStrategy, &StepExecutionStrategy::currentStateChanged, fsmScene, &FSMScene::setActiveState);
 
         emit setStrategy(stepStrategy);
     }
@@ -192,6 +193,16 @@ void MainWindow::simulation()
         qDebug() << "Machine is null, Create automate!";
     }
 }
+
+void MainWindow::cancelSimulation() {
+    delete actionExecute;
+    delete executor;
+    delete stepStrategy;
+
+    toggleTerminal();
+    fsmScene->unsetActiveState();
+}
+
 void MainWindow::runSimulation()
 {
     emit executeMachine(*machine);
@@ -602,10 +613,6 @@ void MainWindow::toggleTerminal()
 
         terminal->clearTerminal();
         ui->runButton->setStyleSheet("");
-
-        delete actionExecute;
-        delete executor;
-        delete stepStrategy;
     }
 
     // get height, set new and animate

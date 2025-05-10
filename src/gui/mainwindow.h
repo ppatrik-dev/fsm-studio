@@ -109,7 +109,8 @@ public slots:
 
 private slots:
     void runSimulation();
-    void simulation();
+    void startSimulation();
+    void cancelSimulation();
     void onCreateTransition(TransitionRowWidget *row);
     void onRemoveTransition(TransitionRowWidget *row);
     void onAddInputClicked();

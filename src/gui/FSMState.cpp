@@ -10,7 +10,7 @@
 #include <QDebug>
 
 FSMState::FSMState(const QString &label)
-    : m_initial(false), m_hovered(false),
+    : m_initial(false), m_hovered(false), m_active(false),
       m_radius(0), m_label(label)
 {
     QFont font;
@@ -40,7 +40,7 @@ void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     QColor outlineColor = isInitial() ? QColor(0, 204, 153) : QColor(51, 153, 102);
     outlineColor = isSelected() ? QColor(161, 221, 192) : outlineColor;
 
-    QColor baseColor = m_state->isCurrent() ? QColor(51, 153, 102) : QColor (40, 40, 40);
+    QColor baseColor = isActive() ? QColor(51, 153, 102) : QColor (40, 40, 40);
     QColor fillColor = m_hovered ? baseColor.lighter(130) : baseColor;
     painter->setBrush(fillColor);
 

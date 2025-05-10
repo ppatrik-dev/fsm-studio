@@ -23,6 +23,7 @@ class FSMState : public QGraphicsObject
 private:
     bool m_initial;
     bool m_hovered;
+    bool m_active;
     int m_radius;
     QString m_label;
     QString m_output;
@@ -59,6 +60,14 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     
+    void setActive(bool value) {
+        m_active = value;
+        update();
+    }
+
+    bool isActive() const {
+        return m_active;
+    }
 
     void clearTransitionsRows();
 
