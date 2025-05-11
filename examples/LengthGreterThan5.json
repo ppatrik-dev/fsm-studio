@@ -2,15 +2,15 @@
     "automate_comment": "Výstup '1', ak počet vstupov > 5, inak '0'",
     "automate_name": "LengthGreaterThan5",
     "inputs": [
-        "var input;"
+        "var input = '';"
     ],
     "outputs": [
-        "var output = '';"
+        "var output = '1 ';"
     ],
     "start_state": "S0",
     "states": {
         "S0": {
-            "action": "output += '0 ';",
+            "action": "output = '0 ';",
             "transitions": [
                 {
                     "condition": "true;",
@@ -19,7 +19,7 @@
             ]
         },
         "S1": {
-            "action": "output += '0 ';",
+            "action": "output = '0 ';",
             "transitions": [
                 {
                     "condition": "true;",
@@ -28,7 +28,7 @@
             ]
         },
         "S2": {
-            "action": "output += '0 ';",
+            "action": "output = '0 ';",
             "transitions": [
                 {
                     "condition": "true;",
@@ -37,7 +37,7 @@
             ]
         },
         "S3": {
-            "action": "output += '0 ';",
+            "action": "output = '0 ';",
             "transitions": [
                 {
                     "condition": "true;",
@@ -46,7 +46,7 @@
             ]
         },
         "S4": {
-            "action": "output += '0 ';",
+            "action": "output = '0 ';",
             "transitions": [
                 {
                     "condition": "true;",
@@ -55,7 +55,7 @@
             ]
         },
         "S5": {
-            "action": "output += '0 ';",
+            "action": "output = '0 ';",
             "transitions": [
                 {
                     "condition": "true;",
@@ -64,7 +64,7 @@
             ]
         },
         "S6": {
-            "action": "output += '1 ';",
+            "action": "output = '1 ';",
             "transitions": [
                 {
                     "condition": "true;",
@@ -73,5 +73,6 @@
             ]
         }
     },
-    "variables": []
+    "variables": [
+    ]
 }

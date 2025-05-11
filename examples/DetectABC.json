@@ -1,16 +1,16 @@
 {
-    "automate_comment": "Detekuje výskyt podreťazca 'abc' a vypisuje 1 pri nájdení, inak 0",
+    "automate_comment": "Detekuje výskyt podreťazca 'abc' a vypisuje počet výskytov",
     "automate_name": "DetectABC",
     "inputs": [
-        "var input;"
+        "var input = '';"
     ],
     "outputs": [
         "var output = '';"
     ],
     "start_state": "START",
     "states": {
-        "START": {
-            "action": "output += '0 ';",
+        "MATCH": {
+            "action": "count += 1; output = count;",
             "transitions": [
                 {
                     "condition": "input == 'a';",
@@ -23,7 +23,7 @@
             ]
         },
         "S1": {
-            "action": "output += '0 ';",
+            "action": "output = count;",
             "transitions": [
                 {
                     "condition": "input == 'b';",
@@ -40,7 +40,7 @@
             ]
         },
         "S2": {
-            "action": "output += '0 ';",
+            "action": "output = count;",
             "transitions": [
                 {
                     "condition": "input == 'c';",
@@ -56,8 +56,8 @@
                 }
             ]
         },
-        "MATCH": {
-            "action": "output += '1 ';",
+        "START": {
+            "action": "output = count;",
             "transitions": [
                 {
                     "condition": "input == 'a';",
@@ -70,5 +70,7 @@
             ]
         }
     },
-    "variables": []
+    "variables": [
+        "var count = 0;"
+    ]
 }

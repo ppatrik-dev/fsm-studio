@@ -64,7 +64,6 @@ MainWindow::MainWindow(QWidget *parent)
             QTimer::singleShot(0, this, [=]() {
                 auto scroll = ui->TerminalScrollArea->verticalScrollBar();
                 scroll->setValue(scroll->maximum());
-                qDebug() << "SCROLL MAX (2nd pass):" << scroll->maximum();
             });
         });
     });

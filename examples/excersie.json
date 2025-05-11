@@ -2,7 +2,7 @@
     "automate_comment": "",
     "automate_name": "",
     "inputs": [
-        "var input = '1010';"
+        "var input = '1010t';"
     ],
     "outputs": [
         "var output = '';"
