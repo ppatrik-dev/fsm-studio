@@ -1,10 +1,20 @@
+/**
+ * @file StepExecutionStrategy.cpp
+ * @author Miroslav Basista (xbasism00@vutbr.cz)
+ * @brief
+ * @version 0.1
+ * @date 2025-05-11
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #include "StepExecutionStrategy.h"
-#include "MooreMachine.h"
-#include <QDebug>
-#include "MooreJsClass.h"
-#include <QTime>
-#include <QApplication>
 
+/**
+ * @brief
+ *
+ * @param ms
+ */
 void wait(int ms)
 {
     QTime end = QTime::currentTime().addMSecs(ms);
@@ -43,11 +53,8 @@ void StepExecutionStrategy::Execute()
 {
     emit currentStateChanged(m_currentState->getName());
     wait(250);
-    // reset();
     m_finished = false;
     initializeVariables();
-    // auto inputResult = m_actionExecutor.evaluate("input");
-    // terminalLog("Initial input value: " + inputResult.toString(), Info);
     bool wasEmptyInitially = allStacksAreEmpty();
     while (step() && (!allStacksAreEmpty() || wasEmptyInitially))
     {

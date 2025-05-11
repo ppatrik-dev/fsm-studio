@@ -1,3 +1,13 @@
+/**
+ * @file RunExecutionStrategy.cpp
+ * @author Miroslav Basista (xbasism00@vutbr.cz)
+ * @brief
+ * @version 0.1
+ * @date 2025-05-11
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #include "RunExecutionStrategy.h"
 #include "MooreMachine.h"
 #include "MooreJsClass.h"
@@ -92,8 +102,6 @@ bool RunExecutionStrategy::step(std::shared_ptr<MooreState> state)
 void RunExecutionStrategy::Execute()
 {
     currentState = mooreMachine.getState(mooreMachine.getStartState());
-    // currentState->setCurrent();
-
     if (currentState == nullptr)
     {
         terminalLog("Error: Starting state is null!", MessageType::Error);

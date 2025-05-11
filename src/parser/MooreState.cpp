@@ -1,3 +1,13 @@
+/**
+ * @file MooreState.cpp
+ * @author Miroslav Basista (xbasism00@vutbr.cz)
+ * @brief
+ * @version 0.1
+ * @date 2025-05-11
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #include "MooreState.h"
 
 MooreState::MooreState(const QString &name, const QString &output)
