@@ -59,12 +59,7 @@
         },
         "UNLOCKED": {
             "action": "output = 'UNLOCKED'; output_string += output + ' ';",
-            "transitions": [
-                {
-                    "condition": "true;",
-                    "to": "UNLOCKED"
-                }
-            ]
+            "transitions": []
         }
     },
     "variables": []
