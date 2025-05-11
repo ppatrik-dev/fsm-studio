@@ -383,7 +383,7 @@ void MainWindow::showDetailsPanel(QGraphicsItem *item)
         auto edit = row->getToStateEdit();
         edit->setText(transition->getSecondState()->getLabel());;
         edit->setReadOnly(true);
-        row->disableCreateButton();
+        row->disableCreateButton(disableStyle);
 
         row->setTransitionItem(transition);
         transition->setRow(row); });
@@ -447,6 +447,7 @@ void MainWindow::onCreateTransition(TransitionRowWidget *row)
         {
             FSMState *toState = fsmScene->getFSMStates().value(toStateLabel);
             auto transition = fsmScene->createTransition(selectedState, toState);
+            row->disableCreateButton(disableStyle);
             row->setTransitionItem(transition);
             transition->setRow(row);
         }

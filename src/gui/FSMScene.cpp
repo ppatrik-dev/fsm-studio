@@ -318,7 +318,7 @@ TransitionRowWidget* FSMScene::createTransitionRow(FSMState *state, const MooreT
     emit newTransitionRowRequested(state, row);
 
     row->setTransitionTexts(transition.getInput(), transition.getTarget());
-    row->disableCreateButton();
+    row->disableCreateButton("QPushButton:disabled { background-color: #444444; color: #888888; }");
     row->hide();
 
     QTextEdit *toStateEdit = row->getToStateEdit();

@@ -144,3 +144,11 @@ QString TransitionRowWidget::getConditionText() const {
 QString TransitionRowWidget::getToStateText() const {
     return toStateEdit->toPlainText();
 }
+
+/**
+ * @brief function to disable the create button
+ */
+void TransitionRowWidget::disableCreateButton(QString style) const {
+    createButton->setDisabled(true);
+    createButton->setStyleSheet(style);
+}

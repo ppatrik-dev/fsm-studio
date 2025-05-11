@@ -58,9 +58,7 @@ public:
         return transitionItem;
     }
 
-    void disableCreateButton() const {
-        createButton->setDisabled(true);
-    }
+    void disableCreateButton(QString style) const;
 
 signals:
     void requestCreate(TransitionRowWidget *self);
