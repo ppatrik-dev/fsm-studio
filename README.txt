@@ -1,148 +1,37 @@
-<a name="readme-top"></a>
+Projekt ICP 2024/2025 - Simulátor Moorovho automatu
 
-<div align="center">
-  <h2 align="center">ICP project</h2>
+Autori:
 
-  <p align="center">
-    Project for ICP course at FIT VUT university in Brno
-  </p>
-</div>
+	Patrik Prochazka, xprochp00
+	Miroslav Bašista, xbasism00
+	Filip Ficka, xfickaf00
 
-<br/>
+Popis programu:
 
-### Table of contents
+Program po spustení umožňuje užívateľovi vytvárať automaty pomocou grafického prostredia s možnosťou pridávania stavov a hrán.
+Jednotlivým stavom sa dokáže priradiť jedinečná funkcionalita a hranám sa dajú nastaviť podmienky prechodu.
+Všetko za pomoci informačného panelu nachádzajúceho sa na pravej strane aplikácie.
+Každému automatu je umožnené priradiť meno, popis, vstupy, výstupy a premenné ktoré sú v rámci automatu používané.
+Podmienky sa píšu v štýle Javascriptu a sú podporované následné operácie:
 
-  <li><a href="#installation">Installation</a></li>
-  <li><a href="#codeguide">Codeguide</a></li>
-  <li><a href="#authors">Authors</a></li>
+=  -> priradenie
+== -> rovnosť
+!= -> nerovnosť
+>= -> väčšie rovné
+<= -> menšie rovné
+>  -> väčšie
+<  -> menšie
+&& -> logické áno
+|| -> logické alebo
 
-## Installation
+Okrem vytvorenia sa dajú automaty exportovať do .json súborov a taktiež je podporované aj opätovné nahranie predošlých exportovaných automatov.
+Pre samotné spustenie a simuláciu stačí stlačiť tlačidlo 'simulate' ktoré pripraví automat a otvorí terminál do ktorého sa budú vypisovať postupné kroky simulácie.
+Po ukončení je možné automat resetovať a nad novým vstupom spustiť program znovu alebo zadať nový vstup a pokračovať v simulácii.
 
-1. Clone the repo
-
-   ```sh
-   git clone https://github.com/Mirek321/ICP-Project
-   ```
-
-2. CD to the cloned directory
-
-   ```sh
-   cd ICP-Project
-   ```
-
-3. Compile
-
-   ```sh
-   make
-   ```
-
-4. Run
-
-   ```sh
-   make run
-   ```
-
-## Codeguide
-
-- Code names and comments in English
-- Git commit messages in English prefixed
-- New branch per new issue. Name of the branch format:  issue-issueID-issueName, example: issue-40-get-sthit-done
-  
-```cpp
-// Variables, function parameters, class members (snake_case)
-const std::string snake_case_variable;
-void function(int snake_case1, const std::string& snake_case2);
-
-// Enums, structs, classes, and types (PascalCase, values: SCREAMING_SNAKE_CASE)
-enum class TokenType
-{
-    EMPTY,
-    PLUS,
-    UNKNOWN,
-    KEYWORD,
-    ...
-};
-
-struct Token
-{
-    TokenType type;
-    TokenAttribute attribute;
-};
-
-class Scanner
-{
-public:
-    Token get_token();
-};
-
-// Function names (snake_case with curly braces on next line)
-int function_name(...)
-{
-    ...
-}
-
-// Member function names (snake_case, prefixed with class/module name)
-Token Scanner::get_token()
-{
-    ...
-}
-
-// Includes (C++ standard libraries first, then third-party, then project headers)
-#include <iostream>
-#include <vector>
-
-#include "scanner.h"
-
-// Header guards (uppercase snake case with prefix `_` and suffix `_HPP`)
-#ifndef _MODULE_NAME_HPP
-#define _MODULE_NAME_HPP
-
-#endif // _MODULE_NAME_HPP
-
-// Documentation comments
-/**
- * @brief Brief description of function
- * @param token Lexer token
- * @return Describe return value
- */
-int function_name(Token token, ...)
-{
-    ...
-}
-
-/**
- * @enum TokenType
- * @brief Type of token
- */
-enum class TokenType
-{
-    EMPTY,   ///< Empty
-    PLUS,    ///< +
-    UNKNOWN, ///< Unknown
-    KEYWORD, ///< Keyword
-    ...
-};
-
-/**
- * @struct Token
- * @brief Representation of a single token
- */
-struct Token
-{
-    TokenType type;          ///< Type of token
-    TokenAttribute attribute; ///< Attribute of given token
-};
-
-/**
- * @file scanner.cpp
- * @brief Lexical analyzer (scanner) implementation
- * @author Miroslav Basista <xbasism0000@stud.fit.vutbr.cz>
- * @author ...
- */
-
-
-```
-
-## Authors
-
-- Miroslav Bašista <xbasism00@stud.fit.vutbr.cz>
+Makefile:
+make            -> preloží program
+make run        -> preloží a spustí program
+make doxygen    -> vygeneruje html dokumentáciu
+make doxyClean  -> zmaže vygenerovanú dokumentáciu
+make clean      -> vymaže preložený program
+make zip        -> vytvorí komprimovaný priečinok s obsahom adresára
