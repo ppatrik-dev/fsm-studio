@@ -86,13 +86,19 @@ private:
     ActionExecutor *actionExecute = nullptr;
     MachineExecutor *executor = nullptr;
     StepExecutionStrategy *stepStrategy = nullptr;
+    MooreJs *moore = nullptr;
     // QList<TransitionRowWidget *> conditionWidgets;
 
     TerminalWidget *terminal;
     bool TerminalActive = false;
     QString disableStyle = "QPushButton:disabled { background-color: #444444; color: #888888; }";
 
-    enum detailTypeEnum {INPUT_DETAIL, OUTPUT_DETAIL, VARIABLE_DETAIL};
+    enum detailTypeEnum
+    {
+        INPUT_DETAIL,
+        OUTPUT_DETAIL,
+        VARIABLE_DETAIL
+    };
     detailTypeEnum detailType;
 
 signals:
@@ -105,6 +111,7 @@ signals:
     void setStrategy(IExecutionStrategy *strategy);
     void executeMachine(MooreMachine &machine);
     void resetSimulation();
+    void stopSimulation();
 
 public slots:
     TransitionRowWidget *onAddTransitionClicked();
@@ -146,6 +153,7 @@ private:
     void clearFSMDetails();
     void clearTransitionRows();
     void detachWidgetsFromLayout();
+    void onDelayFinished();
 };
 
 #endif // MAINWINDOW_H

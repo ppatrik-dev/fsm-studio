@@ -26,6 +26,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include "../parser/StepExecutionStrategy.h"
+#include "../parser/MooreJsClass.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -59,14 +60,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->TerminalScrollArea->setWidget(terminal);
     ui->TerminalScrollArea->setWidgetResizable(true);
 
-    connect(terminal, &TerminalWidget::lineAppended, this, [=]() {
-        QTimer::singleShot(0, this, [=]() {
-            QTimer::singleShot(0, this, [=]() {
+    connect(terminal, &TerminalWidget::lineAppended, this, [=]()
+            { QTimer::singleShot(0, this, [=]()
+                                 { QTimer::singleShot(0, this, [=]()
+                                                      {
                 auto scroll = ui->TerminalScrollArea->verticalScrollBar();
-                scroll->setValue(scroll->maximum());
-            });
-        });
-    });
+                scroll->setValue(scroll->maximum()); }); }); });
 
     // ui->TerminalReset->setEnabled(false);
     // ui->TerminalReset->setStyleSheet(disableStyle);
@@ -187,7 +186,10 @@ void MainWindow::startSimulation()
 
     if (machine != nullptr)
     {
+        moore = new MooreJs(this);
         actionExecute = new ActionExecutor(this);
+        actionExecute->exposeObject("moore", moore);
+
         executor = new MachineExecutor(machine, this);
         stepStrategy = new StepExecutionStrategy(*actionExecute, *machine, this);
 
@@ -198,6 +200,8 @@ void MainWindow::startSimulation()
         connect(stepStrategy, &StepExecutionStrategy::sendRemainingInput, fsmGui, &FSMGui::updateInput);
         connect(stepStrategy, &StepExecutionStrategy::sendRemainingOutput, fsmGui, &FSMGui::updateOutput);
         connect(stepStrategy, &StepExecutionStrategy::sendRemainingVariable, fsmGui, &FSMGui::updateVariable);
+        connect(this, &MainWindow::stopSimulation, stepStrategy, &StepExecutionStrategy::stopEvaluation);
+
         connect(ui->TerminalReset, &QPushButton::clicked, stepStrategy, &StepExecutionStrategy::reset);
         emit setStrategy(stepStrategy);
     }
@@ -209,14 +213,37 @@ void MainWindow::startSimulation()
 
 void MainWindow::cancelSimulation()
 {
-    delete actionExecute;
-    delete executor;
-    delete stepStrategy;
+    emit stopSimulation();
 
     toggleTerminal();
     fsmScene->unsetActiveState();
+    QTimer::singleShot(1000, this, [this]()
+                       { onDelayFinished(); });
 }
+void MainWindow::onDelayFinished()
+{
 
+    if (stepStrategy)
+    {
+        stepStrategy->deleteLater();
+        stepStrategy = nullptr;
+    }
+    if (executor)
+    {
+        executor->deleteLater();
+        executor = nullptr;
+    }
+    if (actionExecute)
+    {
+        actionExecute->deleteLater();
+        actionExecute = nullptr;
+    }
+    if (moore)
+    {
+        moore->deleteLater();
+        moore = nullptr;
+    }
+}
 void MainWindow::runSimulation()
 {
     emit executeMachine(*machine);

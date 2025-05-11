@@ -5,25 +5,30 @@
 #include <QTime>
 #include <QApplication>
 
-void wait(int ms)
+StepExecutionStrategy::StepExecutionStrategy(ActionExecutor &actionExecutor,
+                                             MooreMachine &mooreMachine,
+                                             QObject *parent, bool m_isStopped)
+    : QObject(parent),
+      IExecutionStrategy(),
+      m_actionExecutor(actionExecutor),
+      m_mooreMachine(mooreMachine),
+      m_isStopped(false)
+{
+    reset();
+}
+void StepExecutionStrategy::wait(int ms)
 {
     QTime end = QTime::currentTime().addMSecs(ms);
     while (QTime::currentTime() < end)
     {
         qApp->processEvents(QEventLoop::AllEvents, 5);
+        if (m_isStopped)
+        {
+            return;
+        }
     }
 }
 
-StepExecutionStrategy::StepExecutionStrategy(ActionExecutor &actionExecutor,
-                                             MooreMachine &mooreMachine,
-                                             QObject *parent)
-    : QObject(parent),
-      IExecutionStrategy(),
-      m_actionExecutor(actionExecutor),
-      m_mooreMachine(mooreMachine)
-{
-    reset();
-}
 bool StepExecutionStrategy::allStacksAreEmpty()
 {
     const auto stacks = inputStacks.values();
@@ -43,14 +48,17 @@ void StepExecutionStrategy::Execute()
 {
     emit currentStateChanged(m_currentState->getName());
     wait(250);
-    // reset();
     m_finished = false;
     initializeVariables();
-    // auto inputResult = m_actionExecutor.evaluate("input");
-    // terminalLog("Initial input value: " + inputResult.toString(), Info);
     bool wasEmptyInitially = allStacksAreEmpty();
     while (step() && (!allStacksAreEmpty() || wasEmptyInitially))
     {
+        if (m_isStopped)
+        {
+            qDebug() << "Execution stopped by user.";
+            m_finished = true;
+            return;
+        }
         qDebug() << "Step succeeded.";
         wait(500);
     }
@@ -90,6 +98,16 @@ void StepExecutionStrategy::initializeVariables()
 
 bool StepExecutionStrategy::step()
 {
+    if (m_isStopped)
+    {
+        qDebug() << "Execution stopped by user.";
+        return false;
+    }
+    if (m_finished || !m_currentState)
+    {
+        return false;
+    }
+
     for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
     {
         QStack<QString> &stack = it.value();
@@ -98,10 +116,6 @@ bool StepExecutionStrategy::step()
             terminalLog(stack.top(), Evaluate);
             m_actionExecutor.evaluate(stack.top());
         }
-    }
-    if (m_finished || !m_currentState)
-    {
-        return false;
     }
 
     executeStateOutput();
@@ -131,6 +145,12 @@ void StepExecutionStrategy::executeStateOutput()
 
 bool StepExecutionStrategy::evaluateTransitions()
 {
+    if (m_isStopped)
+    {
+        qDebug() << "Execution stopped by user.";
+        m_finished = true;
+        return false;
+    }
     for (const auto &transition : m_currentState->getTransitions())
     {
         terminalLog("Condition: " + transition.getInput(), Evaluate);
@@ -150,6 +170,10 @@ bool StepExecutionStrategy::evaluateTransitions()
 
 void StepExecutionStrategy::finalizeExecution()
 {
+    if (m_finished)
+    {
+        return;
+    }
     executeStateOutput();
     m_finished = true;
     terminalLog("Execution finished in state: " + m_currentState->getName(), Info);
@@ -199,14 +223,16 @@ void StepExecutionStrategy::finalizeExecution()
 
 void StepExecutionStrategy::reset()
 {
+    if (m_finished)
+    {
+        return;
+    }
     m_currentState = m_mooreMachine.getState(m_mooreMachine.getStartState());
     if (!m_currentState)
     {
         terminalLog("Error: Starting state is null!", Error);
         m_finished = true;
     }
-    MooreJs *moore = new MooreJs();
-    m_actionExecutor.exposeObject("moore", moore);
     emit currentStateChanged(m_currentState->getName());
     m_finished = false;
     m_output.clear();
@@ -267,4 +293,9 @@ void StepExecutionStrategy::outputVariables()
         QString var = m_mooreMachine.extractVariableName(variable);
         terminalLog(var + ": " + m_actionExecutor.getValue(var), Variable);
     }
+}
+void StepExecutionStrategy::stopEvaluation()
+{
+    m_isStopped = true;
+    terminalLog("Evaluation stopped.", Info);
 }
