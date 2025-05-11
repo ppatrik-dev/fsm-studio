@@ -1,6 +1,6 @@
 # Makefile
 
-# QMAKE = /usr/local/share/Qt-5.5.1/5.5/gcc_64/bin/qmake
+QMAKE = /usr/local/share/Qt-5.5.1/5.5/gcc_64/bin/qmake
 BUILD_DIR=build
 TARGET=icp-fsm-app
 
@@ -8,7 +8,7 @@ all: build
 
 build:
 	@mkdir -p $(BUILD_DIR)
-	cd $(BUILD_DIR) && qmake ../src/gui/gui.pro && make
+	cd $(BUILD_DIR) && $(QMAKE) ../src/gui/gui.pro && make
 
 .PHONY: run clean zip doxygen doxyClean
 
@@ -21,7 +21,6 @@ doxygen:
 
 doxyClean:
 	rm -rf doc/html
-	rm -r doc/
 
 clean:
 	rm -rf $(BUILD_DIR)
