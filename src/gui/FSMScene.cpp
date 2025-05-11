@@ -5,7 +5,6 @@
 #include "FSMScene.h"
 #include "mainwindow.h"
 #include "FSMState.h"
-#include <QRandomGenerator>
 #include <QPen>
 #include <QDebug>
 #include <QGraphicsLineItem>
@@ -181,7 +180,6 @@ void FSMScene::deleteTransition(FSMTransition *transition, bool mooreDeleteFlag)
 
     transition->setSelected(false);
     transition->setRow(nullptr);
-    // deleteDebug(transition);
     removeItem(transition);
     transition->setParentItem(nullptr);
 

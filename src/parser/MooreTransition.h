@@ -23,6 +23,7 @@ public:
      * @param input
      * @param target
      */
+    MooreTransition() = default;
     MooreTransition(const QString &input, const QString &target)
         : input(input), target(target) {}
     /**
