@@ -205,7 +205,7 @@ void StepExecutionStrategy::reset()
     for (const QString &output : m_mooreMachine.getOutputs())
     {
         QString var = m_mooreMachine.extractVariableName(output);
-        m_actionExecutor.setValue(var, "");
+        m_mooreMachine.addGuiOutput(var, "");
         emit sendRemainingOutput(var, "");
     }
     qDebug() << m_actionExecutor.getValue("output");
