@@ -1,5 +1,5 @@
 {
-    "automate_comment": "Mooreov automat, ktorý detekuje výskyt sekvencie 101 a buduje výstupný reťazec",
+    "automate_comment": "A Moore machine that detects the occurrence of the sequence '101' and constructs the output string accordingly.",
     "automate_name": "Detect101WithTrace",
     "inputs": [
         "var input;"
@@ -63,5 +63,6 @@
             ]
         }
     },
-    "variables": []
+    "variables": [
+    ]
 }

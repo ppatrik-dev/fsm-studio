@@ -1,17 +1,16 @@
 {
-    "automate_comment": "Mooreov automat, ktorý rozpozná prístupový PIN kód '123'",
+    "automate_comment": "A Moore machine that recognizes the access PIN code '123'",
     "automate_name": "Pin123Unlock",
     "inputs": [
-        "var input;"
+        "var input = '';"
     ],
     "outputs": [
-        "var output;",
-        "var output_string = '';"
+        "var output = 'UNLOCKED';"
     ],
     "start_state": "S0",
     "states": {
         "S0": {
-            "action": "output = 'LOCKED'; output_string += output + ' ';",
+            "action": "output = 'LOCKED'; repeat = 0;",
             "transitions": [
                 {
                     "condition": "input == '1';",
@@ -24,7 +23,7 @@
             ]
         },
         "S1": {
-            "action": "output = 'LOCKED'; output_string += output + ' ';",
+            "action": "output = 'LOCKED';",
             "transitions": [
                 {
                     "condition": "input == '2';",
@@ -41,7 +40,7 @@
             ]
         },
         "S2": {
-            "action": "output = 'LOCKED'; output_string += output + ' ';",
+            "action": "output = 'LOCKED';",
             "transitions": [
                 {
                     "condition": "input == '3';",
@@ -62,5 +61,7 @@
             "transitions": []
         }
     },
-    "variables": []
+    "variables": [
+        "var repeat = 1;"
+    ]
 }

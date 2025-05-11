@@ -1,8 +1,8 @@
 {
-    "automate_comment": "Prepne výstup na 1 po každej dvojici '00'",
+    "automate_comment": "It switches the output to 1 after every occurrence of the pair '00'.",
     "automate_name": "TwoZeros",
     "inputs": [
-        "var input = '00100100';"
+        "var input = '001110010101100';"
     ],
     "outputs": [
         "var output = '';"
@@ -24,6 +24,10 @@
                 {
                     "condition": "input == '0';",
                     "to": "OneZero"
+                },
+                {
+                    "condition": "input == '1';",
+                    "to": "Init"
                 }
             ]
         },

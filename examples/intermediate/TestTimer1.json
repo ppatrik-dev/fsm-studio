@@ -1,6 +1,6 @@
 {
-    "automate_comment": "Používa časovač na návrat do A po čase",
-    "automate_name": "TimeoutReturn",
+    "automate_comment": "Testing primitive timer",
+    "automate_name": "TestTimer1",
     "inputs": [
         "var input = '1010t';"
     ],
@@ -10,7 +10,7 @@
     "start_state": "A",
     "states": {
         "A": {
-            "action": "output += '0';",
+            "action": "output = '0';",
             "transitions": [
                 {
                     "condition": "input == '1';",
@@ -19,7 +19,7 @@
             ]
         },
         "B": {
-            "action": "output += '1';",
+            "action": "output = '1';",
             "transitions": [
                 {
                     "condition": "input == '0';",
@@ -28,7 +28,7 @@
             ]
         },
         "C": {
-            "action": "output += '-';",
+            "action": "",
             "transitions": [
                 {
                     "condition": "input == '1';",
@@ -42,6 +42,6 @@
         }
     },
     "variables": [
-        "var timeout = 2000;"
+        "var timeout = 5000;"
     ]
 }

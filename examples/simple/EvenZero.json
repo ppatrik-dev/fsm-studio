@@ -1,6 +1,6 @@
 {
-    "automate_comment": "Automat má výstup 1, ak je počet núl párny",
-    "automate_name": "PocetNulParny",
+    "automate_comment": "The automaton outputs 1 if the number of zeros is even.",
+    "automate_name": "EvenZero",
     "inputs": [
         "var input;"
     ],
@@ -36,5 +36,6 @@
             ]
         }
     },
-    "variables": []
+    "variables": [
+    ]
 }

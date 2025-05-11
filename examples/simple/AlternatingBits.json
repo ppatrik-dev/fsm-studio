@@ -1,11 +1,11 @@
 {
-    "automate_comment": "Detekuje striedanie 0 a 1",
+    "automate_comment": "It detects the alternation of 0 and 1.",
     "automate_name": "AlternatingBits",
     "inputs": [
-        "var input = '010101111000';"
+        "var input = '010101001101';"
     ],
     "outputs": [
-        "var output = '';"
+        "var output = '-010101XXXXXX';"
     ],
     "start_state": "Start",
     "states": {

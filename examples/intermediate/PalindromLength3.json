@@ -1,8 +1,8 @@
 {
-    "automate_comment": "Detekuje palindrómy dĺžky 3 (napr. 'aba', '101') a zapisuje 1 pri nájdení, inak 0",
+    "automate_comment": "It detects palindromes of length 3 (e.g., 'aba', '101') and records 1 when found, otherwise 0.",
     "automate_name": "PalindromLength3",
     "inputs": [
-        "var input;"
+        "var input = 'aba';"
     ],
     "outputs": [
         "var output = '';",
@@ -11,8 +11,17 @@
     ],
     "start_state": "INIT",
     "states": {
+        "CHECK": {
+            "action": "prev2 = input; if (prev2 == prev1) { output = 'TRUE'; }; ",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "CHECK"
+                }
+            ]
+        },
         "INIT": {
-            "action": "prev2 = ''; prev1 = ''; output += '0 ';",
+            "action": "prev2 = ''; prev1 = input; output = 'false';",
             "transitions": [
                 {
                     "condition": "true;",
@@ -21,7 +30,7 @@
             ]
         },
         "WAIT1": {
-            "action": "prev2 = prev1; prev1 = input; output += '0 ';",
+            "action": "prev2 = input;",
             "transitions": [
                 {
                     "condition": "true;",
@@ -30,16 +39,7 @@
             ]
         },
         "WAIT2": {
-            "action": "prev2 = prev1; prev1 = input; output += '0 ';",
-            "transitions": [
-                {
-                    "condition": "true;",
-                    "to": "CHECK"
-                }
-            ]
-        },
-        "CHECK": {
-            "action": "if (prev2 == input) { output += '1 '; } else { output += '0 '; } prev2 = prev1; prev1 = input;",
+            "action": "",
             "transitions": [
                 {
                     "condition": "true;",
@@ -48,5 +48,6 @@
             ]
         }
     },
-    "variables": []
+    "variables": [
+    ]
 }

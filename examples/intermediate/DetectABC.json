@@ -1,5 +1,5 @@
 {
-    "automate_comment": "Detekuje výskyt podreťazca 'abc' a vypisuje počet výskytov",
+    "automate_comment": "It detects the occurrence of the substring 'abc' and outputs the number of occurrences.",
     "automate_name": "DetectABC",
     "inputs": [
         "var input = '';"
