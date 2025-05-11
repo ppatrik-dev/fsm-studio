@@ -48,11 +48,13 @@ void StepExecutionStrategy::Execute()
     initializeVariables();
     // auto inputResult = m_actionExecutor.evaluate("input");
     // terminalLog("Initial input value: " + inputResult.toString(), Info);
-    while (!allStacksAreEmpty() && step())
+    bool wasEmptyInitially = allStacksAreEmpty();
+    while (step() && (!allStacksAreEmpty() || wasEmptyInitially))
     {
         qDebug() << "Step succeeded.";
         wait(500);
     }
+
     finalizeExecution();
 }
 
