@@ -59,14 +59,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->TerminalScrollArea->setWidget(terminal);
     ui->TerminalScrollArea->setWidgetResizable(true);
 
-    connect(terminal, &TerminalWidget::lineAppended, this, [=]() {
-        QTimer::singleShot(0, this, [=]() {
-            QTimer::singleShot(0, this, [=]() {
+    connect(terminal, &TerminalWidget::lineAppended, this, [=]()
+            { QTimer::singleShot(0, this, [=]()
+                                 { QTimer::singleShot(0, this, [=]()
+                                                      {
                 auto scroll = ui->TerminalScrollArea->verticalScrollBar();
-                scroll->setValue(scroll->maximum());
-            });
-        });
-    });
+                scroll->setValue(scroll->maximum()); }); }); });
 
     ui->TerminalReset->setEnabled(false);
     ui->TerminalReset->setStyleSheet(disableStyle);
@@ -74,7 +72,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->TerminalReset, &QPushButton::clicked, this, &MainWindow::on_TerminalReset_clicked);
 
     connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::toggleCancel);
-    connect(ui->TerminalClear, &QPushButton::clicked, this, &MainWindow::toggleCancel); // TOTO !!!!!!!!!!!!
 
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
@@ -202,6 +199,7 @@ void MainWindow::startSimulation()
         connect(stepStrategy, &StepExecutionStrategy::sendRemainingOutput, fsmGui, &FSMGui::updateOutput);
         connect(stepStrategy, &StepExecutionStrategy::sendRemainingVariable, fsmGui, &FSMGui::updateVariable);
         connect(ui->TerminalReset, &QPushButton::clicked, stepStrategy, &StepExecutionStrategy::reset);
+        connect(stepStrategy, &StepExecutionStrategy::endOfSimulation, this, &MainWindow::toggleCancel);
         emit setStrategy(stepStrategy);
     }
     else
@@ -606,14 +604,17 @@ void MainWindow::setDeleteButtonsEnabled(bool enabled)
     }
 }
 
-void MainWindow::toggleCancel(){
+void MainWindow::toggleCancel()
+{
 
-    if (!inSimulation){
+    if (!inSimulation)
+    {
         ui->TerminalCancel->setEnabled(false);
         this->inSimulation = true;
     }
 
-    else{
+    else
+    {
         ui->TerminalCancel->setEnabled(true);
         ui->TerminalReset->setEnabled(true);
         ui->TerminalReset->setStyleSheet("");

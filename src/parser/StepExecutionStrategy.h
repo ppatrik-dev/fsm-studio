@@ -56,4 +56,5 @@ signals:
     void sendRemainingInput(QString varName, QString remainingInput);
     void sendRemainingOutput(QString varName, QString remainingInput);
     void sendRemainingVariable(QString varName, QString remainingInput);
+    void endOfSimulation();
 };

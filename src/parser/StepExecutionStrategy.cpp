@@ -56,6 +56,7 @@ void StepExecutionStrategy::Execute()
     }
 
     finalizeExecution();
+    emit endOfSimulation();
 }
 
 void StepExecutionStrategy::initializeVariables()
