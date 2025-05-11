@@ -86,6 +86,7 @@ private:
     ActionExecutor *actionExecute = nullptr;
     MachineExecutor *executor = nullptr;
     StepExecutionStrategy *stepStrategy = nullptr;
+    MooreJs *moore = nullptr;
     // QList<TransitionRowWidget *> conditionWidgets;
 
     TerminalWidget *terminal;
@@ -93,7 +94,12 @@ private:
     bool inSimulation = false;
     QString disableStyle = "QPushButton:disabled { background-color: #444444; color: #888888; }";
 
-    enum detailTypeEnum {INPUT_DETAIL, OUTPUT_DETAIL, VARIABLE_DETAIL};
+    enum detailTypeEnum
+    {
+        INPUT_DETAIL,
+        OUTPUT_DETAIL,
+        VARIABLE_DETAIL
+    };
     detailTypeEnum detailType;
 
 signals:

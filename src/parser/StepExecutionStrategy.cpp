@@ -206,8 +206,6 @@ void StepExecutionStrategy::reset()
         terminalLog("Error: Starting state is null!", Error);
         m_finished = true;
     }
-    MooreJs *moore = new MooreJs();
-    m_actionExecutor.exposeObject("moore", moore);
     emit currentStateChanged(m_currentState->getName());
     m_finished = false;
     m_output.clear();
