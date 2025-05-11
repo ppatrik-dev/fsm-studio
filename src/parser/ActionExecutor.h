@@ -30,14 +30,14 @@ public:
      */
     ActionExecutor(QObject *parent = nullptr);
     /**
-     * @brief
+     * @brief Evaluate command in JS
      *
      * @param code
      * @return QJSValue
      */
     QJSValue evaluate(const QString &code);
     /**
-     * @brief
+     * @brief add custom object to QJSEngine
      *
      * @param name
      * @param object
@@ -74,6 +74,5 @@ public:
     }
 
 private:
-    /// @brief
     QJSEngine engine;
 };

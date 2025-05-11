@@ -35,7 +35,7 @@ public:
 
 public slots:
     /**
-     * @brief
+     * @brief Custom function for multiply in the QJSEngine
      *
      * @param a
      * @param b
@@ -46,7 +46,7 @@ public slots:
         return a * b;
     }
     /**
-     * @brief
+     * @brief Custom function for print in the QJSEngine
      *
      * @param message
      */
@@ -55,7 +55,7 @@ public slots:
         qDebug() << message;
     }
     /**
-     * @brief
+     * @brief Custom function for timeout in the QJSEngine
      *
      * @param timeout
      * @return true
@@ -63,6 +63,7 @@ public slots:
      */
     bool timer(qint32 timeout)
     {
+        /// @brief Waits for a specified timeout duration
         QEventLoop loop;
         QTimer::singleShot(timeout, &loop, &QEventLoop::quit);
         loop.exec();

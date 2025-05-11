@@ -132,21 +132,21 @@ public:
      */
     QString createDynamicVarCommand(const QString &name, const QString &value);
     /**
-     * @brief
+     * @brief extract variable name from JS command
      *
      * @param command
      * @return QString
      */
     QString extractVariableName(const QString &command);
     /**
-     * @brief
+     * @brief Extract variable value from JS command
      *
      * @param command
      * @return QString
      */
     QString extractVariableValue(const QString &command);
     /**
-     * @brief
+     * @brief Add new state
      *
      * @param name
      * @param state
@@ -196,40 +196,40 @@ public slots:
      */
     void setStartState(QString name);
     /**
-     * @brief
+     * @brief Add input to Gui
      *
      * @param name
      * @param value
      */
     void addGuiInput(const QString &name, const QString &value);
     /**
-     * @brief
+     * @brief Delete input in Gui
      *
      * @param name
      */
     void deleteGuiInput(const QString &name);
     /**
-     * @brief
+     * @brief Add output to Gui
      *
      * @param name
      * @param value
      */
     void addGuiOutput(const QString &name, const QString &value);
     /**
-     * @brief
+     * @brief Delete output in Gui
      *
      * @param name
      */
     void deleteGuiOutput(const QString &name);
     /**
-     * @brief
+     * @brief Add variable to Gui
      *
      * @param name
      * @param value
      */
     void addGuiVariable(const QString &name, const QString &value);
     /**
-     * @brief
+     * @brief Delete variable in Gui
      *
      * @param name
      */
@@ -260,18 +260,18 @@ public slots:
      */
     void getGuiStartState(QString &startState);
     /**
-     * @brief
+     * @brief Clear all attributes in Machine
      *
      */
     void clearMachine();
     /**
-     * @brief
+     * @brief Delete state
      *
      * @param name
      */
     void deleteState(QString name);
     /**
-     * @brief
+     * @brief Delete transition
      *
      * @param firstName
      * @param secondName

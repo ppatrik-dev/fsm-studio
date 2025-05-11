@@ -10,6 +10,12 @@
  */
 #include "MooreState.h"
 
+/**
+ * @brief Construct a new Moore State:: Moore State object
+ *
+ * @param name
+ * @param output
+ */
 MooreState::MooreState(const QString &name, const QString &output)
     : name(name), output(output)
 {
@@ -53,6 +59,7 @@ void MooreState::deleteTransitionByTarget(const QString &target)
 {
     auto &transitions = getTransitions();
 
+    /// @brief Removes transitions with the specified target state
     transitions.erase(
         std::remove_if(transitions.begin(), transitions.end(),
                        [&](const MooreTransition &t)

@@ -5,10 +5,12 @@
 
 void ForceDirectedLayout::applyLayout(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions, int width, int height, int iterations)
 {
+
     const double area = width * height;
     const double k = qSqrt(area / states.size());
     double temperature = 50.0;
 
+    // At first generate random position of the states
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> xDist(0.0, width);

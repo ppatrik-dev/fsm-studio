@@ -35,10 +35,10 @@ public:
      */
     virtual QString getOutput() const = 0;
     /**
-     * @brief
+     * @brief Add transition
      *
-     * @param input
-     * @param target
+     * @param input condition
+     * @param target where go next
      */
     virtual void addTransition(const QString &input, const QString &target) = 0;
 };

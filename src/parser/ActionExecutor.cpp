@@ -10,6 +10,11 @@
  */
 #include "ActionExecutor.h"
 
+/**
+ * @brief Construct a new Action Executor:: Action Executor object
+ *
+ * @param parent
+ */
 ActionExecutor::ActionExecutor(QObject *parent)
     : QObject(parent)
 {

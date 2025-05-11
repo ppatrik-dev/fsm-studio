@@ -32,7 +32,7 @@ class StepExecutionStrategy : public QObject, public IExecutionStrategy
 {
     Q_OBJECT
 
-    /// @brief
+    /// @brief Type of messages sends to terminal
     enum MessageType
     {
         Error,
@@ -54,15 +54,24 @@ public:
                                    MooreMachine &mooreMachine,
                                    QObject *parent = nullptr);
 
+private:
+    QString m_output;
+    bool m_finished = false;
+    std::shared_ptr<MooreState> m_currentState;
+    ActionExecutor &m_actionExecutor;
+    MooreMachine &m_mooreMachine;
+    QVector<QString> m_input;
+    QMap<QString, QStack<QString>> inputStacks;
+
     /**
-     * @brief
+     * @brief Execute Automate
      *
      * @return * void
      */
     void Execute() override;
 
     /**
-     * @brief
+     * @brief Creating and sending messages to Gui terminal
      *
      * @param message
      * @param type
@@ -70,114 +79,96 @@ public:
     void terminalLog(QString message, MessageType type);
 
     /**
-     * @brief
+     * @brief Add all variables (inputs, outputs, variables) to  QJSEngine
      *
      */
     void initializeVariables();
     /**
-     * @brief
+     * @brief Execute output command
      *
      */
     void executeStateOutput();
     /**
-     * @brief
+     * @brief Execute transition condition
      *
      * @return true
      * @return false
      */
     bool evaluateTransitions();
     /**
-     * @brief
+     * @brief Last state procedure (send values of variables to GUI)
      *
      */
     void finalizeExecution();
     /**
-     * @brief
+     * @brief Simulation finished
      *
      * @return true
      * @return false
      */
     bool isFinished() const { return m_finished; }
     /**
-     * @brief
+     * @brief Returns true if all stacks in the map are empty.
      *
      * @return true
      * @return false
      */
     bool allStacksAreEmpty();
     /**
-     * @brief
+     * @brief Get values of variables in QJSEngine and print them
      *
      */
     void outputVariables();
-
-private:
-    /// @brief
-    QString m_output;
-    /// @brief
-    bool m_finished = false;
-    /// @brief
-    std::shared_ptr<MooreState> m_currentState;
-    /// @brief
-    ActionExecutor &m_actionExecutor;
-    /// @brief
-    MooreMachine &m_mooreMachine;
-    /// @brief
-    QVector<QString> m_input;
-    /// @brief
-    qint32 index;
-    /// @brief
-    QMap<QString, QStack<QString>> inputStacks;
 public slots:
     /**
-     * @brief
+     * @brief Function for stepping in simulation
      *
      * @return true
      * @return false
      */
     bool step();
     /**
-     * @brief
+     * @brief Function for reseting simulation
      *
      */
     void reset();
 signals:
     /**
-     * @brief
+     * @brief sending message for Gui Terminal
      *
      * @param type
      * @param content
      */
     void sendMessage(QString type, QString content);
     /**
-     * @brief
+     * @brief sending name of current state to Gui
      *
      * @param name
      */
     void currentStateChanged(QString name);
     /**
-     * @brief
+     * @brief sending remaining input to Gui
      *
      * @param varName
      * @param remainingInput
      */
     void sendRemainingInput(QString varName, QString remainingInput);
     /**
-     * @brief
+     * @brief sending remaining output to Gui
      *
      * @param varName
      * @param remainingInput
      */
     void sendRemainingOutput(QString varName, QString remainingInput);
     /**
-     * @brief
+     * @brief sending remaining variable to Gui
      *
      * @param varName
      * @param remainingInput
      */
     void sendRemainingVariable(QString varName, QString remainingInput);
     /**
-     * @brief
+     * @brief Notifies the GUI that the simulation has finished
      *
      */
     void endOfSimulation();

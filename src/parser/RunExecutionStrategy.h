@@ -51,7 +51,7 @@ public:
      */
     void Execute() override;
     /**
-     * @brief
+     * @brief Stepping in simulation
      *
      * @param state
      * @return true
@@ -59,31 +59,27 @@ public:
      */
     bool step(std::shared_ptr<MooreState> state);
     /**
-     * @brief
+     * @brief Creating messages for Terminal Gui
      *
      * @param message
      * @param type
      */
     void terminalLog(QString message, MessageType type);
     /**
-     * @brief
+     * @brief Getting values of the variables from QJSEngine and printing them
      *
      */
     void outputVariables();
 
 private:
-    /// @brief
     QString output;
-    /// @brief
     std::shared_ptr<MooreState> currentState;
-    /// @brief
     ActionExecutor &actionExecutor;
-    /// @brief
     MooreMachine &mooreMachine;
 
 signals:
     /**
-     * @brief
+     * @brief sending message to GUI
      *
      * @param type
      * @param content

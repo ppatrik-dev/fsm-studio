@@ -20,8 +20,8 @@ public:
     /**
      * @brief Construct a new Moore Transition object
      *
-     * @param input
-     * @param target
+     * @param input condition of the transition
+     * @param target target we go if condition is true
      */
     MooreTransition() = default;
     MooreTransition(const QString &input, const QString &target)
@@ -49,8 +49,6 @@ public:
     }
 
 private:
-    /// @brief
     QString input;
-    /// @brief
     QString target;
 };

@@ -56,28 +56,28 @@ public:
      */
     QVector<MooreTransition> &getTransitions();
     /**
-     * @brief
+     * @brief add condition by transition
      *
      * @param conditionText
      * @param toStateText
      */
     void addConditionByTransition(QString conditionText, QString toStateText);
     /**
-     * @brief
+     * @brief find transition by TO parameter
      *
      * @param target
      * @return MooreTransition*
      */
     MooreTransition *findTransitionByTarget(QString &target);
     /**
-     * @brief
+     * @brief add transition
      *
      * @param input
      * @param target
      */
     void addTransition(const QString &input, const QString &target) override;
     /**
-     * @brief
+     * @brief delete transition by TO parameter
      *
      * @param target
      */

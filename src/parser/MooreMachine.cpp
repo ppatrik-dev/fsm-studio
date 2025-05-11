@@ -10,9 +10,22 @@
  */
 #include "MooreMachine.h"
 #include <QDebug>
+
+/**
+ * @brief Construct a new Moore Machine:: Moore Machine object
+ *
+ * @param parent
+ */
 MooreMachine::MooreMachine(QObject *parent)
     : QObject(parent) {}
 
+/**
+ * @brief Construct a new Moore Machine:: Moore Machine object
+ *
+ * @param name
+ * @param comment
+ * @param parent
+ */
 MooreMachine::MooreMachine(const QString &name, const QString &comment, QObject *parent)
     : QObject(parent), automate_name(name), automate_comment(comment) {}
 
@@ -223,6 +236,7 @@ void MooreMachine::deleteState(QString name)
     states.remove(name);
     for (auto &mooreState : states)
     {
+        /// @brief Removes transitions with the specified target state name
         auto &transitions = mooreState->getTransitions();
         transitions.erase(
             std::remove_if(

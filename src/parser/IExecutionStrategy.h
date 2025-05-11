@@ -23,7 +23,7 @@ public:
      */
     virtual ~IExecutionStrategy() = default;
     /**
-     * @brief
+     * @brief Start simulation
      *
      */
     virtual void Execute() = 0;

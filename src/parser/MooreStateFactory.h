@@ -27,15 +27,15 @@ public:
     /**
      * @brief Create a State object
      *
-     * @param name
-     * @param output
+     * @param name of the state
+     * @param output output of the state
      * @return std::shared_ptr<IMooreState>
      */
     std::shared_ptr<IMooreState> createState(const QString &name, const QString &output);
     /**
      * @brief Get the State object
      *
-     * @param name
+     * @param name of the state
      * @return std::shared_ptr<IMooreState>
      */
     std::shared_ptr<IMooreState> getState(const QString &name) const;

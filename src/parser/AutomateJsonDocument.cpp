@@ -16,6 +16,11 @@
 #include <QFile>
 #include <QDebug>
 
+/**
+ * @brief Construct a new Automate Json Document:: Automate Json Document object
+ *
+ * @param parent
+ */
 AutomateJsonDocument::AutomateJsonDocument(QObject *parent)
     : QObject(parent)
 {

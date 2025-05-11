@@ -36,7 +36,7 @@ public:
     explicit AutomateJsonDocument(QObject *parent = nullptr);
 public slots:
     /**
-     * @brief
+     * @brief Load a JSON file and create a machine object from it.
      *
      * @param fileName
      * @param machine
@@ -45,7 +45,7 @@ public slots:
      */
     bool loadAutomateFromJsonFile(const QString &fileName, MooreMachine &machine);
     /**
-     * @brief
+     * @brief Save to JSON file machine object
      *
      * @param fileName
      * @param machine

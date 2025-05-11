@@ -40,18 +40,14 @@ public slots:
      */
     void SetStrategy(IExecutionStrategy *strategy);
     /**
-     * @brief
+     * @brief Start simulation
      *
      */
     void Execute();
 
 private:
-    /// @brief
     IExecutionStrategy *strategy_ = nullptr;
-    /// @brief
     MooreMachine *machine;
-    /// @brief
     MooreState *currentState;
-    /// @brief
     QString output;
 };

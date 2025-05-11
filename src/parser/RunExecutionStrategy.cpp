@@ -12,6 +12,13 @@
 #include "MooreMachine.h"
 #include "MooreJsClass.h"
 
+/**
+ * @brief Construct a new Run Execution Strategy:: Run Execution Strategy object
+ *
+ * @param actionExecutor
+ * @param mooreMachine
+ * @param parent
+ */
 RunExecutionStrategy::RunExecutionStrategy(ActionExecutor &actionExecutor,
                                            MooreMachine &mooreMachine,
                                            QObject *parent)

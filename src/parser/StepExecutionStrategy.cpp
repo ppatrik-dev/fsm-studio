@@ -23,7 +23,13 @@ void wait(int ms)
         qApp->processEvents(QEventLoop::AllEvents, 5);
     }
 }
-
+/**
+ * @brief Construct a new Step Execution Strategy:: Step Execution Strategy object
+ *
+ * @param actionExecutor
+ * @param mooreMachine
+ * @param parent
+ */
 StepExecutionStrategy::StepExecutionStrategy(ActionExecutor &actionExecutor,
                                              MooreMachine &mooreMachine,
                                              QObject *parent)
@@ -56,6 +62,8 @@ void StepExecutionStrategy::Execute()
     m_finished = false;
     initializeVariables();
     bool wasEmptyInitially = allStacksAreEmpty();
+    /// @brief Check if there is any input and if there are transitions available
+
     while (step() && (!allStacksAreEmpty() || wasEmptyInitially))
     {
         terminalLog("Step succeeded.", Info);
@@ -75,7 +83,7 @@ void StepExecutionStrategy::initializeVariables()
         QStack<QString> inputStack;
         const QString &varName = m_mooreMachine.extractVariableName(input);
         const QString &varValue = m_mooreMachine.extractVariableValue(input);
-
+        /// @brief Reverse because I adding to Stack
         for (int i = varValue.length() - 1; i >= 0; --i)
         {
             QChar ch = varValue[i];
@@ -93,7 +101,6 @@ void StepExecutionStrategy::initializeVariables()
         m_actionExecutor.evaluate(variable);
     }
     m_actionExecutor.evaluate("var index = 0;");
-    index = 0;
 }
 
 bool StepExecutionStrategy::step()
@@ -142,6 +149,7 @@ bool StepExecutionStrategy::evaluateTransitions()
     for (const auto &transition : m_currentState->getTransitions())
     {
         terminalLog("Condition: " + transition.getInput(), Evaluate);
+        /// @brief Checking condition
         auto boolResult = m_actionExecutor.evaluate(transition.getInput());
         terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), TransitionResult);
 
@@ -161,6 +169,7 @@ void StepExecutionStrategy::finalizeExecution()
     executeStateOutput();
     m_finished = true;
     terminalLog("Execution finished in state: " + m_currentState->getName(), Info);
+    /// @brief Send remaining input characters to GUI
     for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
     {
         const QString varName = it.key();
@@ -172,7 +181,7 @@ void StepExecutionStrategy::finalizeExecution()
             emit sendRemainingInput(varName, "");
             continue;
         }
-
+        /// @brief Reverse string because I use Stack
         QList<QString> tempList = inputStack.toList();
         std::reverse(tempList.begin(), tempList.end());
 
@@ -183,9 +192,11 @@ void StepExecutionStrategy::finalizeExecution()
             QString variableValue = m_mooreMachine.extractVariableValue(value);
             remainingInput.append(variableValue);
         }
+        // Update inputs in intern context
         m_mooreMachine.addGuiInput(varName, remainingInput);
         emit sendRemainingInput(varName, remainingInput);
     }
+    /// @brief Send final output and variable states to GUI
     for (const QString &output : m_mooreMachine.getOutputs())
     {
         QString var = m_mooreMachine.extractVariableName(output);
@@ -217,6 +228,7 @@ void StepExecutionStrategy::reset()
     for (const QString &output : m_mooreMachine.getOutputs())
     {
         QString var = m_mooreMachine.extractVariableName(output);
+        /// @brief Reset outputs in intern context and GUI outputs
         m_mooreMachine.addGuiOutput(var, "");
         emit sendRemainingOutput(var, "");
     }
