@@ -31,7 +31,7 @@ QRectF FSMState::boundingRect() const
     return QRectF(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
 }
 
-void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
