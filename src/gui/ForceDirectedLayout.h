@@ -26,7 +26,7 @@ class ForceDirectedLayout
 {
 public:
     /**
-     * @brief
+     * @brief Running ForceDirect algorithm on the layout (fsmScene)
      *
      * @param states
      * @param transitions
