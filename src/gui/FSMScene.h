@@ -1,7 +1,8 @@
 /**
  * @file FSMScene.h
- * @author Patrik Prochazka, xprochp00, Miroslav Basista (xbasism00@vutbr.cz)
- * @brief Header file for FSM Scene class
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @author Miroslav Basista (xbasism00@vutbr.cz)
+ * @brief Header file for FSMScene class
  * @version 2.0
  * @date 2025-05-11
  *
@@ -39,12 +40,16 @@ private:
     QList<FSMTransition *> m_transitions;
     MooreMachine *machine;
     FSMState *activeState;
+
+    /**
+     * @brief Enumeration for scene mode
+     * 
+     */
     enum sceneModeEnum
     {
         SELECT_MODE,
         ADD_TRANSITION_MODE,
         DELETE_STATE_MODE,
-        DELETE_TRANSITION_MODE
     };
     enum sceneModeEnum sceneMode;
 
@@ -58,18 +63,26 @@ public:
      */
     explicit FSMScene(QObject *parent = nullptr);
 
+    void clearScene();
+
     /**
      * @brief Clears the FSM scene
      *
      */
-    void clearScene();
+    void onClearScene()
+    {
+        clearScene();
+    }
 
     /**
      * @brief Set the Machine object
      *
      * @param machine
      */
-    void setMachine(MooreMachine *machine);
+    void setMachine(MooreMachine *machine)
+    {
+        this->machine = machine;
+    }
 
     /**
      * @brief Add signal-slot connection
@@ -157,7 +170,10 @@ public:
      * @param name
      * @return FSMState*
      */
-    FSMState *getStateByName(const QString &name) const;
+    FSMState *getStateByName(const QString &name) const
+    {
+        return m_states.value(name, nullptr);
+    }
 
     /**
      * @brief Debug print for deleting items
@@ -257,23 +273,11 @@ public slots:
     void onDeleteState();
 
     /**
-     * @brief Delete state transition
-     *
-     */
-    void onDeleteTransition();
-
-    /**
      * @brief Create machine from file slot
      *
      * @param machine
      */
     void createMachineFile(MooreMachine &machine);
-
-    /**
-     * @brief Clear scene signal slot
-     *
-     */
-    void onClearScene();
 
     /**
      * @brief Set active state in simulation

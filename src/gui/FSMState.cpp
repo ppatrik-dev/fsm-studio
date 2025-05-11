@@ -1,6 +1,13 @@
-// File: FSMState.cpp
-// Author: Patrik Prochazka
-// Login: xprochp00
+/**
+ * @file FSMState.cpp
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @brief Source file for FSMState class
+ * @version 2.0
+ * @date 2025-05-11
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 
 #include "FSMState.h"
 #include "FSMTransition.h"
@@ -9,6 +16,10 @@
 #include <QGraphicsSceneContextMenuEvent>
 #include <QDebug>
 
+/**
+ * @details
+ * Constructs new State object and set its properties
+ */
 FSMState::FSMState(const QString &label)
     : m_initial(false), m_hovered(false), m_active(false),
       m_radius(0), m_label(label)
@@ -26,11 +37,19 @@ FSMState::FSMState(const QString &label)
     setCacheMode(DeviceCoordinateCache);
 }
 
+/**
+ * @details
+ * Compute state bounding rectangle
+ */
 QRectF FSMState::boundingRect() const
 {
     return QRectF(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
 }
 
+/**
+ * @details
+ * Paint the state item to scene 
+ */
 void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -58,6 +77,10 @@ void FSMState::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
     painter->drawText(rect, Qt::AlignCenter, m_label);
 }
 
+/**
+ * @details
+ * Update state item in scene
+ */
 QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionHasChanged)
@@ -70,6 +93,10 @@ QVariant FSMState::itemChange(GraphicsItemChange change, const QVariant &value)
     return QGraphicsItem::itemChange(change, value);
 }
 
+/**
+ * @details
+ * Remove transition condition row of specified state
+ */
 void FSMState::removeTransitionRow(QString toState)
 {
     auto rows = m_transitionsRows;
@@ -84,6 +111,10 @@ void FSMState::removeTransitionRow(QString toState)
     }
 }
 
+/**
+ * @details
+ * Clear all transition condition rows of state object
+ */
 void FSMState::clearTransitionsRows()
 {
     for (auto row : m_transitionsRows)
@@ -101,13 +132,13 @@ void FSMState::clearTransitionsRows()
 void FSMState::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     m_hovered = true;
-    update(); // triggers repaint
+    update();
     QGraphicsItem::hoverEnterEvent(event);
 }
 
 void FSMState::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     m_hovered = false;
-    update(); // triggers repaint
+    update();
     QGraphicsItem::hoverLeaveEvent(event);
 }

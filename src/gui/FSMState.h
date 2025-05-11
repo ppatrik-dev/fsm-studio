@@ -1,7 +1,7 @@
 /**
  * @file FSMState.h
- * @author Patrik Prochazka, xprochp00
- * @brief Header file for FSM State class
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @brief Header file for FSMState class
  * @version 2.0
  * @date 2025-05-11
  * 

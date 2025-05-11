@@ -1,7 +1,7 @@
 /**
  * @file FSMView.h
- * @author Patrik Prochazka, xprochp00
- * @brief Header file for FSM View class
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @brief Header file for FSMView class
  * @version 2.0
  * @date 2025-05-11
  * 

@@ -1,8 +1,8 @@
 /**
  * @file mainwindow.h
- * @author Patrik Prochazka, xprochp00
- *         Filip Ficka, xfickaf00
- *         Miroslav Basista (xbasism00@vutbr.cz)
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @author Miroslav Basista (xbasism00@vutbr.cz)
+ * @author Filip Ficka, xfickaf00
  * @brief header file for mainwindow
  * @version 1.7
  * @date 2025-05-10
@@ -36,6 +36,10 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
+/**
+ * @brief MainWindow class, inherit from QMainWindow
+ * 
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -58,11 +62,13 @@ public:
     }
 
 private:
+    /**
+     * @brief Clear application save data
+     * 
+     */
     void clear()
     {
-        emit
-            emit
-            clearSceneRequested();
+        emit clearSceneRequested();
         emit clearMachineRequested();
         clearFSMDetails();
     }
@@ -90,19 +96,23 @@ private:
     MachineExecutor *executor = nullptr;
     StepExecutionStrategy *stepStrategy = nullptr;
     MooreJs *moore = nullptr;
-    // QList<TransitionRowWidget *> conditionWidgets;
 
     TerminalWidget *terminal;
     bool TerminalActive = false;
     bool inSimulation = false;
     QString disableStyle = "QPushButton:disabled { background-color: #444444; color: #888888; }";
 
+    /**
+     * @brief Enumeration for FSM detail type
+     * 
+     */
     enum detailTypeEnum
     {
         INPUT_DETAIL,
         OUTPUT_DETAIL,
         VARIABLE_DETAIL
     };
+
     detailTypeEnum detailType;
 
 signals:
@@ -125,10 +135,36 @@ public slots:
     void displayUpdatedVariable(QString key, QString value);
 
 private slots:
+    /**
+     * @brief Run simulation button slot
+     * 
+     */
     void runSimulation();
+
+    /**
+     * @brief Start simulation button slot
+     * 
+     */
     void startSimulation();
+
+    /**
+     * @brief Cancel simulation button slot
+     * 
+     */
     void cancelSimulation();
+
+    /**
+     * @brief Create new transition object in scene from row
+     * 
+     * @param row 
+     */
     void onCreateTransition(TransitionRowWidget *row);
+
+    /**
+     * @brief Delete transition object in scene from row
+     * 
+     * @param row 
+     */
     void onRemoveTransition(TransitionRowWidget *row);
 
     /**
@@ -158,7 +194,6 @@ private slots:
      * @param row 
      */
     void onDeleteRow(GenericRowWidget *row);
-
 
     void onImportFileClicked();
     void onExportFileClicked();
@@ -202,17 +237,52 @@ private slots:
     void on_TerminalReset_clicked();
 
 public:
+    /**
+     * @brief Set the Selected State object
+     * 
+     * @param state 
+     */
     void setSelectedState(FSMState *state)
     {
         selectedState = state;
     }
 
+    /**
+     * @brief Create a Details Row object
+     * 
+     * @param layout 
+     * @param widgets 
+     * @param type 
+     * @return GenericRowWidget* 
+     */
     GenericRowWidget *createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget *> &widgets, GenericRowWidget::RowType type);
 
 private:
+    /**
+     * @brief Displays updated FSM detail in right panel
+     * 
+     * @param type 
+     * @param key 
+     * @param value 
+     */
     void displayUpdatedDetail(detailTypeEnum type, QString key, QString value);
+
+    /**
+     * @brief Clears stored FSM details
+     * 
+     */
     void clearFSMDetails();
+
+    /**
+     * @brief Clears transition condition rows
+     * 
+     */
     void clearTransitionRows();
+
+    /**
+     * @brief detach row widgets from layout
+     * 
+     */
     void detachWidgetsFromLayout();
 };
 

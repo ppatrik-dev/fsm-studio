@@ -1,7 +1,8 @@
 /**
  * @file FSMGui.h
- * @author Patrik Prochazka, xprochp00, Miroslav Basista (xbasism00@vutbr.cz)
- * @brief Header file for FSM Gui class
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @author Miroslav Basista (xbasism00@vutbr.cz)
+ * @brief Header file for FSMGui class
  * @version 2.0
  * @date 2025-05-11
  *

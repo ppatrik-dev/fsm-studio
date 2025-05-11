@@ -1,5 +1,21 @@
+/**
+ * @file FSMGui.cpp
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @author Miroslav Basista (xbasism00@vutbr.cz)
+ * @brief Source file for FSMGui class
+ * @version 2.0
+ * @date 2025-05-11
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "FSMGui.h"
 
+/**
+ * @details
+ * Set the initial state and unset the previous
+ */
 void FSMGui::setInitialState(FSMState *state)
 {
     if (m_initialState == state)
@@ -23,6 +39,10 @@ void FSMGui::setInitialState(FSMState *state)
     }
 }
 
+/**
+ * @details
+ * Iterate through Inputs and save them to map by key with value
+ */
 void FSMGui::saveInputs(const QList<GenericRowWidget *> rows)
 {
     QList<QString> used_id;
@@ -70,6 +90,10 @@ void FSMGui::deleteInput(const QString &key)
     emit inputDeleteValue(key);
 }
 
+/**
+ * @details
+ * Iterate through Outputs and save them to map by key with value
+ */
 void FSMGui::saveOutputs(const QList<GenericRowWidget *> rows)
 {
     QList<QString> used_id;
@@ -117,6 +141,10 @@ void FSMGui::deleteOutput(const QString &key)
     emit outputDeleteValue(key);
 }
 
+/**
+ * @details
+ * Iterate through Variables and save them to map by key with value
+ */
 void FSMGui::saveVariables(const QList<GenericRowWidget *> rows)
 {
     QList<QString> used_id;
@@ -164,6 +192,10 @@ void FSMGui::deleteVariable(const QString &key)
     emit variableDeleteValue(key);
 }
 
+/**
+ * @details
+ * Emit signals and store details
+ */
 void FSMGui::importDetails()
 {
     emit getNameValue(m_name);

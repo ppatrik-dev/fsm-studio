@@ -1,6 +1,13 @@
-// File: FSMView.cpp
-// Author: Patrik Prochazka
-// Login: xprochp00
+/**
+ * @file FSMView.cpp
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @brief Source file for FSMView class
+ * @version 2.0
+ * @date 2025-05-11
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 
 #include "FSMView.h"
 #include <QAction>
@@ -10,12 +17,20 @@
 #include <QContextMenuEvent>
 #include <QApplication>
 
+/**
+ * @details
+ * Construct FSMView object and set some flags
+ */
 FSMView::FSMView(QWidget *parent) : QGraphicsView(parent) {
     setRenderHint(QPainter::Antialiasing);
     setRenderHint(QPainter::TextAntialiasing);
     setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 }
 
+/**
+ * @details 
+ * Define mouse wheel event zooming
+ */
 void FSMView::wheelEvent(QWheelEvent *event) {
     if (!(event->modifiers() & Qt::ControlModifier)) {
         QGraphicsView::wheelEvent(event);
@@ -38,6 +53,10 @@ void FSMView::wheelEvent(QWheelEvent *event) {
     event->accept();
 }
 
+/**
+ * @details
+ * Handles right click scene menu with option to edit the FSM
+ */
 void FSMView::contextMenuEvent(QContextMenuEvent *event) {
     QMenu menu(this);
 
@@ -62,7 +81,6 @@ void FSMView::contextMenuEvent(QContextMenuEvent *event) {
     QAction *addStateAction = menu.addAction("Add State");
     QAction *addTransitionAction = menu.addAction("Add Transition");
     QAction *deleteStateAction = menu.addAction("Delete State");
-    // QAction *deleteTransitionAction = menu.addAction("Delete Transition");
 
     QAction *selected = menu.exec(event->globalPos());
 
@@ -73,11 +91,12 @@ void FSMView::contextMenuEvent(QContextMenuEvent *event) {
     } else if (selected == deleteStateAction) {
         emit deleteStateRequested();
     }
-    // else if (selected == deleteTransitionAction) {
-    //     emit deleteTransitionRequested();
-    // }
 }
 
+/**
+ * @details
+ * Fitting view to window
+ */
 void FSMView::fitToSceneOnce()
 {
     if (!scene()) return;
@@ -93,6 +112,10 @@ void FSMView::fitToSceneOnce()
     }
 }
 
+/**
+ * @details
+ * Restoring previous view
+ */
 void FSMView::restorePreviousView()
 {
     if (m_transformSaved) {

@@ -1,7 +1,7 @@
 /**
  * @file FSMTransition.h
- * @author Patrik Prochazka, xprochp00
- * @brief 2.0
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @brief Header file for FSMTransition class
  * @version 0.1
  * @date 2025-05-11
  * 
@@ -93,7 +93,10 @@ public:
      * 
      * @return FSMState* 
      */
-    FSMState *target() const;
+    FSMState *target() const
+    {
+        return m_secondState;
+    }
 
     /**
      * @brief Get the Other State object

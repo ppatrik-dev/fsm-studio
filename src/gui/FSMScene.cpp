@@ -1,6 +1,14 @@
-// File: FSMView.cpp
-// Author: Patrik Prochazka
-// Login: xprochp00
+/**
+ * @file FSMScene.cpp
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @author Miroslav Basista (xbasism00@vutbr.cz)
+ * @brief Source file for FSMScene class
+ * @version 2.0
+ * @date 2025-05-11
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 
 #include "FSMScene.h"
 #include "mainwindow.h"
@@ -12,16 +20,19 @@
 #include "ForceDirectedLayout.h"
 #include "../parser/MooreMachine.h"
 
+/**
+ * @details
+ * Construct Scene object and initialize its member variables
+ */
 FSMScene::FSMScene(QObject *parent)
     : QGraphicsScene{parent},
       firstSelectedState(nullptr), activeState(nullptr),
       sceneMode(SELECT_MODE) {}
 
-void FSMScene::setMachine(MooreMachine *machine)
-{
-    this->machine = machine;
-}
-
+/**
+ * @details
+ * Set active state in simulation
+ */
 void FSMScene::setActiveState(const QString &label) {
     FSMState *state = getStateByName(label);
 
@@ -38,6 +49,10 @@ void FSMScene::setActiveState(const QString &label) {
     }
 }
 
+/**
+ * @details
+ * Unset the active state when exiting simulation
+ */
 void FSMScene::unsetActiveState() {
     if (activeState) {
         activeState->setActive(false);
@@ -63,11 +78,10 @@ void FSMScene::onDeleteState()
     sceneMode = DELETE_STATE_MODE;
 }
 
-void FSMScene::onDeleteTransition()
-{
-    sceneMode = DELETE_TRANSITION_MODE;
-}
-
+/**
+ * @details
+ * Create and add new state object to scene
+ */
 void FSMScene::addState(QPointF pos)
 {
     QString label = getStateLabel();
@@ -105,16 +119,10 @@ FSMTransition* FSMScene::addImportTransition(FSMState *firstSelectedState, FSMSt
 
     return transition;
 }
-FSMState *FSMScene::getStateByName(const QString &name) const
-{
-    return m_states.value(name, nullptr);
-}
 
-void FSMScene::onClearScene()
-{
-    clearScene();
-}
-
+/**
+ * @details Add new transition to scene based on two selected states 
+ */
 void FSMScene::addTransition(FSMState *state)
 {
     if (!firstSelectedState)
@@ -163,6 +171,10 @@ void FSMScene::addTransition(FSMState *state)
     }
 }
 
+/**
+ * @details
+ * Delete transitions and handle all scenarios
+ */
 void FSMScene::deleteTransition(FSMTransition *transition, bool mooreDeleteFlag)
 {
     if (!transition) return;
@@ -187,6 +199,10 @@ void FSMScene::deleteTransition(FSMTransition *transition, bool mooreDeleteFlag)
     transition->deleteLater();
 }
 
+/**
+ * @details
+ * Delete state and handle all scenarios
+ */
 void FSMScene::deleteState(FSMState *state)
 {
     QList<FSMTransition*> transitions = state->getTransitions();
@@ -208,6 +224,10 @@ void FSMScene::deleteState(FSMState *state)
     state->deleteLater();
 }
 
+/**
+ * @details
+ * Iterate through states and delete also with transitions
+ */
 void FSMScene::clearScene()
 {
     auto states = m_states.values();
@@ -217,6 +237,10 @@ void FSMScene::clearScene()
     }
 }
 
+/**
+ * @details
+ * Iterate through conditions rows of state and save them
+ */
 void FSMScene::saveConditions(FSMState *state)
 {
     auto rows = state->getTransitionsRows();
@@ -235,6 +259,10 @@ void FSMScene::saveConditions(FSMState *state)
     }
 }
 
+/**
+ * @details
+ * Remove all empty conditions
+ */
 void FSMScene::removeEpsilonTransitions() {
     auto states = m_states.values();
 
@@ -243,6 +271,9 @@ void FSMScene::removeEpsilonTransitions() {
     }
 }
 
+/**
+ * @details Define action on selected editing action from menu 
+ */
 void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
@@ -272,20 +303,6 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
         sceneMode = SELECT_MODE;
     }
-    else if (sceneMode == DELETE_TRANSITION_MODE)
-    {
-        // if (FSMTransition *transition = qgraphicsitem_cast<FSMTransition *>(item))
-        // {
-        //     transition->setSelected(true);
-        //     deleteTransition(transition);
-        // }
-        // else
-        // {
-        //     QGraphicsScene::mousePressEvent(event);
-        // }
-
-        sceneMode = SELECT_MODE;
-    }
     else
     {
         QList<QGraphicsItem *> underCursor = items(event->scenePos(), Qt::IntersectsItemShape, Qt::DescendingOrder);
@@ -310,6 +327,9 @@ void FSMScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
+/**
+ * @details Create new transition condition row from specified state and transition
+ */
 TransitionRowWidget* FSMScene::createTransitionRow(FSMState *state, const MooreTransition &transition) {
     TransitionRowWidget *row = nullptr;
     
@@ -325,6 +345,10 @@ TransitionRowWidget* FSMScene::createTransitionRow(FSMState *state, const MooreT
     return row;
 }
 
+/**
+ * @details
+ * Create FSM machine from file
+ */
 void FSMScene::createMachineFile(MooreMachine &machine) {
     for (auto it = machine.states.cbegin(); it != machine.states.cend(); ++it)
     {
@@ -348,6 +372,10 @@ void FSMScene::createMachineFile(MooreMachine &machine) {
     displayAutomaton(m_states.values(), m_transitions);
 }
 
+/**
+ * @details
+ * Display imported FSM to scene
+ */
 void FSMScene::displayAutomaton(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions)
 {
     ForceDirectedLayout layout;
@@ -363,6 +391,7 @@ void FSMScene::displayAutomaton(const QList<FSMState *> &states, const QList<FSM
         addItem(transition);
     }
 }
+
 void FSMScene::addConnects()
 {
     connect(this, &FSMScene::createStateRequested,
@@ -372,6 +401,9 @@ void FSMScene::addConnects()
             this->machine, &MooreMachine::createTransition);
 }
 
+/**
+ * @details Creating new transition between to states in scene 
+ */
 FSMTransition *FSMScene::createTransition(FSMState *firstState, FSMState *secondState)
 {
     emit createTransitionRequest(firstState->getMooreState(), "", secondState->getLabel());
@@ -393,6 +425,10 @@ FSMTransition *FSMScene::createTransition(FSMState *firstState, FSMState *second
     return transition;
 }
 
+/**
+ * @details
+ * Printing debug info about deleted scene object
+ */
 void FSMScene::deleteDebug(QGraphicsItem *item) {
     if (debug) {
         if (item) {

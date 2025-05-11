@@ -1,21 +1,17 @@
-// File: main.cpp
-// Author: Patrik Prochazka
-// Login: xprochp00
-
+/**
+ * @file main.cpp
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @brief Source file 
+ * @version 0.1
+ * @date 2025-05-11
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+#include "mainwindow.h"
 #include <QApplication>
-#include <QFile>
 #include <QTextStream>
-#include "mainwindow.h"
-#include "mainwindow.h"
-#include <QApplication>
-#include <iostream>
-#include <vector>
-#include "../parser/AutomateJsonDocument.h"
-#include "../parser/MooreMachine.h"
-#include "../parser/ActionExecutor.h"
-#include "../parser/MooreMachineExecutor.h"
-#include "../parser/RunExecutionStrategy.h"
-#include "../parser/StepExecutionStrategy.h"
+#include <QFile>
 
 int main(int argc, char *argv[])
 {

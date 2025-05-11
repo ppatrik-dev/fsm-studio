@@ -1,9 +1,20 @@
-// File: FSMState.h
-// Author: Patrik Prochazka
-// Login: xprochp00
+/**
+ * @file FSMTransition.cpp
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @brief Source file for FSMTransition class
+ * @version 2.0
+ * @date 2025-05-11
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 
 #include "FSMTransition.h"
 
+/**
+ * @details 
+ * Construct new transition object, setting some properties
+ */
 FSMTransition::FSMTransition(FSMState *first, FSMState *second)
     : m_firstState(first), m_secondState(second)
 {
@@ -12,6 +23,10 @@ FSMTransition::FSMTransition(FSMState *first, FSMState *second)
     setCacheMode(DeviceCoordinateCache);
 }
 
+/**
+ * @details
+ * Update transition position in scene
+ */
 void FSMTransition::updatePosition()
 {
     prepareGeometryChange();
@@ -25,6 +40,10 @@ void FSMTransition::updatePosition()
     update();
 }
 
+/**
+ * @details
+ * Computing item bounding rectangle
+ */
 QRectF FSMTransition::boundingRect() const
 {
     if (m_firstState == m_secondState) {
@@ -33,6 +52,10 @@ QRectF FSMTransition::boundingRect() const
     return QRectF(m_line.p1(), QSizeF(m_line.dx(), m_line.dy())).normalized().adjusted(-5, -5, 5, 5);
 }
 
+/**
+ * @details
+ * Paint the transition item to scene
+ */
 void FSMTransition::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->setRenderHint(QPainter::Antialiasing);
@@ -46,11 +69,10 @@ void FSMTransition::paint(QPainter *painter, const QStyleOptionGraphicsItem *, Q
     }
 }
 
-FSMState *FSMTransition::target() const
-{
-    return m_secondState;
-}
-
+/**
+ * @details
+ * Return saved condition row
+ */
 QString FSMTransition::getCondition() const
 {
     if (m_row) {

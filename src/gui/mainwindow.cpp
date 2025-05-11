@@ -1,9 +1,9 @@
 /**
  * @file mainwindow.h
- * @author Patrik Prochazka, xprochp00
- *         Filip Ficka, xfickaf00
- *         Miroslav Basista (xbasism00@vutbr.cz)
- * @brief cpp file for functions from mainwindow.h
+ * @author Patrik Prochazka (xprochp00@vutbr.cz)
+ * @author Miroslav Basista (xbasism00@vutbr.cz)
+ * @author Filip Ficka, xfickaf00
+ * @brief Source file for MainWindow class
  * @version 1.7
  * @date 2025-05-10
  *
@@ -52,7 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
     AutomateJsonDocument *jsonDocument = new AutomateJsonDocument(this);
 
     /// terminal creation
-
     ui->TerminalScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->TerminalScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -127,7 +126,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmView, &FSMView::addStateRequested, fsmScene, &FSMScene::onAddState);
     connect(fsmView, &FSMView::addTransitionRequested, fsmScene, &FSMScene::onAddTransition);
     connect(fsmView, &FSMView::deleteStateRequested, fsmScene, &FSMScene::onDeleteState);
-    /// connect(fsmView, &FSMView::deleteTransitionRequested, fsmScene, &FSMScene::onDeleteTransition);
 
     /// Details panel
     connect(fsmScene, &FSMScene::itemSelected, this, &MainWindow::showDetailsPanel);
@@ -173,6 +171,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fsmScene, &FSMScene::newTransitionRowRequested, this, &MainWindow::newTransitionRow);
     connect(fsmScene, &FSMScene::requestRemoveRowAndTransition, this, &MainWindow::removeRowAndTransition);
 }
+
+/**
+ * @details
+ * Starting the simulation, checking intial state set,
+ * removing empty conditions and toggling terminal
+ * and creating the interpret machine
+ */
 void MainWindow::startSimulation()
 {
     if (selectedState)
@@ -213,6 +218,11 @@ void MainWindow::startSimulation()
     }
 }
 
+/**
+ * @details
+ * Cancelling the simulation with turning off the terminal,
+ * unseting active state and removing interpretation objects
+ */
 void MainWindow::cancelSimulation()
 {
     toggleTerminal();
@@ -240,11 +250,19 @@ void MainWindow::cancelSimulation()
     }
 }
 
+/**
+ * @details
+ * Emititing interpretation execution
+ */
 void MainWindow::runSimulation()
 {
     emit executeMachine(*machine);
 }
 
+/**
+ * @details
+ * Exporting FSM to file
+ */
 void MainWindow::onExportFileClicked()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Save File", "", "JSON FIle (*.json*)");
@@ -258,6 +276,11 @@ void MainWindow::onExportFileClicked()
         qDebug() << "File saving was canceled.";
     }
 }
+
+/**
+ * @details
+ * Importing FSM from file
+ */
 void MainWindow::onImportFileClicked()
 {
     QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
@@ -266,6 +289,7 @@ void MainWindow::onImportFileClicked()
     emit createMachine(*machine);
     emit importDetailsRequested();
 }
+
 
 GenericRowWidget *MainWindow::createDetailsRow(QVBoxLayout *layout, QList<GenericRowWidget *> &widgets, GenericRowWidget::RowType type)
 {
@@ -279,6 +303,10 @@ GenericRowWidget *MainWindow::createDetailsRow(QVBoxLayout *layout, QList<Generi
     return row;
 }
 
+/**
+ * @details
+ * Displaying updated FSM details based on type 
+ */
 void MainWindow::displayUpdatedDetail(detailTypeEnum type, QString key, QString value)
 {
     QVBoxLayout *layout = nullptr;
@@ -330,6 +358,10 @@ void MainWindow::displayUpdatedVariable(QString key, QString value)
     displayUpdatedDetail(VARIABLE_DETAIL, key, value);
 }
 
+/**
+ * @details
+ * Displaying FSM details to gui right panel
+ */
 void MainWindow::displayFSMDetais()
 {
     ui->automataNameLineEdit->setText(fsmGui->getName());
@@ -354,7 +386,10 @@ void MainWindow::displayFSMDetais()
     }
 }
 
-// MENU
+/**
+ * @details
+ * Creating and handling righ click menu in scene
+ */
 void MainWindow::showDetailsPanel(QGraphicsItem *item)
 {
     if (!item || item->type() != FSMState::Type)
@@ -435,7 +470,6 @@ void MainWindow::removeRowAndTransition(FSMState *state, TransitionRowWidget *ro
     setSelectedState(nullptr);
 }
 
-// CONDITIONS
 TransitionRowWidget *MainWindow::onAddTransitionClicked()
 {
     auto *row = new TransitionRowWidget();
