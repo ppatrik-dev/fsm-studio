@@ -1,0 +1,71 @@
+{
+    "automate_comment": "Mooreov automat, ktorý rozpozná prístupový PIN kód '123'",
+    "automate_name": "Pin123Unlock",
+    "inputs": [
+        "var input;"
+    ],
+    "outputs": [
+        "var output;",
+        "var output_string = '';"
+    ],
+    "start_state": "S0",
+    "states": {
+        "S0": {
+            "action": "output = 'LOCKED'; output_string += output + ' ';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "true;",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S1": {
+            "action": "output = 'LOCKED'; output_string += output + ' ';",
+            "transitions": [
+                {
+                    "condition": "input == '2';",
+                    "to": "S2"
+                },
+                {
+                    "condition": "input == '1';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "true;",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S2": {
+            "action": "output = 'LOCKED'; output_string += output + ' ';",
+            "transitions": [
+                {
+                    "condition": "input == '3';",
+                    "to": "UNLOCKED"
+                },
+                {
+                    "condition": "input == '1';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "true;",
+                    "to": "S0"
+                }
+            ]
+        },
+        "UNLOCKED": {
+            "action": "output = 'UNLOCKED'; output_string += output + ' ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "UNLOCKED"
+                }
+            ]
+        }
+    },
+    "variables": []
+}

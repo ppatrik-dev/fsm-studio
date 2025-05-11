@@ -1,0 +1,77 @@
+{
+    "automate_comment": "Výstup '1', ak počet vstupov > 5, inak '0'",
+    "automate_name": "LengthGreaterThan5",
+    "inputs": [
+        "var input;"
+    ],
+    "outputs": [
+        "var output = '';"
+    ],
+    "start_state": "S0",
+    "states": {
+        "S0": {
+            "action": "output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "S1"
+                }
+            ]
+        },
+        "S1": {
+            "action": "output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "S2"
+                }
+            ]
+        },
+        "S2": {
+            "action": "output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "S3"
+                }
+            ]
+        },
+        "S3": {
+            "action": "output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "S4"
+                }
+            ]
+        },
+        "S4": {
+            "action": "output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "S5"
+                }
+            ]
+        },
+        "S5": {
+            "action": "output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "S6"
+                }
+            ]
+        },
+        "S6": {
+            "action": "output += '1 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "S6"
+                }
+            ]
+        }
+    },
+    "variables": []
+}

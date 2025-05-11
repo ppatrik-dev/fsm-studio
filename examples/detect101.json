@@ -1,0 +1,66 @@
+{
+    "automate_comment": "Mooreov automat, ktorý detekuje výskyt sekvencie 101",
+    "automate_name": "Detect101",
+    "inputs": [
+        "var input;"
+    ],
+    "outputs": [
+        "var output;"
+    ],
+    "start_state": "S0",
+    "states": {
+        "S0": {
+            "action": "output = '0';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "input == '0';",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S1": {
+            "action": "output = '0';",
+            "transitions": [
+                {
+                    "condition": "input == '0';",
+                    "to": "S2"
+                },
+                {
+                    "condition": "input == '1';",
+                    "to": "S1"
+                }
+            ]
+        },
+        "S2": {
+            "action": "output = '0';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "S3"
+                },
+                {
+                    "condition": "input == '0';",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S3": {
+            "action": "output = '1';",
+            "transitions": [
+                {
+                    "condition": "input == '1';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "input == '0';",
+                    "to": "S2"
+                }
+            ]
+        }
+    },
+    "variables": []
+}

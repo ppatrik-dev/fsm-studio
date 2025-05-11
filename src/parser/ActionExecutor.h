@@ -21,6 +21,11 @@ public:
     {
         return engine.globalObject().property(var).toString();
     }
+    void setValue(QString var, QString value)
+    {
+        qDebug() << var << value;
+        engine.globalObject().setProperty(var, QJSValue(value));
+    }
 
 private:
     QJSEngine engine;

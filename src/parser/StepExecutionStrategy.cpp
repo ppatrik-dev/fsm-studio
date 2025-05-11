@@ -91,6 +91,7 @@ bool StepExecutionStrategy::step()
     for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
     {
         QStack<QString> &stack = it.value();
+        terminalLog(stack.top(), Evaluate);
         m_actionExecutor.evaluate(stack.top());
     }
     if (m_finished || !m_currentState)
@@ -124,7 +125,7 @@ bool StepExecutionStrategy::evaluateTransitions()
 {
     for (const auto &transition : m_currentState->getTransitions())
     {
-        terminalLog("Condition: " + transition.getInput(), Info);
+        terminalLog("Condition: " + transition.getInput(), Evaluate);
         auto boolResult = m_actionExecutor.evaluate(transition.getInput());
         terminalLog("Condition result: " + QString(boolResult.toBool() ? "true" : "false"), TransitionResult);
 
@@ -132,6 +133,7 @@ bool StepExecutionStrategy::evaluateTransitions()
         {
             m_currentState = m_mooreMachine.getState(transition.getTarget());
             emit currentStateChanged(m_currentState->getName());
+            outputVariables();
             return true;
         }
     }
@@ -200,7 +202,13 @@ void StepExecutionStrategy::reset()
     emit currentStateChanged(m_currentState->getName());
     m_finished = false;
     m_output.clear();
-
+    for (const QString &output : m_mooreMachine.getOutputs())
+    {
+        QString var = m_mooreMachine.extractVariableName(output);
+        m_actionExecutor.setValue(var, "");
+        emit sendRemainingOutput(var, "");
+    }
+    qDebug() << m_actionExecutor.getValue("output");
     if (!m_currentState)
     {
         terminalLog("Error: Starting state is null!", Error);

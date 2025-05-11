@@ -1,0 +1,74 @@
+{
+    "automate_comment": "Detekuje výskyt podreťazca 'abc' a vypisuje 1 pri nájdení, inak 0",
+    "automate_name": "DetectABC",
+    "inputs": [
+        "var input;"
+    ],
+    "outputs": [
+        "var output = '';"
+    ],
+    "start_state": "START",
+    "states": {
+        "START": {
+            "action": "output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "input == 'a';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "true;",
+                    "to": "START"
+                }
+            ]
+        },
+        "S1": {
+            "action": "output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "input == 'b';",
+                    "to": "S2"
+                },
+                {
+                    "condition": "input == 'a';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "true;",
+                    "to": "START"
+                }
+            ]
+        },
+        "S2": {
+            "action": "output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "input == 'c';",
+                    "to": "MATCH"
+                },
+                {
+                    "condition": "input == 'a';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "true;",
+                    "to": "START"
+                }
+            ]
+        },
+        "MATCH": {
+            "action": "output += '1 ';",
+            "transitions": [
+                {
+                    "condition": "input == 'a';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "true;",
+                    "to": "START"
+                }
+            ]
+        }
+    },
+    "variables": []
+}

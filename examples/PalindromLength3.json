@@ -1,0 +1,52 @@
+{
+    "automate_comment": "Detekuje palindrómy dĺžky 3 (napr. 'aba', '101') a zapisuje 1 pri nájdení, inak 0",
+    "automate_name": "PalindromLength3",
+    "inputs": [
+        "var input;"
+    ],
+    "outputs": [
+        "var output = '';",
+        "var prev1 = '';",
+        "var prev2 = '';"
+    ],
+    "start_state": "INIT",
+    "states": {
+        "INIT": {
+            "action": "prev2 = ''; prev1 = ''; output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "WAIT1"
+                }
+            ]
+        },
+        "WAIT1": {
+            "action": "prev2 = prev1; prev1 = input; output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "WAIT2"
+                }
+            ]
+        },
+        "WAIT2": {
+            "action": "prev2 = prev1; prev1 = input; output += '0 ';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "CHECK"
+                }
+            ]
+        },
+        "CHECK": {
+            "action": "if (prev2 == input) { output += '1 '; } else { output += '0 '; } prev2 = prev1; prev1 = input;",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "CHECK"
+                }
+            ]
+        }
+    },
+    "variables": []
+}

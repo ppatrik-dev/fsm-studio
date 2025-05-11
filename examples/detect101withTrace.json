@@ -1,16 +1,17 @@
 {
-    "automate_comment": "Detekuje vzor '101' vo vstupe",
-    "automate_name": "Pattern101",
-    "start_state": "S0",
+    "automate_comment": "Mooreov automat, ktorý detekuje výskyt sekvencie 101 a buduje výstupný reťazec",
+    "automate_name": "Detect101WithTrace",
     "inputs": [
-        "var input = '1101010';"
+        "var input;"
     ],
     "outputs": [
-        "var output = '';"
+        "var output;",
+        "var output_string = '';"
     ],
+    "start_state": "S0",
     "states": {
         "S0": {
-            "action": "output += '';",
+            "action": "output = '0'; output_string += output;",
             "transitions": [
                 {
                     "condition": "input == '1';",
@@ -23,7 +24,7 @@
             ]
         },
         "S1": {
-            "action": "output += '0';",
+            "action": "output = '0'; output_string += output;",
             "transitions": [
                 {
                     "condition": "input == '0';",
@@ -36,7 +37,7 @@
             ]
         },
         "S2": {
-            "action": "output += '1';",
+            "action": "output = '0'; output_string += output;",
             "transitions": [
                 {
                     "condition": "input == '1';",
@@ -49,7 +50,7 @@
             ]
         },
         "S3": {
-            "action": "output += '0';",
+            "action": "output = '1'; output_string += output;",
             "transitions": [
                 {
                     "condition": "input == '1';",
@@ -57,7 +58,7 @@
                 },
                 {
                     "condition": "input == '0';",
-                    "to": "S0"
+                    "to": "S2"
                 }
             ]
         }
