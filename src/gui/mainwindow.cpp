@@ -213,12 +213,29 @@ void MainWindow::startSimulation()
 
 void MainWindow::cancelSimulation()
 {
-    delete actionExecute;
-    delete executor;
-    delete stepStrategy;
-
     toggleTerminal();
     fsmScene->unsetActiveState();
+
+    if (stepStrategy)
+    {
+        stepStrategy->deleteLater();
+        stepStrategy = nullptr;
+    }
+    if (executor)
+    {
+        executor->deleteLater();
+        executor = nullptr;
+    }
+    if (actionExecute)
+    {
+        actionExecute->deleteLater();
+        actionExecute = nullptr;
+    }
+    if (moore)
+    {
+        moore->deleteLater();
+        moore = nullptr;
+    }
 }
 
 void MainWindow::runSimulation()
