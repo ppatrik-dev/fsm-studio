@@ -1,37 +1,20 @@
 {
-    "automate_comment": "Mooreov automat dekódujúci Morseho kód pre znaky E, A, T, M",
+    "automate_comment": "Moore machine decoding Morse code for the characters E, A, T, and M.",
     "automate_name": "MorseEATM",
     "inputs": [
-        "var input;"
+        "var input = '.. .- -.';"
     ],
     "outputs": [
-        "var output = '';"
+        "var output = 'EAT';"
     ],
     "start_state": "ROOT",
     "states": {
-        "ROOT": {
-            "action": "output += '';",
+        "A": {
+            "action": "output += 'A';",
             "transitions": [
                 {
-                    "condition": "input == '.';",
-                    "to": "DOT"
-                },
-                {
-                    "condition": "input == '-';",
-                    "to": "DASH"
-                }
-            ]
-        },
-        "DOT": {
-            "action": "output += '';",
-            "transitions": [
-                {
-                    "condition": "input == '.';",
-                    "to": "E"
-                },
-                {
-                    "condition": "input == '-';",
-                    "to": "A"
+                    "condition": "input == ' ';",
+                    "to": "ROOT"
                 }
             ]
         },
@@ -48,26 +31,21 @@
                 }
             ]
         },
+        "DOT": {
+            "action": "output += '';",
+            "transitions": [
+                {
+                    "condition": "input == '.';",
+                    "to": "E"
+                },
+                {
+                    "condition": "input == '-';",
+                    "to": "A"
+                }
+            ]
+        },
         "E": {
             "action": "output += 'E';",
-            "transitions": [
-                {
-                    "condition": "input == ' ';",
-                    "to": "ROOT"
-                }
-            ]
-        },
-        "A": {
-            "action": "output += 'A';",
-            "transitions": [
-                {
-                    "condition": "input == ' ';",
-                    "to": "ROOT"
-                }
-            ]
-        },
-        "T": {
-            "action": "output += 'T';",
             "transitions": [
                 {
                     "condition": "input == ' ';",
@@ -83,7 +61,30 @@
                     "to": "ROOT"
                 }
             ]
+        },
+        "ROOT": {
+            "action": "output += '';",
+            "transitions": [
+                {
+                    "condition": "input == '.';",
+                    "to": "DOT"
+                },
+                {
+                    "condition": "input == '-';",
+                    "to": "DASH"
+                }
+            ]
+        },
+        "T": {
+            "action": "output += 'T';",
+            "transitions": [
+                {
+                    "condition": "input == ' ';",
+                    "to": "ROOT"
+                }
+            ]
         }
     },
-    "variables": []
+    "variables": [
+    ]
 }

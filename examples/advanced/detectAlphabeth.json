@@ -1,0 +1,47 @@
+{
+    "automate_comment": "Automat will take input and print alphabeth into one output and all other things into another",
+    "automate_name": "detectAlphabeth",
+    "inputs": [
+        "var input = 'hrhsh48.,\\';shr';"
+    ],
+    "outputs": [
+        "var outputCHAR = '';",
+        "var outputELSE = '';"
+    ],
+    "start_state": "A",
+    "states": {
+        "A": {
+            "action": "if (input >= 'a' && input <= 'z') {outputCHAR += input;} else {outputELSE += input;}",
+            "transitions": [
+                {
+                    "condition": "input >= 'a' && input <= 'z';",
+                    "to": "B"
+                },
+                {
+                    "condition": "true;",
+                    "to": "C"
+                }
+            ]
+        },
+        "B": {
+            "action": "if (input >= 'a' && input <= 'z') {outputCHAR += input;} else {outputELSE += input;}",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "A"
+                }
+            ]
+        },
+        "C": {
+            "action": "if (input >= 'a' && input <= 'z') {outputCHAR += input;} else {outputELSE += input;}",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "A"
+                }
+            ]
+        }
+    },
+    "variables": [
+    ]
+}

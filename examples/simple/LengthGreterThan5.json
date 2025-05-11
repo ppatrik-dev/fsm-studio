@@ -1,5 +1,5 @@
 {
-    "automate_comment": "Výstup '1', ak počet vstupov > 5, inak '0'",
+    "automate_comment": "Output is '1' if the number of inputs is greater than 5, otherwise '0'.",
     "automate_name": "LengthGreaterThan5",
     "inputs": [
         "var input = '';"

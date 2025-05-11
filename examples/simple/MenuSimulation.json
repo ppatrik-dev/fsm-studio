@@ -1,6 +1,6 @@
 {
-    "automate_comment": "Úloha: Prepnúť medzi hlavnými stavmi aplikácie. MENU (vstup: start) → RUNNING RUNNING (vstup: pause) → PAUSED PAUSED (vstup: resume) → RUNNING RUNNING (vstup: exit) → MENU",
-    "automate_name": "Riadenie menu",
+    "automate_comment": "The task is to switch between the main states of the application based on user input. The application starts in the MENU state, and when it receives the input start, it transitions to the RUNNING state. While in the RUNNING state, if the input pause is received, the application moves to the PAUSED state. From PAUSED, receiving the input resume returns the application back to RUNNING. Additionally, if the application is in the RUNNING state and receives the input exit, it transitions back to the MENU state.",
+    "automate_name": "MenuSimulation",
     "inputs": [
         "var input = 'sesprpres';"
     ],
