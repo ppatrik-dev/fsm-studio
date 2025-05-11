@@ -13,6 +13,7 @@
 #include "../parser/MooreState.h"
 #include <TransitionRowWidget.h>
 #include <QVBoxLayout>
+#include <memory>
 
 class TransitionRowWidget;
 
