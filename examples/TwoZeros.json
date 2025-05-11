@@ -9,8 +9,17 @@
     ],
     "start_state": "Init",
     "states": {
+        "Fire": {
+            "action": "output += '1';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "Init"
+                }
+            ]
+        },
         "Init": {
-            "action": "output += '0';",
+            "action": "",
             "transitions": [
                 {
                     "condition": "input == '0';",
@@ -19,7 +28,7 @@
             ]
         },
         "OneZero": {
-            "action": "output += '0';",
+            "action": "",
             "transitions": [
                 {
                     "condition": "input == '0';",
@@ -30,16 +39,8 @@
                     "to": "Init"
                 }
             ]
-        },
-        "Fire": {
-            "action": "output += '1';",
-            "transitions": [
-                {
-                    "condition": "true;",
-                    "to": "Init"
-                }
-            ]
         }
     },
-    "variables": []
+    "variables": [
+    ]
 }

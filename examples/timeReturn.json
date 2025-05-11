@@ -2,7 +2,7 @@
     "automate_comment": "Používa časovač na návrat do A po čase",
     "automate_name": "TimeoutReturn",
     "inputs": [
-        "var input = '1010';"
+        "var input = '1010t';"
     ],
     "outputs": [
         "var output = '';"
