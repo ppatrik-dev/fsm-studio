@@ -24,6 +24,8 @@ Podmienky sa píšu v štýle Javascriptu a sú podporované následné operáci
 && -> logické áno
 || -> logické alebo
 
+Pre špeciálne časové prechody sa používa objekt moore, ktorý obsahuje metódu timer. Do tejto metódy sa odosiela požadovaný čas, ktorý má simulácia počkať. Po uplynutí tohto času sa automat presunie do nasledujúceho stavu.
+Každá podmienka prechodu by mala vracať logickú hodnotu true alebo false.
 Okrem vytvorenia sa dajú automaty exportovať do .json súborov a taktiež je podporované aj opätovné nahranie predošlých exportovaných automatov.
 Pre samotné spustenie a simuláciu stačí stlačiť tlačidlo 'simulate' ktoré pripraví automat a otvorí terminál do ktorého sa budú vypisovať postupné kroky simulácie.
 Po ukončení je možné automat resetovať a nad novým vstupom spustiť program znovu alebo zadať nový vstup a pokračovať v simulácii.
