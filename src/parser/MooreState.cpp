@@ -1,6 +1,6 @@
 #include "MooreState.h"
 
-MooreState::MooreState(const QString &name, const QString &output, bool current_state)
+MooreState::MooreState(const QString &name, const QString &output)
     : name(name), output(output)
 {
 }
