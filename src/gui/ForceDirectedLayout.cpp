@@ -10,7 +10,7 @@ void ForceDirectedLayout::applyLayout(const QList<FSMState *> &states, const QLi
     const double k = qSqrt(area / states.size());
     double temperature = 50.0;
 
-    // At first generate random position of the states
+    /// @brief At first generate random position of the states
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> xDist(0.0, width);
@@ -25,13 +25,13 @@ void ForceDirectedLayout::applyLayout(const QList<FSMState *> &states, const QLi
 
     for (int i = 0; i < iterations; ++i)
     {
-        // Reset displacements
+        /// @brief Reset displacements
         for (FSMState *v : states)
         {
             displacements[v] = QPointF(0, 0);
         }
 
-        // Repulsive forces
+        /// @brief Repulsive forces
         for (FSMState *v : states)
         {
             for (FSMState *u : states)
@@ -45,7 +45,7 @@ void ForceDirectedLayout::applyLayout(const QList<FSMState *> &states, const QLi
             }
         }
 
-        // Attractive forces
+        /// @brief Attractive forces
         for (FSMTransition *t : transitions)
         {
             FSMState *v = t->getFirstState();
@@ -60,7 +60,7 @@ void ForceDirectedLayout::applyLayout(const QList<FSMState *> &states, const QLi
             displacements[u] += attract;
         }
 
-        // Limit max displacement and update positions
+        /// @brief Limit max displacement and update positions
         for (FSMState *v : states)
         {
             QPointF disp = displacements[v];
@@ -78,7 +78,7 @@ void ForceDirectedLayout::applyLayout(const QList<FSMState *> &states, const QLi
             }
         }
 
-        // Cooling temperature
+        /// @brief Cooling temperature
         temperature *= 0.95;
     }
 }
