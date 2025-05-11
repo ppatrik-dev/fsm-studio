@@ -10,9 +10,9 @@ $(TARGET):
 	make -C src/
 	@mv src/$(TARGET) .
 
-.PHONY: run clean doxygen doxyClean
+.PHONY: run clean zip doxygen doxyClean
 
-run: $(TARGET)
+run: clean $(TARGET)
 	./$(TARGET)
 
 doxygen:
@@ -23,5 +23,9 @@ doxyClean:
 	rm -r doc/
 
 clean:
-	make -C src/ clean
-	@rm $(TARGET)
+	@rm -f $(TARGET)
+	@rm -f src/*.o
+
+zip: clean
+	git archive --format=zip HEAD -o xprochp00-xbasism00-xfickaf00.zip
+

@@ -1,16 +1,8 @@
 TARGET = icp-fsm-app
 
-QT += core \
-      gui \
-      qml
+QT += core gui widgets qml network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-QMAKE_CXXFLAGS += -fsanitize=address -fno-omit-frame-pointer
-QMAKE_LFLAGS += -fsanitize=address
-
-CONFIG += c++17 \
-        debug
+CONFIG += c++17 release
 
 SOURCES += \
     FSMGui.cpp \
