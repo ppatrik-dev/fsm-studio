@@ -15,11 +15,6 @@
 #include <QDateTime>
 #include <QScrollArea>
 
-/**
- * @brief Construct a new Terminal Widget:: Terminal Widget object
- * 
- * @param parent widget to bound TerminalWidget to scrollArea
- */
 TerminalWidget::TerminalWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -34,13 +29,6 @@ TerminalWidget::TerminalWidget(QWidget *parent)
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 }
 
-/**
- * @brief function for comunication with backend part of app
- * printing debug from simulation into this terminal
- * 
- * @param type type of message (ERROR, INFO etc.)
- * @param content message itself
- */
 void TerminalWidget::receiveMessage(QString type, QString content) {
 
     /// setting color for line
@@ -130,10 +118,6 @@ void TerminalWidget::appendLine(const QString &text, int color)
     emit lineAppended();
 }
 
-/**
- * @brief function to delete oldest line in buffer
- * 
- */
 void TerminalWidget::removeOldest()
 {
     QWidget *old = buffer.front();
@@ -142,10 +126,6 @@ void TerminalWidget::removeOldest()
     old->deleteLater();
 }
 
-/**
- * @brief function for clearing whole terminal
- * 
- */
 void TerminalWidget::clearTerminal()
 {
     for (QWidget *line : buffer) {

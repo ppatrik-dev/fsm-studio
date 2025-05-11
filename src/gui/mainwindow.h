@@ -77,10 +77,12 @@ private:
 
     FSMState *selectedState = nullptr;
 
+    /// @brief  layouts for rows
     QVBoxLayout *inputsLayout;
     QVBoxLayout *outputsLayout;
     QVBoxLayout *variablesLayout;
 
+    /// @brief  lists for tracking row widgets
     QList<GenericRowWidget *> inputsWidgets;
     QList<GenericRowWidget *> outputsWidgets;
     QList<GenericRowWidget *> variablesWidgets;
@@ -128,18 +130,75 @@ private slots:
     void cancelSimulation();
     void onCreateTransition(TransitionRowWidget *row);
     void onRemoveTransition(TransitionRowWidget *row);
+
+    /**
+     * @brief creating of input row 
+     * binded into add button
+     * 
+     */
     void onAddInputClicked();
+
+    /**
+     * @brief creating of output row 
+     * binded into add button
+     * 
+     */
     void onAddOutputClicked();
+
+    /**
+     * @brief creating of variable row 
+     * binded into add button
+     * 
+     */
     void onAddVariableClicked();
+
+    /**
+     * @brief function for deleting
+     * 
+     * @param row 
+     */
     void onDeleteRow(GenericRowWidget *row);
+
+
     void onImportFileClicked();
     void onExportFileClicked();
     void showDetailsPanel(QGraphicsItem *item);
+
+    /**
+     * @brief function to open and close terminal
+     * binded to runButton
+     * 
+     */
     void toggleTerminal();
+
+    /**
+     * @brief function for disabling cancel
+     * binded to TerminalRun button
+     * 
+     */
     void toggleCancel();
+
+    /**
+     * @brief function for diseabling delete buttons in genericRow
+     * 
+     * @param enabled 
+     */
     void setDeleteButtonsEnabled(bool enabled);
+
     void displayFSMDetais();
+
+    /**
+     * @brief function for terminalRun button
+     * setting bools and disabling buttons
+     * 
+     */
     void on_TerminalRun_clicked();
+
+    /**
+     * @brief function for terminalReset button
+     * setting bools and enabling buttons
+     * 
+     */
     void on_TerminalReset_clicked();
 
 public:

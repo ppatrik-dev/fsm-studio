@@ -44,10 +44,26 @@ class TerminalWidget : public QWidget
 
 public:
 
-    /// all comments for function in .cpp
-
+    /**
+     * @brief Construct a new Terminal Widget:: Terminal Widget object
+     * 
+     * @param parent widget to bound TerminalWidget to scrollArea
+     */
     explicit TerminalWidget(QWidget *parent = nullptr);
+
+    /**
+     * @brief function for comunication with backend part of app
+     * printing debug from simulation into this terminal
+     * 
+     * @param type type of message (ERROR, INFO etc.)
+     * @param content message itself
+     */
     void appendLine(const QString &text, int color = 0);
+
+    /**
+     * @brief function for clearing whole terminal
+     * 
+     */
     void clearTerminal();
 
 private:

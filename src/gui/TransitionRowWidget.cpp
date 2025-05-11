@@ -17,11 +17,6 @@
 #include <QHBoxLayout>
 #include <QFrame>
 
-/**
- * @brief Construct a new Transition Row Widget:: Transition Row Widget object
- * 
- * @param parent widget to bound TransitionRow row
- */
 TransitionRowWidget::TransitionRowWidget(QWidget *parent)
     : QWidget(parent), transitionItem(nullptr)
 {
@@ -98,56 +93,27 @@ TransitionRowWidget::TransitionRowWidget(QWidget *parent)
     mainLayout->addWidget(frame);
 }
 
-/**
- * @brief function to set conditionText, toStateTxt
- * 
- * @param conditionText 
- * @param toStateText 
- */
 void TransitionRowWidget::setTransitionTexts(const QString &conditionText, const QString &toStateText) {
     conditionEdit->setPlainText(conditionText);
     toStateEdit->setPlainText(toStateText);
 }
 
-/**
- * @brief function to get conditionEdit widget
- * 
- * @return QTextEdit* 
- */
 QTextEdit* TransitionRowWidget::getConditionEdit() {
     return conditionEdit;
 }
 
-/**
- * @brief function to get stateEdit widget
- * 
- * @return QTextEdit* 
- */
 QTextEdit* TransitionRowWidget::getToStateEdit() {
     return toStateEdit;
 }
 
-/**
- * @brief function to get condition
- * 
- * @return QTextEdit* 
- */
 QString TransitionRowWidget::getConditionText() const {
     return conditionEdit->toPlainText();
 }
 
-/**
- * @brief function to get state
- * 
- * @return QTextEdit* 
- */
 QString TransitionRowWidget::getToStateText() const {
     return toStateEdit->toPlainText();
 }
 
-/**
- * @brief function to disable the create button
- */
 void TransitionRowWidget::disableCreateButton(QString style) const {
     createButton->setDisabled(true);
     createButton->setStyleSheet(style);

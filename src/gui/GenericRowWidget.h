@@ -33,14 +33,54 @@ public:
      */
     enum RowType { Input, Output, Variable };
     
-    /// all comments for function in .cpp
-
+    /**
+     * @brief Construct a new Generic Row Widget:: Generic Row Widget object
+     * 
+     * @param type setting type from enum decleared in header file
+     * @param parent widget to bound generic row
+     */
     explicit GenericRowWidget(RowType type, QWidget *parent = nullptr);
+
+    /**
+     * @brief function for setting text into genericRow
+     * 
+     * @param keyText name of row
+     * @param valueText value that it contains
+     */
     void setGenericTexts(const QString &keyText, const QString &valueText);
+
+    /**
+     * @brief function for diseabling name rewrite
+     * 
+     */
     void disableKeyEdit();
+
+    /**
+     * @brief function to get name of row
+     * 
+     * @return QString 
+     */
     QString getKey() const;
+
+    /**
+     * @brief function to get value of row
+     * 
+     * @return QString 
+     */
     QString getValue() const;
+
+    /**
+     * @brief function to set value of row
+     * 
+     * @param value new value
+     */
     void setValue(QString value);
+
+    /**
+     * @brief function to eneable/disable delete button of row
+     * 
+     * @param enabled 
+     */
     void setDeleteButtonEnabled(bool enabled);
 
 signals:

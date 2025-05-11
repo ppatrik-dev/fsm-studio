@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "format": "cpp",
+        "functional": "cpp",
+        "string": "cpp"
+    }
+}

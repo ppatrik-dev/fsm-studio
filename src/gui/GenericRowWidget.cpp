@@ -11,12 +11,6 @@
 
 #include "GenericRowWidget.h"
 
-/**
- * @brief Construct a new Generic Row Widget:: Generic Row Widget object
- * 
- * @param type setting type from enum decleared in header file
- * @param parent widget to bound generic row
- */
 GenericRowWidget::GenericRowWidget(RowType type, QWidget *parent)
     : QWidget(parent), rowType(type)
 {   
@@ -45,57 +39,27 @@ GenericRowWidget::GenericRowWidget(RowType type, QWidget *parent)
     });
 }
 
-/**
- * @brief function for diseabling name rewrite
- * 
- */
 void GenericRowWidget::disableKeyEdit() {
     keyEdit->setReadOnly(true);
 }
 
-/**
- * @brief function for setting text into genericRow
- * 
- * @param keyText name of row
- * @param valueText value that it contains
- */
 void GenericRowWidget::setGenericTexts(const QString &keyText, const QString &valueText) {
     keyEdit->setText(keyText);
     valueEdit->setText(valueText);
 }
 
-/**
- * @brief function to get name of row
- * 
- * @return QString 
- */
 QString GenericRowWidget::getKey() const {
     return keyEdit->text();
 }
 
-/**
- * @brief function to get value of row
- * 
- * @return QString 
- */
 QString GenericRowWidget::getValue() const {
     return valueEdit->text();
 }
 
-/**
- * @brief function to set value of row
- * 
- * @param value new value
- */
 void GenericRowWidget::setValue(QString value) {
     valueEdit->setText(value);
 }
 
-/**
- * @brief function to eneable/disable delete button of row
- * 
- * @param enabled 
- */
 void GenericRowWidget::setDeleteButtonEnabled(bool enabled)
 {
     if (deleteButton){
