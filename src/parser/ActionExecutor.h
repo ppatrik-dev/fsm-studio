@@ -23,7 +23,6 @@ public:
     }
     void setValue(QString var, QString value)
     {
-        qDebug() << var << value;
         engine.globalObject().setProperty(var, QJSValue(value));
     }
 

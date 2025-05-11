@@ -51,7 +51,7 @@ void StepExecutionStrategy::Execute()
     bool wasEmptyInitially = allStacksAreEmpty();
     while (step() && (!allStacksAreEmpty() || wasEmptyInitially))
     {
-        qDebug() << "Step succeeded.";
+        terminalLog("Step succeeded.", Info);
         wait(500);
     }
 
@@ -169,8 +169,6 @@ void StepExecutionStrategy::finalizeExecution()
         QList<QString> tempList = inputStack.toList();
         std::reverse(tempList.begin(), tempList.end());
 
-        qDebug() << "Stack" << varName << "contents:";
-
         QString remainingInput;
 
         for (const QString &value : tempList)
@@ -215,7 +213,6 @@ void StepExecutionStrategy::reset()
         m_mooreMachine.addGuiOutput(var, "");
         emit sendRemainingOutput(var, "");
     }
-    qDebug() << m_actionExecutor.getValue("output");
     if (!m_currentState)
     {
         terminalLog("Error: Starting state is null!", Error);
