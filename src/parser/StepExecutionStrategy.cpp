@@ -91,8 +91,11 @@ bool StepExecutionStrategy::step()
     for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
     {
         QStack<QString> &stack = it.value();
-        terminalLog(stack.top(), Evaluate);
-        m_actionExecutor.evaluate(stack.top());
+        if (!stack.isEmpty())
+        {
+            terminalLog(stack.top(), Evaluate);
+            m_actionExecutor.evaluate(stack.top());
+        }
     }
     if (m_finished || !m_currentState)
     {
@@ -106,7 +109,10 @@ bool StepExecutionStrategy::step()
         for (auto it = inputStacks.begin(); it != inputStacks.end(); ++it)
         {
             QStack<QString> &stack = it.value();
-            stack.pop();
+            if (!stack.isEmpty())
+            {
+                stack.pop();
+            }
         }
         return true;
     }

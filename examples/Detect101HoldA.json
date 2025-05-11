@@ -1,0 +1,63 @@
+{
+    "automate_comment": "Mooreov automat, ktorý detekuje sekvenciu 101 cez vstupy inputA a inputB; inputA po skončení drží poslednú hodnotu",
+    "automate_name": "Detect101_HoldA",
+    "inputs": [
+        "var inputA;",
+        "var inputB;"
+    ],
+    "outputs": [
+        "var output = '';"
+    ],
+    "start_state": "S0",
+    "states": {
+        "S0": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "inputA == '1' || inputB == '1';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "true;",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S1": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "inputA == '0' && inputB == '0';",
+                    "to": "S2"
+                },
+                {
+                    "condition": "true;",
+                    "to": "S1"
+                }
+            ]
+        },
+        "S2": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "inputA == '1' || inputB == '1';",
+                    "to": "S3"
+                },
+                {
+                    "condition": "true;",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S3": {
+            "action": "output += '1';",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "S1"
+                }
+            ]
+        }
+    },
+    "variables": []
+}
