@@ -34,11 +34,5 @@ int main(int argc, char *argv[])
     }
 
     w.show();
-    // MainWindow w;
-    // w.show();
-    // MooreMachine mooreMachine;
-    // AutomateJsonDocument jsonDocument;
-    // jsonDocument.loadAutomateFromJsonFile("automate.json", mooreMachine);
-
     return a.exec();
 }

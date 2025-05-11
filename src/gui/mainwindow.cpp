@@ -2,6 +2,7 @@
  * @file mainwindow.h
  * @author Patrik Prochazka, xprochp00
  *         Filip Ficka, xfickaf00
+ *         Miroslav Basista (xbasism00@vutbr.cz)
  * @brief cpp file for functions from mainwindow.h
  * @version 1.7
  * @date 2025-05-10

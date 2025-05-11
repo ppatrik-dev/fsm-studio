@@ -2,6 +2,7 @@
  * @file mainwindow.h
  * @author Patrik Prochazka, xprochp00
  *         Filip Ficka, xfickaf00
+ *         Miroslav Basista (xbasism00@vutbr.cz)
  * @brief header file for mainwindow
  * @version 1.7
  * @date 2025-05-10
