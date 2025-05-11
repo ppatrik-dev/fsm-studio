@@ -1,7 +1,7 @@
 /**
  * @file ActionExecutor.cpp
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Implements a JavaScript-based action evaluation system for use in a Moore machine simulation.
  * @version 0.1
  * @date 2025-05-11
  *

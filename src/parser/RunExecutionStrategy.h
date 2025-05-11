@@ -1,7 +1,7 @@
 /**
  * @file RunExecutionStrategy.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Header file for RunExecutionStrategy, which handles the execution of Moore machine steps
  * @version 0.1
  * @date 2025-05-11
  *
@@ -18,13 +18,13 @@
 #include <QObject>
 
 /**
- * @brief
- *
+ * @class RunExecutionStrategy
+ * @brief Strategy for executing steps of a Moore machine.
  */
 class RunExecutionStrategy : public QObject, public IExecutionStrategy
 {
     Q_OBJECT
-    /// @brief
+    /// @brief Type of the messages
     enum MessageType
     {
         Error,
@@ -46,7 +46,7 @@ public:
                                   MooreMachine &mooreMachine,
                                   QObject *parent = nullptr);
     /**
-     * @brief
+     * @brief Start simulation
      *
      */
     void Execute() override;

@@ -1,8 +1,8 @@
 /**
  * @file AutomateJsonDocument.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
- * @version 0.1
+ * @brief Provides serialization and deserialization of a Moore machine to and from JSON format
+ * @version 0.3
  * @date 2025-05-11
  *
  * @copyright Copyright (c) 2025
@@ -19,9 +19,10 @@
 #include <QMap>
 #include <QDebug>
 #include "MooreMachine.h"
+
 /**
- * @brief
- *
+ * @class AutomateJsonDocument
+ * @brief Provides serialization and deserialization of a Moore machine to and from JSON format.
  */
 class AutomateJsonDocument : public QObject
 {

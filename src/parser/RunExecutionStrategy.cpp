@@ -1,7 +1,7 @@
 /**
  * @file RunExecutionStrategy.cpp
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Implementation of the strategy for executing Moore machine steps
  * @version 0.1
  * @date 2025-05-11
  *

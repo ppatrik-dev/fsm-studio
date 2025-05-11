@@ -1,8 +1,8 @@
 /**
  * @file AutomateJsonDocument.cpp
  * @author Miroslav Basista (xbasism00@vutbr.cz))
- * @brief
- * @version 0.1
+ * @brief Implements JSON import/export functionality for Moore machine definitions
+ * @version 0.3
  * @date 2025-05-11
  *
  * @copyright Copyright (c) 2025

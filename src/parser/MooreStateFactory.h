@@ -1,7 +1,7 @@
 /**
  * @file MooreStateFactory.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Header file for the StateFactory class, which manages the creation and retrieval of MooreState objects
  * @version 0.1
  * @date 2025-05-11
  *
@@ -15,12 +15,11 @@
 #include <QMap>
 #include <QString>
 /**
- * @brief
- *
+ * @class StateFactory
+ * @brief A factory class that manages the creation and retrieval of MooreState objects
  */
 class StateFactory
 {
-    /// @brief
     QMap<QString, std::shared_ptr<IMooreState>> states;
 
 public:

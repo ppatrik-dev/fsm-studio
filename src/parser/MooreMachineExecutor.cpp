@@ -1,7 +1,7 @@
 /**
  * @file MooreMachineExecutor.cpp
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Implementation of the MachineExecutor class which controls the execution of a Moore machine
  * @version 0.1
  * @date 2025-05-11
  *

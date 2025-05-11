@@ -1,7 +1,7 @@
 /**
  * @file MooreState.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Header file defining the MooreState class, which represents a state in a Moore machine, including its transitions and output
  * @version 0.1
  * @date 2025-05-11
  *
@@ -14,8 +14,8 @@
 #include <QVector>
 #include <QString>
 /**
- * @brief
- *
+ * @class MooreState
+ * @brief Represents a state in a Moore machine, including transitions and outputs.
  */
 class MooreState : public IMooreState
 {

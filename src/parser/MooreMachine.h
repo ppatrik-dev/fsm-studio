@@ -1,7 +1,7 @@
 /**
  * @file MooreMachine.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Definition of the MooreMachine class for representing and managing Moore automata
  * @version 0.1
  * @date 2025-05-11
  *
@@ -19,8 +19,8 @@
 #include <QRegularExpression>
 
 /**
- * @brief
- *
+ * @class MooreMachine
+ * @brief Represents a Moore state machine with full support for states, transitions, and variables
  */
 class MooreMachine : public QObject
 {
@@ -34,7 +34,6 @@ class MooreMachine : public QObject
     QMap<QString, QString> variables;
 
 public:
-    /// @brief
     QMap<QString, std::shared_ptr<MooreState>> states;
     /**
      * @brief Construct a new Moore Machine object
@@ -56,19 +55,19 @@ public:
      */
     ~MooreMachine() override;
     /**
-     * @brief
+     * @brief Add inputs
      *
      * @param name
      */
     void addInputs(const QString &name);
     /**
-     * @brief
+     * @brief Add outputs
      *
      * @param name
      */
     void addOutputs(const QString &name);
     /**
-     * @brief
+     * @brief Add variable
      *
      * @param command
      */

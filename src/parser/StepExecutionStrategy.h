@@ -1,7 +1,7 @@
 /**
  * @file StepExecutionStrategy.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Header file for the StepExecutionStrategy class, which provides step-by-step execution logic for a Moore machine
  * @version 0.1
  * @date 2025-05-11
  *
@@ -26,7 +26,7 @@
 
 /**
  * @class StepExecutionStrategy
- * @brief Class for execution in steps
+ * @brief Class for executing a Moore machine in discrete steps.
  */
 class StepExecutionStrategy : public QObject, public IExecutionStrategy
 {

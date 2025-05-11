@@ -1,7 +1,7 @@
 /**
  * @file IMooreState.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Interface for defining Moore machine states.
  * @version 0.1
  * @date 2025-05-11
  *
@@ -11,8 +11,8 @@
 #pragma once
 #include <QString>
 /**
- * @brief
- *
+ * @class IMooreState
+ * @brief Abstract interface representing a state in a Moore machine.
  */
 class IMooreState
 {

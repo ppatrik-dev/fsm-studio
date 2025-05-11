@@ -1,7 +1,7 @@
 /**
  * @file StepExecutionStrategy.cpp
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Implementation of the StepExecutionStrategy class for stepwise Moore machine execution
  * @version 0.1
  * @date 2025-05-11
  *
@@ -11,7 +11,7 @@
 #include "StepExecutionStrategy.h"
 
 /**
- * @brief
+ * @brief Implementation of the delay
  *
  * @param ms
  */

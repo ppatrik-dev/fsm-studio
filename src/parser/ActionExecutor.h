@@ -1,7 +1,7 @@
 /**
  * @file ActionExecutor.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Declaration of the ActionExecutor class for evaluating JavaScript code in a Moore machine simulation
  * @version 0.1
  * @date 2025-05-11
  *
@@ -14,9 +14,10 @@
 #include <QObject>
 #include <QDebug>
 #include "MooreJsClass.h"
+
 /**
- * @brief
- *
+ * @class ActionExecutor
+ * @brief Executes JavaScript expressions and manages script integration in a Moore machine simulation
  */
 class ActionExecutor : public QObject
 {

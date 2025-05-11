@@ -1,7 +1,7 @@
 /**
  * @file MooreState.cpp
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Implementation of the MooreState class, which represents a state in a Moore machine
  * @version 0.1
  * @date 2025-05-11
  *

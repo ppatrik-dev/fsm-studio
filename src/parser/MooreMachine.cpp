@@ -1,8 +1,8 @@
 /**
  * @file MooreMachine.cpp
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
- * @version 0.1
+ * @brief Implementation of the MooreMachine class, which manages the structure and behavior of a Moore state machine
+ * @version 0.7
  * @date 2025-05-11
  *
  * @copyright Copyright (c) 2025

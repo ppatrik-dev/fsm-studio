@@ -1,7 +1,7 @@
 /**
  * @file MooreTransition.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Header file for the MooreTransition class, which represents a transition between two states in the Moore machine
  * @version 0.1
  * @date 2025-05-11
  *
@@ -11,8 +11,8 @@
 #pragma once
 #include <QString>
 /**
- * @brief
- *
+ * @class MooreTransition
+ * @brief Represents a transition in a Moore machine.
  */
 class MooreTransition
 {

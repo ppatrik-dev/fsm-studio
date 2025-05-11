@@ -1,7 +1,7 @@
 /**
  * @file MooreJsClass.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Provides a QObject-derived helper class for use in QJSEngine scripting
  * @version 0.1
  * @date 2025-05-11
  *
@@ -16,8 +16,8 @@
 #include <QEventLoop>
 
 /**
- * @brief
- *
+ * @class MooreJs
+ * @brief Helper QObject for exposing utility functions to QJSEngine
  */
 class MooreJs : public QObject
 {

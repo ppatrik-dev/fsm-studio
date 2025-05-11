@@ -1,7 +1,7 @@
 /**
  * @file MooreMachineExecutor.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Header file for the MachineExecutor class, responsible for executing a Moore machine using a pluggable execution strategy
  * @version 0.1
  * @date 2025-05-11
  *
@@ -13,16 +13,12 @@
 #include <QObject>
 #include "IExecutionStrategy.h"
 /**
- * @brief
- *
+ * @class MachineExecutor
+ * @brief Controls the execution of a Moore machine using a strategy pattern.
  */
 class MachineExecutor : public QObject
 {
     Q_OBJECT
-    /**
-     * @brief
-     *
-     */
 public:
     /**
      * @brief Construct a new Machine Executor object

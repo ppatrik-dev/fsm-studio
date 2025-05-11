@@ -1,7 +1,7 @@
 /**
  * @file IExecutionStrategy.h
  * @author Miroslav Basista (xbasism00@vutbr.cz)
- * @brief
+ * @brief Interface for defining execution strategies of Moore machine simulations
  * @version 0.1
  * @date 2025-05-11
  *
@@ -11,8 +11,8 @@
 #pragma once
 #include "MooreMachine.h"
 /**
- * @brief
- *
+ * @class IExecutionStrategy
+ * @brief Abstract interface for Moore machine execution strategies.
  */
 class IExecutionStrategy
 {
