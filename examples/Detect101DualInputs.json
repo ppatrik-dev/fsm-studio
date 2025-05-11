@@ -1,0 +1,99 @@
+{
+    "automate_comment": "Mooreov automat, ktorý detekuje výskyt sekvencie 101 pri dvoch vstupoch",
+    "automate_name": "Detect101DualInputs",
+    "inputs": [
+        "var inputA;",
+        "var inputB;"
+    ],
+    "outputs": [
+        "var output = '';"
+    ],
+    "start_state": "S0",
+    "states": {
+        "S0": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "inputA == '1' && inputB == '0';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "inputA == '0' && inputB == '0';",
+                    "to": "S0"
+                },
+                {
+                    "condition": "inputA == '0' && inputB == '1';",
+                    "to": "S0"
+                },
+                {
+                    "condition": "inputA == '1' && inputB == '1';",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S1": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "inputA == '0' && inputB == '1';",
+                    "to": "S2"
+                },
+                {
+                    "condition": "inputA == '1' && inputB == '0';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "inputA == '0' && inputB == '0';",
+                    "to": "S0"
+                },
+                {
+                    "condition": "inputA == '1' && inputB == '1';",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S2": {
+            "action": "output += '0';",
+            "transitions": [
+                {
+                    "condition": "inputA == '1' && inputB == '0';",
+                    "to": "S3"
+                },
+                {
+                    "condition": "inputA == '0' && inputB == '0';",
+                    "to": "S0"
+                },
+                {
+                    "condition": "inputA == '0' && inputB == '1';",
+                    "to": "S0"
+                },
+                {
+                    "condition": "inputA == '1' && inputB == '1';",
+                    "to": "S0"
+                }
+            ]
+        },
+        "S3": {
+            "action": "output += '1';",
+            "transitions": [
+                {
+                    "condition": "inputA == '1' && inputB == '0';",
+                    "to": "S1"
+                },
+                {
+                    "condition": "inputA == '0' && inputB == '0';",
+                    "to": "S0"
+                },
+                {
+                    "condition": "inputA == '0' && inputB == '1';",
+                    "to": "S0"
+                },
+                {
+                    "condition": "inputA == '1' && inputB == '1';",
+                    "to": "S0"
+                }
+            ]
+        }
+    },
+    "variables": []
+}
