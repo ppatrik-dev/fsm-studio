@@ -1,3 +1,4 @@
+./vscode
 .qmake.stash
 src/gui/build/
 src/*.o
