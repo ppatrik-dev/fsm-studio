@@ -376,6 +376,8 @@ void FSMScene::addConnects()
 
 FSMTransition *FSMScene::createTransition(FSMState *firstState, FSMState *secondState)
 {
+    emit createTransitionRequest(firstState->getMooreState(), "", secondState->getLabel());
+    
     FSMTransition *transition = new FSMTransition(firstState, secondState);
 
     m_transitions.append(transition);
