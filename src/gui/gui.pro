@@ -1,6 +1,6 @@
 TARGET = icp-fsm-app
 
-QT += core gui widgets qml network
+QT += core gui widgets qml
 
 CONFIG += c++17 release
 
