@@ -187,7 +187,10 @@ void MainWindow::startSimulation()
 
     if (machine != nullptr)
     {
+        moore = new MooreJs(this);
         actionExecute = new ActionExecutor(this);
+        actionExecute->exposeObject("moore", moore);
+
         executor = new MachineExecutor(machine, this);
         stepStrategy = new StepExecutionStrategy(*actionExecute, *machine, this);
 
