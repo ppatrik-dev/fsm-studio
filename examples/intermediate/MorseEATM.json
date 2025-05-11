@@ -5,7 +5,7 @@
         "var input = '.. .- -.';"
     ],
     "outputs": [
-        "var output = 'EAT';"
+        "var output = '';"
     ],
     "start_state": "ROOT",
     "states": {

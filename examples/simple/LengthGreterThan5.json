@@ -2,10 +2,10 @@
     "automate_comment": "Output is '1' if the number of inputs is greater than 5, otherwise '0'.",
     "automate_name": "LengthGreaterThan5",
     "inputs": [
-        "var input = '';"
+        "var input = '123456';"
     ],
     "outputs": [
-        "var output = '1 ';"
+        "var output = '';"
     ],
     "start_state": "S0",
     "states": {

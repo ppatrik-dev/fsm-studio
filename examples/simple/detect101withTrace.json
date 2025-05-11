@@ -2,10 +2,10 @@
     "automate_comment": "A Moore machine that detects the occurrence of the sequence '101' and constructs the output string accordingly.",
     "automate_name": "Detect101WithTrace",
     "inputs": [
-        "var input;"
+        "var input = '101101101';"
     ],
     "outputs": [
-        "var output;",
+        "var output = '';",
         "var output_string = '';"
     ],
     "start_state": "S0",

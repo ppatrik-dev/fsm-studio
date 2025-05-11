@@ -2,15 +2,15 @@
     "automate_comment": "A Moore machine that recognizes the access PIN code '123'",
     "automate_name": "Pin123Unlock",
     "inputs": [
-        "var input = '';"
+        "var input = '123';"
     ],
     "outputs": [
-        "var output = 'UNLOCKED';"
+        "var output = '';"
     ],
     "start_state": "S0",
     "states": {
         "S0": {
-            "action": "output = 'LOCKED'; repeat = 0;",
+            "action": "output = 'LOCKED';",
             "transitions": [
                 {
                     "condition": "input == '1';",
@@ -57,11 +57,16 @@
             ]
         },
         "UNLOCKED": {
-            "action": "output = 'UNLOCKED'; output_string += output + ' ';",
-            "transitions": []
+            "action": "repeat += 1; if (repeat > 1){output = 'LOCKED';} else {output = 'UNLOCKED';};",
+            "transitions": [
+                {
+                    "condition": "true;",
+                    "to": "UNLOCKED"
+                }
+            ]
         }
     },
     "variables": [
-        "var repeat = 1;"
+        "var repeat = 0;"
     ]
 }

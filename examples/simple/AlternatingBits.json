@@ -5,7 +5,7 @@
         "var input = '010101001101';"
     ],
     "outputs": [
-        "var output = '-010101XXXXXX';"
+        "var output = '';"
     ],
     "start_state": "Start",
     "states": {

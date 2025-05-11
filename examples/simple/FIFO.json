@@ -2,7 +2,7 @@
     "automate_comment": "It simulates a queue of size 2 with insertion and reset operations.",
     "automate_name": "FIFO",
     "inputs": [
-        "var char = '';"
+        "var char = 'iiririrrr';"
     ],
     "outputs": [
         "var output = '';"

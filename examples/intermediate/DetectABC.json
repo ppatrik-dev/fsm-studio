@@ -2,7 +2,7 @@
     "automate_comment": "It detects the occurrence of the substring 'abc' and outputs the number of occurrences.",
     "automate_name": "DetectABC",
     "inputs": [
-        "var input = '';"
+        "var input = 'abchshsabcghrshabc';"
     ],
     "outputs": [
         "var output = '';"

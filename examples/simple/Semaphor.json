@@ -2,19 +2,19 @@
     "automate_comment": "Cyclic Moore machine: RED → GREEN → BLUE → RED",
     "automate_name": "Semaphore",
     "inputs": [
-        "var input;"
+        "var input = '1111111';"
     ],
     "outputs": [
-        "var output;"
+        "var output = 'green';"
     ],
     "start_state": "RED",
     "states": {
-        "RED": {
-            "action": "output = 'red';",
+        "BLUE": {
+            "action": "output = 'blue';",
             "transitions": [
                 {
                     "condition": "input == '1';",
-                    "to": "GREEN"
+                    "to": "RED"
                 }
             ]
         },
@@ -27,15 +27,16 @@
                 }
             ]
         },
-        "BLUE": {
-            "action": "output = 'blue';",
+        "RED": {
+            "action": "output = 'red';",
             "transitions": [
                 {
                     "condition": "input == '1';",
-                    "to": "RED"
+                    "to": "GREEN"
                 }
             ]
         }
     },
-    "variables": []
+    "variables": [
+    ]
 }
