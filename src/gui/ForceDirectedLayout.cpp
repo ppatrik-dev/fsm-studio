@@ -1,7 +1,7 @@
 #include "ForceDirectedLayout.h"
 #include <QtMath>
-#include <QRandomGenerator>
 #include <cmath>
+#include <random>
 
 void ForceDirectedLayout::applyLayout(const QList<FSMState *> &states, const QList<FSMTransition *> &transitions, int width, int height, int iterations)
 {
@@ -9,10 +9,15 @@ void ForceDirectedLayout::applyLayout(const QList<FSMState *> &states, const QLi
     const double k = qSqrt(area / states.size());
     double temperature = 50.0;
 
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<double> xDist(0.0, width);
+    std::uniform_real_distribution<double> yDist(0.0, height);
+
     QMap<FSMState *, QPointF> displacements;
     for (FSMState *v : states)
     {
-        QPointF initialPos(QRandomGenerator::global()->bounded(width), QRandomGenerator::global()->bounded(height));
+        QPointF initialPos(xDist(gen), yDist(gen));
         v->setPos(initialPos);
     }
 
