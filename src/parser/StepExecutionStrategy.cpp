@@ -160,8 +160,8 @@ void StepExecutionStrategy::finalizeExecution()
 
         if (inputStack.isEmpty())
         {
-            emit sendRemainingInput(varName, "");
             m_mooreMachine.addGuiInput(varName, "");
+            emit sendRemainingInput(varName, "");
             continue;
         }
 

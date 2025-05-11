@@ -90,6 +90,7 @@ private:
 
     TerminalWidget *terminal;
     bool TerminalActive = false;
+    bool inSimulation = false;
     QString disableStyle = "QPushButton:disabled { background-color: #444444; color: #888888; }";
 
     enum detailTypeEnum {INPUT_DETAIL, OUTPUT_DETAIL, VARIABLE_DETAIL};
@@ -128,6 +129,7 @@ private slots:
     void onExportFileClicked();
     void showDetailsPanel(QGraphicsItem *item);
     void toggleTerminal();
+    void toggleCancel();
     void setDeleteButtonsEnabled(bool enabled);
     void displayFSMDetais();
     void on_TerminalRun_clicked();

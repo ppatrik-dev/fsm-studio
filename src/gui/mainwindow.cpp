@@ -68,10 +68,13 @@ MainWindow::MainWindow(QWidget *parent)
         });
     });
 
-    // ui->TerminalReset->setEnabled(false);
-    // ui->TerminalReset->setStyleSheet(disableStyle);
-    // connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::on_TerminalRun_clicked);
-    // connect(ui->TerminalReset, &QPushButton::clicked, this, &MainWindow::on_TerminalReset_clicked);
+    ui->TerminalReset->setEnabled(false);
+    ui->TerminalReset->setStyleSheet(disableStyle);
+    connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::on_TerminalRun_clicked);
+    connect(ui->TerminalReset, &QPushButton::clicked, this, &MainWindow::on_TerminalReset_clicked);
+
+    connect(ui->TerminalRun, &QPushButton::clicked, this, &MainWindow::toggleCancel);
+    connect(ui->TerminalClear, &QPushButton::clicked, this, &MainWindow::toggleCancel); // TOTO !!!!!!!!!!!!
 
     connect(this, &MainWindow::loadJsonRequested, jsonDocument, &AutomateJsonDocument::loadAutomateFromJsonFile);
     connect(this, &MainWindow::exportJsonRequested, jsonDocument, &AutomateJsonDocument::saveAutomateToJsonFile);
@@ -603,6 +606,21 @@ void MainWindow::setDeleteButtonsEnabled(bool enabled)
     }
 }
 
+void MainWindow::toggleCancel(){
+
+    if (!inSimulation){
+        ui->TerminalCancel->setEnabled(false);
+        this->inSimulation = true;
+    }
+
+    else{
+        ui->TerminalCancel->setEnabled(true);
+        ui->TerminalReset->setEnabled(true);
+        ui->TerminalReset->setStyleSheet("");
+        this->inSimulation = false;
+    }
+}
+
 // function for terminal set up
 void MainWindow::toggleTerminal()
 {
@@ -655,7 +673,7 @@ void MainWindow::toggleTerminal()
     {
 
         fsmView->restorePreviousView();
-        // on_TerminalReset_clicked();
+        on_TerminalReset_clicked();
 
         TerminalActive = false;
 
@@ -706,18 +724,16 @@ void MainWindow::toggleTerminal()
 
 void MainWindow::on_TerminalRun_clicked()
 {
-    // ui->TerminalRun->setEnabled(false);
-    // ui->TerminalReset->setEnabled(true);
+    ui->TerminalRun->setEnabled(false);
 
-    // ui->TerminalRun->setStyleSheet("QPushButton:disabled { background-color: #444444; color: #888888; }");
-    // ui->TerminalReset->setStyleSheet("");
+    ui->TerminalRun->setStyleSheet(disableStyle);
 }
 
 void MainWindow::on_TerminalReset_clicked()
 {
-    // ui->TerminalRun->setEnabled(true);
-    // ui->TerminalReset->setEnabled(false);
+    ui->TerminalRun->setEnabled(true);
+    ui->TerminalReset->setEnabled(false);
 
-    // ui->TerminalRun->setStyleSheet("");
-    // ui->TerminalReset->setStyleSheet("QPushButton:disabled { background-color: #444444; color: #888888; }");
+    ui->TerminalRun->setStyleSheet("");
+    ui->TerminalReset->setStyleSheet(disableStyle);
 }

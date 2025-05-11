@@ -349,6 +349,12 @@ QPushButton#TerminalCancel:hover {
 
 QPushButton#TerminalCancel:pressed {
     background-color: #aa0000;
+}
+
+QPushButton#TerminalCancel:disabled {
+    background-color: #d14545;  /* svetlejšia červená pre odlíšenie */
+    color: #f0f0f0;              /* bledší text */
+    border: 1px solid #a03030;   /* jemnejší okraj */
 }</string>
               </property>
               <property name="text">
@@ -876,8 +882,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>28</height>
+             <width>66</width>
+             <height>18</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="conditionsLayout"/>
