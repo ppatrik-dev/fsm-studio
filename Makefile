@@ -8,7 +8,7 @@ all: build
 
 build:
 	@mkdir -p $(BUILD_DIR)
-	cd $(BUILD_DIR) && $(QMAKE) ../src/gui/gui.pro && make
+	cd $(BUILD_DIR) && qmake ../src/gui/gui.pro && make
 
 .PHONY: run clean zip doxygen doxyClean
 
