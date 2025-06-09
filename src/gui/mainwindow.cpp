@@ -688,6 +688,8 @@ void MainWindow::toggleCancel()
     else
     {
         ui->TerminalCancel->setEnabled(true);
+        ui->TerminalRun->setEnabled(true);
+        ui->TerminalRun->setStyleSheet("");
         ui->TerminalReset->setEnabled(true);
         ui->TerminalReset->setStyleSheet("");
         this->inSimulation = false;
