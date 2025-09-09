@@ -283,7 +283,7 @@ void MainWindow::onExportFileClicked()
  */
 void MainWindow::onImportFileClicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "JSON FIle (*.json*)");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath() + "/examples/", "JSON FIle (*.json*)");
     clear();
     emit loadJsonRequested(filename, *machine);
     emit createMachine(*machine);

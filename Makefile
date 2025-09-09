@@ -30,8 +30,8 @@ run: $(BUILD_DIR)/$(TARGET)
 # Install the application as a system application.
 install: build
 	@sudo install -Dm755 $(BUILD_DIR)/$(TARGET) /usr/local/bin/$(TARGET)
-	@sudo install -Dm644 resources/fsm-studio.desktop /usr/share/applications/fsm-studio.desktop
-	@sudo install -Dm644 resources/fsm-studio.png /usr/local/share/icons/fsm-studio.png
+	@sudo install -Dm644 resources/app/fsm-studio.desktop /usr/share/applications/fsm-studio.desktop
+	@sudo install -Dm644 resources/app/fsm-studio-icon.png /usr/local/share/icons/fsm-studio-icon.png
 	@sudo mkdir -p /usr/local/share/fsm-studio/examples
 	@sudo cp -r examples/* /usr/local/share/fsm-studio/examples/
 

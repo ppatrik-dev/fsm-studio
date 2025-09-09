@@ -2,7 +2,7 @@
 Name=FSM Studio
 Comment=Moore Machine Simulator
 Exec=/usr/local/bin/fsm-studio
-Icon=fsm-studio
+Icon=fsm-studio-icon
 Terminal=false
 Type=Application
 Categories=Utility;

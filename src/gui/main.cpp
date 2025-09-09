@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     MainWindow window;
 
     window.setWindowTitle("FSM Studio");
-    window.setWindowIcon(QIcon(":/icons/app-icon.png"));
+    window.setWindowIcon(QIcon(":/icons/app-icon"));
 
     QFile styleFile(":/darkstyle.qss");
     if (styleFile.open(QFile::ReadOnly | QFile::Text))

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="resources/fsm-studio.png" alt="App Icon" width="128" height="128">
+  <img src="resources/app/fsm-studio-icon.png" alt="App Icon" width="128" height="128">
 </p>
 
 <h1 align="center">
@@ -14,9 +14,9 @@
 
 ## 👥 Authors
 
-* [Patrik Procházka](https://github.com/ppatrik-dev)
-* [Miroslav Bašista](https://github.com/Mirek321)
-* [Filip Ficka](Aresgornos)
+* [Patrik Procházka](https://github.com/ppatrik-dev) - Front-end
+* [Miroslav Bašista](https://github.com/Mirek321) - Back-end
+* [Filip Ficka](Aresgornos) - Contributing to GUI
 
 ---
 
@@ -136,13 +136,28 @@ make install
 
 To run `MorseEATM.json`:
 
-1. Build and run the application
-2. Import the automaton:
+1. Install and run the application
+```bash
+make install && ./fsm-studio
+```
 
+2. Import the automaton:
    * `Import` button in the toolbar
    * Navigate to `examples/intermediate/MorseEATM.json`
-3. GUI populates the automaton and details panel
+<p align="center">
+  <img src="resources/img/fsm-studio-import.png" width="400" />
+</p>
+
+3. App load the automaton and details
+<p align="center">
+  <img src="resources/img/fsm-studio-edit.png" width="400" >
+</p>
+
 4. Press `Simulate` to run the automaton
+<p align="center">
+  <img src="resources/img/fsm-studio-simulate.png" width="400" />
+</p>
+
 
 ---
 
