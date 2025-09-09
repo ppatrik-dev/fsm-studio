@@ -1,4 +1,4 @@
-TARGET = icp-fsm-app
+TARGET = fsm-studio
 
 QT += core gui widgets qml
 
