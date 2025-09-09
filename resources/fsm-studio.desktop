@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=FSM Studio
+Comment=Moore Machine Simulator
+Exec=/usr/local/bin/fsm-studio
+Icon=fsm-studio
+Terminal=false
+Type=Application
+Categories=Utility;
+StartupWMClass=FSM Studio
+Path=/usr/local/share/fsm-studio
