@@ -14,8 +14,8 @@
 
 ## 👥 Authors
 
-* [Patrik Procházka](https://github.com/ppatrik-dev) - Front-end
 * [Miroslav Bašista](https://github.com/Mirek321) - Back-end
+* [Patrik Procházka](https://github.com/ppatrik-dev) - Front-end
 * [Filip Ficka](Aresgornos) - Contributing to GUI
 
 ---
