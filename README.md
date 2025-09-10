@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="resources/app/fsm-studio-icon.png" alt="App Icon" width="128" height="128">
+  <img src="resources/app/fsm-studio.png" alt="App Icon" width="128" height="128">
 </p>
 
 <h1 align="center">
@@ -145,17 +145,17 @@ make install && ./fsm-studio
    * `Import` button in the toolbar
    * Navigate to `examples/intermediate/MorseEATM.json`
 <p align="center">
-  <img src="resources/img/fsm-studio-import.png" width="400" />
+  <img src="resources/img/fsm-studio-import.png" width="1000" />
 </p>
 
 3. App load the automaton and details
 <p align="center">
-  <img src="resources/img/fsm-studio-edit.png" width="400" >
+  <img src="resources/img/fsm-studio-edit.png" width="1000" >
 </p>
 
 4. Press `Simulate` to run the automaton
 <p align="center">
-  <img src="resources/img/fsm-studio-simulate.png" width="400" />
+  <img src="resources/img/fsm-studio-simulate.png" width="1000" />
 </p>
 
 
