@@ -15,20 +15,20 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
+    QApplication app(argc, argv);
+    MainWindow window;
 
-    a.setWindowIcon(QIcon(":/icons/app-icon.png"));
-    w.setWindowIcon(QIcon(":/icons/app-icon.png"));
+    window.setWindowTitle("FSM Studio");
+    // window.setWindowIcon(QIcon(":/icons/app-icon"));
 
     QFile styleFile(":/darkstyle.qss");
     if (styleFile.open(QFile::ReadOnly | QFile::Text))
     {
         QTextStream ts(&styleFile);
         QString styleSheet = ts.readAll();
-        w.setStyleSheet(styleSheet);
+        window.setStyleSheet(styleSheet);
     }
 
-    w.show();
-    return a.exec();
+    window.show();
+    return app.exec();
 }

@@ -27,7 +27,7 @@ FSMState::FSMState(const QString &label)
     QFont font;
     font.setPointSize(16);
     QFontMetrics metrics(font);
-    int textWidth = metrics.width(label);;
+    int textWidth = metrics.horizontalAdvance(label);;
     m_radius = std::max(30, textWidth / 2 + 10);
 
     setFlag(ItemIsMovable);
