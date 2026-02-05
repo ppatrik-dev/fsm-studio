@@ -6,9 +6,13 @@
   Finite-State-Machine Studio
 </h1>
 
-  A **Qt-based finite state machine (FSM) editor, visualizer, and simulator**.
+  FSM Studio is a GUI application implemented in **C++/Qt** that lets you **create, visualize, and simulate** Moore-based state machines. It supports **importing and exporting** state machine definitions in a JSON format.
 
-  FSM Studio is a GUI application implemented in **C++/Qt** that lets you **create, visualize, and simulate Moore-based state machines**.
+---
+
+## ▶️ Preview 
+
+  https://github.com/user-attachments/assets/3383ddbf-c6ba-4d11-8930-7c36affb20c7
 
 ---
 
@@ -16,7 +20,7 @@
 
 * [Miroslav Bašista](https://github.com/Mirek321) - Back-end
 * [Patrik Procházka](https://github.com/ppatrik-dev) - Front-end
-* [Filip Ficka](Aresgornos) - Contributing to GUI
+* [Filip Ficka](https://github.com/Aresgornos) - Contributing to GUI
 
 ---
 
